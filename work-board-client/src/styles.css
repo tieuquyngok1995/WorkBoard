@@ -1,0 +1,10 @@
+@font-face {
+  font-family: 'playfair';
+  src: url('/assets/fonts/PlayfairDisplay-Regular.ttf') format('ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+body {
+  font-family: 'playfair', sans-serif !important;
+}

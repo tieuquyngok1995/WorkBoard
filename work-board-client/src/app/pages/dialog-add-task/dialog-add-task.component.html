@@ -1,8 +1,8 @@
-<div class="form">
+<form [formGroup]="taskForm">
   <div class="title">Create Task</div>
   <div class="subtitle">Let's create new task</div>
   <div class="input-container ic1">
-    <input id="moduleID" class="input" type="text" placeholder=" " />
+    <input id="moduleID" class="input" type="text" placeholder=" " formControlName="moduleID" />
     <div class="cut cut-short1"></div>
     <label for="moduleID" class="placeholder">Module ID</label>
   </div>
@@ -56,4 +56,4 @@
   </div>
 
   <button type="text" class="submit" (click)="submit()">submit</button>
-</div>
+</form>

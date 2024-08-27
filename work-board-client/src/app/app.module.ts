@@ -1,17 +1,20 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReactiveFormsModule } from '@angular/forms';
 
 import { DialogModule } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { AppRoutingModule } from './app-routing.module';
+import { DateAdapter } from '@angular/material/core';
+import { CustomDateAdapter, MaterialModule } from './app-material.module';
+
 import { AppComponent } from './app.component';
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { DialogAddTaskComponent } from './pages/dialog-add-task/dialog-add-task.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './app-material.module';
+import { AppRoutingModule } from './app-routing.module';
 
 @NgModule({
   declarations: [
@@ -23,13 +26,17 @@ import { MaterialModule } from './app-material.module';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
     DialogModule,
     DragDropModule,
-    BrowserAnimationsModule,
+    AppRoutingModule,
     MaterialModule
   ],
-  providers: [],
+  providers: [
+    { provide: DateAdapter, useClass: CustomDateAdapter },
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

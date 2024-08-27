@@ -17,6 +17,7 @@ export class HomeComponent {
 
   openDialog() {
     this.dialog.open(DialogAddTaskComponent, {
+      disableClose: true,
       minWidth: '300px',
       data: {
         animal: 'panda',

@@ -1,4 +1,4 @@
-import { DIALOG_DATA } from '@angular/cdk/dialog';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, Inject } from '@angular/core';
 import { DialogData } from '../home/home.component';
 
@@ -8,5 +8,15 @@ import { DialogData } from '../home/home.component';
   styleUrls: ['./dialog-add-task.component.css']
 })
 export class DialogAddTaskComponent {
-  constructor(@Inject(DIALOG_DATA) public data: DialogData) { }
+  myFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
+
+  constructor(@Inject(DIALOG_DATA) public data: DialogData, public dialogRef: DialogRef<DialogAddTaskComponent>) { }
+
+  submit() {
+    this.dialogRef.close();
+  }
 }

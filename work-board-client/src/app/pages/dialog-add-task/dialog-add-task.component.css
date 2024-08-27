@@ -59,11 +59,23 @@
   top: -20px;
   transform: translateY(0);
   transition: transform 200ms;
-  width: 76px;
+  width: 75px;
 }
 
-.cut-short {
-  width: 50px;
+.cut-short1 {
+  width: 68px;
+}
+
+.cut-short2 {
+  width: 70px;
+}
+
+.cut-long1 {
+  width: 82px;
+}
+
+.cut-long2 {
+  width: 95px;
 }
 
 .input:focus~.cut,
@@ -94,6 +106,11 @@
 
 .input:focus~.placeholder {
   color: #dc2f55;
+}
+
+.date-picker {
+  position: fixed;
+  margin-left: -50px;
 }
 
 .submit {

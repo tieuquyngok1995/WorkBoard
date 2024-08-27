@@ -29,6 +29,8 @@ export class HomeComponent {
 
   done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
 
+  test = ['Get up1', 'Brush teeth2', 'Take a shower3', 'Check e-mail4', 'Walk dog5'];
+
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);

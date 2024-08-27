@@ -10,6 +10,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { DialogAddTaskComponent } from './pages/dialog-add-task/dialog-add-task.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './app-material.module';
 
 @NgModule({
   declarations: [
@@ -23,7 +25,9 @@ import { DialogAddTaskComponent } from './pages/dialog-add-task/dialog-add-task.
     BrowserModule,
     AppRoutingModule,
     DialogModule,
-    DragDropModule
+    DragDropModule,
+    BrowserAnimationsModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

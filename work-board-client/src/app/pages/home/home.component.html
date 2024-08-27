@@ -1,3 +1,24 @@
+<div class="row filter-container">
+    <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
+      <mat-card-content>
+        <div class="row">
+          <div class="col-3">
+            <mat-form-field>
+              <mat-select formControlName="assignee"  placeholder="Choose User" multiple>
+                <mat-option  #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)" [value]="0">All</mat-option>
+                <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
+                  {{assignee.displayName}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
+
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+</div>
 <div class="row">
   <div class="col-3 example-container">
     <h2>Waiting</h2>
@@ -6,7 +27,14 @@
       [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box"><button (click)="openDialog()">Create new Task</button></div>
-      <div class="example-box" *ngFor="let item of newTask" cdkDrag>{{item}}</div>
+      <div class="example-box row" *ngFor="let task of newTask" cdkDrag>
+        <div class="col-6">
+          {{task.taskName}}
+        </div>
+        <div class="col-6">
+          {{task.assignee}}
+        </div>
+      </div>
     </div>
   </div>
 
@@ -16,7 +44,14 @@
     <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
       [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" class="example-list"
       (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of inProgress" cdkDrag>{{item}}</div>
+      <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
+        <div class="col-6">
+          {{task.taskName}}
+        </div>
+        <div class="col-6">
+          {{task.assignee}}
+        </div>
+      </div>
     </div>
   </div>
 

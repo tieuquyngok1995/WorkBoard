@@ -1,18 +1,10 @@
-body {
-  align-items: center;
-  background-color: #000;
-  display: flex;
-  justify-content: center;
-  height: 100vh;
-}
-
 .form {
   background-color: #15172b;
   border-radius: 20px;
   box-sizing: border-box;
-  height: 500px;
-  padding: 20px;
-  width: 320px;
+  height: 100%;
+  padding: 20px 40px;
+  width: 40vh;
 }
 
 .title {
@@ -38,11 +30,11 @@ body {
 }
 
 .ic1 {
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 .ic2 {
-  margin-top: 30px;
+  margin-top: 20px;
 }
 
 .input {
@@ -113,7 +105,7 @@ body {
   cursor: pointer;
   font-size: 18px;
   height: 50px;
-  margin-top: 38px;
+  margin-top: 30px;
   ;
   text-align: center;
   width: 100%;

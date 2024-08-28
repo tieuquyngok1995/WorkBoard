@@ -50,3 +50,51 @@ yarn-error.log*
 # Mac OSX Finder files.
 **/.DS_Store
 .DS_Store
+
+# .NET Core
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+*.csproj.user
+*.suo
+*.user
+*.userosscache
+*.suo
+*.log
+*.nupkg
+*.snk
+*.swp
+*.tmp
+*.vs
+.vscode/
+.idea/
+*.dbmdl
+*.bak
+
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
+# Rider
+.idea/
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.suo
+*.swp
+
+# Fody
+FodyWeavers.xml
+
+# Tye
+.tye/
+
+# Dotnet tools
+dotnet-tools.json
+
+# Local history for VSCode
+.history/

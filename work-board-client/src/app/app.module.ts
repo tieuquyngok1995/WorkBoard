@@ -10,19 +10,19 @@ import { DateAdapter } from '@angular/material/core';
 import { CustomDateAdapter, MaterialModule } from './app-material.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
+import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
-import { DialogAddTaskComponent } from './pages/dialog-add-task/dialog-add-task.component';
-import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './pages/login/login.component';
+import { TaskComponent } from './pages/task/task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
     HomeComponent,
     HeaderComponent,
-    DialogAddTaskComponent
+    LoginComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,

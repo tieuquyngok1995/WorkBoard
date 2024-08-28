@@ -1,7 +1,7 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { DialogAddTaskComponent } from '../dialog-add-task/dialog-add-task.component';
+import { TaskComponent } from '../task/task.component';
 export interface DialogData {
   animal: 'panda' | 'unicorn' | 'lion';
 }
@@ -15,7 +15,7 @@ export class HomeComponent {
   constructor(public dialog: Dialog) { }
 
   openDialog() {
-    this.dialog.open(DialogAddTaskComponent, {
+    this.dialog.open(TaskComponent, {
       disableClose: true,
       minWidth: '300px',
       data: {

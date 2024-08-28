@@ -6,10 +6,10 @@ import { TaskModel } from '../home/home.model';
 
 @Component({
   selector: 'app-dialog-add-task',
-  templateUrl: './dialog-add-task.component.html',
-  styleUrls: ['./dialog-add-task.component.css']
+  templateUrl: './task.component.html',
+  styleUrls: ['./task.component.css']
 })
-export class DialogAddTaskComponent implements OnInit {
+export class TaskComponent implements OnInit {
   taskForm: FormGroup;
 
   myFilter = (d: Date | null): boolean => {
@@ -18,7 +18,7 @@ export class DialogAddTaskComponent implements OnInit {
     return day !== 0 && day !== 6;
   };
 
-  constructor(@Inject(DIALOG_DATA) public data: DialogData, public dialogRef: DialogRef<DialogAddTaskComponent>,
+  constructor(@Inject(DIALOG_DATA) public data: DialogData, public dialogRef: DialogRef<TaskComponent>,
     private formBuilder: FormBuilder) {
     this.taskForm = this.formBuilder.group({
       moduleID: [''],

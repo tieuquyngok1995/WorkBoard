@@ -28,13 +28,12 @@ img {
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
 }
 
-
-h4 {
+h2 {
   font-weight: 600;
   color: #c4c3ca;
 }
 
-h6 span {
+h4 span {
   padding: 10px 30px;
   margin: 0 15px;
   text-transform: uppercase;

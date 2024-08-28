@@ -12,6 +12,7 @@ import { MaterialModule } from './app-material.module';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SharedModule } from './shared/module/shared.module';
+import { ConfirmDialogComponent } from './shared/dialog-message/dialog-message.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
@@ -20,6 +21,7 @@ import { TaskComponent } from './pages/task/task.component';
 @NgModule({
   declarations: [
     AppComponent,
+    ConfirmDialogComponent,
     HomeComponent,
     HeaderComponent,
     LoginComponent,

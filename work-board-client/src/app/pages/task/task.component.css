@@ -126,22 +126,3 @@ textarea {
   position: fixed;
   margin-left: -50px;
 }
-
-.submit {
-  background-color: #08d;
-  border-radius: 12px;
-  border: 0;
-  box-sizing: border-box;
-  color: #eee;
-  cursor: pointer;
-  font-size: 18px;
-  height: 50px;
-  margin-top: 30px;
-  ;
-  text-align: center;
-  width: 100%;
-}
-
-.submit:active {
-  background-color: #06b;
-}

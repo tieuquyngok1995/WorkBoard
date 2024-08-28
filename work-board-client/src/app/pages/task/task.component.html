@@ -76,5 +76,11 @@
     <label for="note" class="placeholder">Note</label>
   </div>
 
-  <button type="text" class="submit" (click)="submit()">submit</button>
+  <div class="row justify-content-center pt-3">
+    <button class="col-3 text-center align-self-center mr-4" mat-raised-button (click)="save()">Save</button>
+    <button class="col-3 text-center align-self-center" mat-raised-button color="warn" [disabled]="isDelete"
+      (click)="delete()">Delete</button>
+    <button class="col-3 text-center align-self-center ml-4" mat-raised-button color="primary"
+      (click)="cancel()">Cancel</button>
+  </div>
 </form>

@@ -1,12 +1,3 @@
-@font-face {
-  font-family: 'playfair';
-  src: url('/assets/fonts/PlayfairDisplay-Regular.ttf') format('ttf');
-  font-weight: normal;
-  font-style: normal;
+textarea {
+  resize: none !important;
 }
-
-body {
-  font-family: 'playfair', sans-serif !important;
-}
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

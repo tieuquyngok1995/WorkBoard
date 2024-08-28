@@ -3,8 +3,8 @@ form {
   border-radius: 20px;
   box-sizing: border-box;
   height: 100%;
-  padding: 20px 40px;
-  width: 40vw;
+  padding: 20px 50px;
+  width: 45vh;
 }
 
 .title {
@@ -37,6 +37,11 @@ form {
   margin-top: 20px;
 }
 
+.ic3 {
+  margin-top: 20px;
+  height: 70px;
+}
+
 .input {
   background-color: #303245;
   border-radius: 12px;
@@ -48,6 +53,15 @@ form {
   outline: 0;
   padding: 4px 20px 0;
   width: 100%;
+}
+
+.input-validate {
+  border: 1px solid red;
+}
+
+textarea {
+  font-size: 15px !important;
+  padding: 8px 20px 0 !important;
 }
 
 .cut {
@@ -111,23 +125,4 @@ form {
 .date-picker {
   position: fixed;
   margin-left: -50px;
-}
-
-.submit {
-  background-color: #08d;
-  border-radius: 12px;
-  border: 0;
-  box-sizing: border-box;
-  color: #eee;
-  cursor: pointer;
-  font-size: 18px;
-  height: 50px;
-  margin-top: 30px;
-  ;
-  text-align: center;
-  width: 100%;
-}
-
-.submit:active {
-  background-color: #06b;
 }

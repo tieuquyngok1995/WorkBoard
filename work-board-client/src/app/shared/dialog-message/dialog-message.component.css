@@ -1,0 +1,88 @@
+@media (min-width: 576px) {
+  .modal-dialog {
+    max-width: 500px;
+    margin: 0;
+  }
+}
+
+.modal-dialog .modal-content {
+  box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
+  border-radius: 6px;
+  border: none;
+}
+
+.modal-dialog .modal-header {
+  border-bottom: none;
+  padding-top: 24px;
+  padding-right: 24px;
+  padding-bottom: 0;
+  padding-left: 24px;
+}
+
+.modal-dialog .modal-header .modal-title {
+  font-size: 26px;
+  font-weight: 500;
+  color: #3C4858;
+  margin-bottom: 0;
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.modal-dialog .modal-body {
+  font-size: 18px;
+  padding-top: 24px;
+  padding-right: 24px;
+  padding-bottom: 16px;
+  padding-left: 24px;
+  color: #3C4858;
+}
+
+.modal-dialog .modal-footer {
+  border-top: none;
+  padding: 24px !important;
+}
+
+.modal-dialog .modal-body+.modal-footer {
+  padding-top: 0 !important;
+}
+
+.modal-dialog .modal-footer button {
+  color: #000000;
+  padding-left: 16px;
+  padding-right: 16px;
+  width: 100px;
+  text-decoration: none;
+}
+
+.btn.btn-link {
+  background-color: transparent;
+  color: #999999;
+  box-shadow: none;
+  font-size: 14px !important;
+  border-color: #000000;
+}
+
+.btn.btn-link:hover {
+  background-color: transparent;
+  color: #999999;
+  text-decoration: none;
+}
+
+.btn.btn-danger.btn-link {
+  background-color: transparent;
+  color: #f44336;
+  box-shadow: none;
+  border-color: #f44336;
+}
+
+.btn.btn-link:hover {
+  background-color: transparent !important;
+  color: #9c27b0 !important;
+  box-shadow: none;
+}
+
+.btn.btn-danger.btn-link:hover {
+  background-color: transparent !important;
+  color: #9c27b0 !important;
+  box-shadow: none;
+}

@@ -6,23 +6,26 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter, MaterialModule } from './app-material.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MaterialModule } from './app-material.module';
 
 import { AppComponent } from './app.component';
-import { LoginComponent } from './pages/login/login.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SharedModule } from './shared/module/shared.module';
+import { ConfirmDialogComponent } from './shared/dialog-message/dialog-message.component';
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
-import { DialogAddTaskComponent } from './pages/dialog-add-task/dialog-add-task.component';
-import { AppRoutingModule } from './app-routing.module';
+import { LoginComponent } from './pages/login/login.component';
+import { TaskComponent } from './pages/task/task.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent,
+    ConfirmDialogComponent,
     HomeComponent,
     HeaderComponent,
-    DialogAddTaskComponent
+    LoginComponent,
+    TaskComponent
   ],
   imports: [
     BrowserModule,
@@ -31,10 +34,11 @@ import { AppRoutingModule } from './app-routing.module';
     DialogModule,
     DragDropModule,
     AppRoutingModule,
-    MaterialModule
+    SharedModule,
+    MaterialModule,
   ],
   providers: [
-    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

@@ -16,14 +16,12 @@
 
   <div class="input-container ic2">
     <input id="taskType" class="input" type="text" list="listTaskType" formControlName="taskType" placeholder=" "
+      appPreventInput
       [ngClass]="{'input-validate': taskTypeControl?.invalid && (taskTypeControl?.dirty || taskTypeControl?.touched)}" />
     <div class="cut cut-short2"></div>
     <label for="taskType" class="placeholder">Task Type</label>
     <datalist id="listTaskType">
-      <option value="Coding">
-      <option value="Review">
-      <option value="Testing">
-      <option value="Fixbug">
+      <option *ngFor="let data of dataListType" [value]="data.value"></option>
     </datalist>
   </div>
 
@@ -36,15 +34,12 @@
 
   <div class="input-container ic2">
     <input id="assignee" class="input" type="text" list="userAssignee" formControlName="assignee" placeholder=" "
-      autocomplete="off"
+      appPreventInput
       [ngClass]="{'input-validate': assigneeControl?.invalid && (assigneeControl?.dirty || assigneeControl?.touched)}" />
     <div class="cut cut-short1"></div>
     <label for="assignee" class="placeholder">Assignee</label>
     <datalist id="userAssignee">
-      <option value="Tuan-VQ">
-      <option value="Thing-NT">
-      <option value="Duy-PNA">
-      <option value="Hieu-MTH">
+      <option *ngFor="let data of dataListAssigne" [value]="data.value"></option>
     </datalist>
   </div>
 

@@ -14,7 +14,10 @@ import { DataListOption } from 'src/app/shared/models/dataList.model';
 })
 export class TaskComponent implements OnInit {
   public taskForm: FormGroup;
-  public dataListType!: DataListOption;
+
+  public dataListType!: DataListOption[];
+
+  public dataListAssigne!: DataListOption[];
 
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
@@ -26,6 +29,18 @@ export class TaskComponent implements OnInit {
     @Inject(DIALOG_DATA) public data: DialogData,
     public dialogRef: DialogRef<TaskComponent>,
     private taskService: TaskService) {
+    this.dataListType = [
+      { key: '1', value: 'Coding' },
+      { key: '2', value: 'Review' },
+      { key: '3', value: 'Testing' },
+      { key: '4', value: 'Fixbug' }
+    ]
+    this.dataListAssigne = [
+      { key: '1', value: 'Tuan-VQ' },
+      { key: '2', value: 'Thinh-NT' },
+      { key: '3', value: 'Duy-PNA' },
+      { key: '4', value: 'Hieu-MTH' }
+    ]
     this.taskForm = this.taskService.taskForm;
   }
 

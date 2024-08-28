@@ -3,8 +3,8 @@ form {
   border-radius: 20px;
   box-sizing: border-box;
   height: 100%;
-  padding: 20px 40px;
-  width: 40vh;
+  padding: 20px 50px;
+  width: 45vh;
 }
 
 .title {
@@ -37,6 +37,11 @@ form {
   margin-top: 20px;
 }
 
+.ic3 {
+  margin-top: 20px;
+  height: 70px;
+}
+
 .input {
   background-color: #303245;
   border-radius: 12px;
@@ -48,6 +53,15 @@ form {
   outline: 0;
   padding: 4px 20px 0;
   width: 100%;
+}
+
+.input-validate {
+  border: 1px solid red;
+}
+
+textarea {
+  font-size: 15px !important;
+  padding: 8px 20px 0 !important;
 }
 
 .cut {

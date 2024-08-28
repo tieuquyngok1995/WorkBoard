@@ -1,1 +1,7 @@
 @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+
+
+
+textarea {
+  resize: none !important;
+}

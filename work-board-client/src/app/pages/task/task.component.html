@@ -2,17 +2,21 @@
   <div class="title">Create Task</div>
   <div class="subtitle">Let's create new task</div>
   <div class="input-container ic1">
-    <input id="moduleID" class="input" type="text" placeholder=" " formControlName="moduleID" />
+    <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" "
+      [ngClass]="{'input-validate': moduleIDControl?.invalid && (moduleIDControl?.dirty || moduleIDControl?.touched)}" />
     <div class="cut cut-short1"></div>
     <label for="moduleID" class="placeholder">Module ID</label>
   </div>
+
   <div class="input-container ic2">
-    <input id="taskName" class="input" type="text" placeholder=" " />
+    <input id="taskName" class="input" type="text" formControlName="taskName" placeholder=" " />
     <div class="cut"></div>
     <label for="taskName" class="placeholder">Task Name</label>
   </div>
+
   <div class="input-container ic2">
-    <input id="taskType" class="input" type="text" list="listTaskType" placeholder=" " />
+    <input id="taskType" class="input" type="text" list="listTaskType" formControlName="taskType" placeholder=" "
+      [ngClass]="{'input-validate': taskTypeControl?.invalid && (taskTypeControl?.dirty || taskTypeControl?.touched)}" />
     <div class="cut cut-short2"></div>
     <label for="taskType" class="placeholder">Task Type</label>
     <datalist id="listTaskType">
@@ -22,8 +26,18 @@
       <option value="Fixbug">
     </datalist>
   </div>
+
   <div class="input-container ic2">
-    <input id="assignee" class="input" type="text" list="userAssignee" placeholder=" " />
+    <input id="numRedmine" class="input" type="text" formControlName="numRedmine" placeholder=" "
+      [ngClass]="{'input-validate': numRedmineControl?.invalid && (numRedmineControl?.dirty || numRedmineControl?.touched)}" />
+    <div class="cut cut-long1"></div>
+    <label for="numRedmine" class="placeholder">Task Redmine</label>
+  </div>
+
+  <div class="input-container ic2">
+    <input id="assignee" class="input" type="text" list="userAssignee" formControlName="assignee" placeholder=" "
+      autocomplete="off"
+      [ngClass]="{'input-validate': assigneeControl?.invalid && (assigneeControl?.dirty || assigneeControl?.touched)}" />
     <div class="cut cut-short1"></div>
     <label for="assignee" class="placeholder">Assignee</label>
     <datalist id="userAssignee">
@@ -33,26 +47,38 @@
       <option value="Hieu-MTH">
     </datalist>
   </div>
+
   <div class="input-container ic2">
-    <input id="dateCreated" class="input" type="text" matInput [matDatepickerFilter]="myFilter"
-      [matDatepicker]="dateCreated" placeholder=" " />
-    <mat-datepicker-toggle matIconSuffix [for]="dateCreated" class="date-picker"></mat-datepicker-toggle>
-    <mat-datepicker #dateCreated></mat-datepicker>
+    <input id="dateCreate" class="input" type="text" matInput [matDatepickerFilter]="myFilter"
+      [matDatepicker]="dateCreate" formControlName="dateCreate" placeholder=" "
+      [ngClass]="{'input-validate': dateCreateControl?.invalid && (dateCreateControl?.dirty || dateCreateControl?.touched)}" />
+    <mat-datepicker-toggle matIconSuffix [for]="dateCreate" class="date-picker"></mat-datepicker-toggle>
+    <mat-datepicker #dateCreate></mat-datepicker>
     <div class="cut cut-long1"></div>
-    <label for="dateCreated" class="placeholder">Date Created</label>
+    <label for="dateCreate" class="placeholder">Date Created</label>
   </div>
+
   <div class="input-container ic2">
-    <input id="estimatedHours" class="input" type="text" placeholder=" " />
+    <input id="estimatedHour" class="input" type="text" formControlName="estimatedHour" placeholder=" "
+      [ngClass]="{'input-validate': estimatedHourControl?.invalid && (estimatedHourControl?.dirty || estimatedHourControl?.touched)}" />
     <div class="cut cut-long2"></div>
-    <label for="estimatedHours" class="placeholder">Estimated Hours</label>
+    <label for="estimatedHour" class="placeholder">Estimated Hours</label>
   </div>
+
   <div class="input-container ic2">
     <input id="dateDelivery" class="input" type="text" matInput [matDatepickerFilter]="myFilter"
-      [matDatepicker]="dateDelivery" placeholder=" " />
+      [matDatepicker]="dateDelivery" formControlName="dateDelivery" placeholder=" "
+      [ngClass]="{'input-validate': dateDeliveryControl?.invalid && (dateDeliveryControl?.dirty || dateDeliveryControl?.touched)}" />
     <mat-datepicker-toggle matIconSuffix [for]="dateDelivery" class="date-picker"></mat-datepicker-toggle>
     <mat-datepicker #dateDelivery></mat-datepicker>
     <div class="cut cut-long1"></div>
     <label for="dateDelivery" class="placeholder">Date Delivery</label>
+  </div>
+
+  <div class="input-container ic3">
+    <textarea id="note" class="input" rows="2" formControlName="note" placeholder=" "></textarea>
+    <div class="cut cut-short1"></div>
+    <label for="note" class="placeholder">Note</label>
   </div>
 
   <button type="text" class="submit" (click)="submit()">submit</button>

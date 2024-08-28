@@ -6,8 +6,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { DateAdapter } from '@angular/material/core';
-import { CustomDateAdapter, MaterialModule } from './app-material.module';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { MaterialModule } from './app-material.module';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,7 +36,7 @@ import { TaskComponent } from './pages/task/task.component';
     MaterialModule,
   ],
   providers: [
-    { provide: DateAdapter, useClass: CustomDateAdapter },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ],
   bootstrap: [AppComponent]
 })

@@ -44,7 +44,7 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="dateCreate" class="input" type="text" matInput [matDatepickerFilter]="myFilter"
+    <input id="dateCreate" class="input" type="text" matInput [matDatepickerFilter]="dateFilter"
       [matDatepicker]="dateCreate" formControlName="dateCreate" placeholder=" "
       [ngClass]="{'input-validate': dateCreateControl?.invalid && (dateCreateControl?.dirty || dateCreateControl?.touched)}" />
     <mat-datepicker-toggle matIconSuffix [for]="dateCreate" class="date-picker"></mat-datepicker-toggle>
@@ -61,7 +61,7 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="dateDelivery" class="input" type="text" matInput [matDatepickerFilter]="myFilter"
+    <input id="dateDelivery" class="input" type="text" matInput [matDatepickerFilter]="dateFilter"
       [matDatepicker]="dateDelivery" formControlName="dateDelivery" placeholder=" "
       [ngClass]="{'input-validate': dateDeliveryControl?.invalid && (dateDeliveryControl?.dirty || dateDeliveryControl?.touched)}" />
     <mat-datepicker-toggle matIconSuffix [for]="dateDelivery" class="date-picker"></mat-datepicker-toggle>

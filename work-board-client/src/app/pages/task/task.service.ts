@@ -20,9 +20,9 @@ export class TaskService {
       taskType: [task?.taskType || null, Validators.required],
       numRedmine: [task?.numRedmine || null, Validators.pattern("^[0-9]*$")],
       assignee: [task?.assignee || null, Validators.required],
-      dateCreate: [task?.dateCreate || '', Validators.required, Validators.pattern(/^([0-2][0-9]|(3)[0-1])\/((0)[0-9]|(1)[0-2])\/\d{4}$/)],
+      dateCreate: [task?.dateCreate || '', Validators.required],
       estimatedHour: [task?.estimatedHour || '', Validators.required, Validators.pattern("^[0-9]*$")],
-      dateDelivery: [task?.dateDelivery || '', Validators.required, Validators.pattern(/^([0-2][0-9]|(3)[0-1])\/((0)[0-9]|(1)[0-2])\/\d{4}$/)],
+      dateDelivery: [task?.dateDelivery || '', Validators.required],
       note: [task?.note || null],
     });
   }

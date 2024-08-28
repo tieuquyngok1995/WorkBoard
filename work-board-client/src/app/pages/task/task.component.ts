@@ -19,12 +19,6 @@ export class TaskComponent implements OnInit {
 
   public dataListAssigne!: DataListOption[];
 
-  myFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  };
-
   constructor(
     @Inject(DIALOG_DATA) public data: DialogData,
     public dialogRef: DialogRef<TaskComponent>,
@@ -47,6 +41,13 @@ export class TaskComponent implements OnInit {
   ngOnInit() {
 
   }
+
+
+  dateFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 6;
+  };
 
   submit() {
     const taskForm: TaskModel = this.taskForm.value;

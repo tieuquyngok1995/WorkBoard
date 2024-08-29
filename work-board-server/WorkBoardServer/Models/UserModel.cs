@@ -3,7 +3,7 @@ using WorkBoardServer.Common;
 
 namespace WorkBoardServer.Models
 {
-    public class LoginModel
+    public class UserModel
     {
         public int UserID { get; set; }
 

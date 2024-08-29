@@ -11,9 +11,9 @@ namespace WorkBoardServer.Services
             _databaseService = databaseService;
         }
 
-        public IEnumerable<LoginModel> Login(string userName, string password)
+        public IEnumerable<UserModel> Login(string userName, string password)
         {
-            return _databaseService.ExecuteQuery<LoginModel>("CheckLogin", new { userName = userName, password = password });
+            return _databaseService.ExecuteQuery<UserModel>("CheckLogin", new { userName = userName, password = password });
         }
     }
 }

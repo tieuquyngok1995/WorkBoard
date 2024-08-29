@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { UserModel } from '../../core/model/model';
+import { AuthService } from '../../core/services/auth.service';
 import { CommonApiService } from '../../core/services/common-api.service';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
 
 import { LoginService } from './login.service';
+import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +29,9 @@ export class LoginComponent implements OnInit {
    */
   constructor(
     private loginService: LoginService,
+    private authService: AuthService,
     private messageService: MessageService,
+    private navigationService: NavigationService,
     private commonApiService: CommonApiService,
     private confirmDialogService: DialogMessageService) {
     this.signInForm = this.loginService.signInForm;
@@ -57,11 +61,13 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.loginService.signInFormGetValue;
-    this.commonApiService.get<UserModel>('Login/GetLogin', { userName: model.userName, password: model.password }).subscribe(data => {
-      if (data) {
-        console.log(data);
+    this.authService.login(model.userName, model.password).subscribe(result => {
+      if (result) {
+        this.navigationService.navigateTo('/');
+      } else {
+        alert('Login failed');
       }
-    })
+    });
   }
 
   signUp() {

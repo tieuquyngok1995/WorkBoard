@@ -22,7 +22,7 @@ namespace WorkBoardServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            LoginModel model = _service.Login(userName, password).FirstOrDefault();
+            UserModel model = _service.Login(userName, password).FirstOrDefault();
 
             return Ok(model);
         }

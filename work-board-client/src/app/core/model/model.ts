@@ -3,10 +3,17 @@ export interface DataListOption {
   value: string;
 }
 
+export interface AuthModel {
+  isAuthenticated: boolean,
+  userName?: string | null
+}
+
 export interface UserModel {
+  userID: number;
   email: string;
   userName: string;
   password: string;
+  roleID: number;
 }
 
 export interface TaskModel {

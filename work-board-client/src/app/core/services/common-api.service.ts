@@ -8,32 +8,34 @@ import { catchError } from 'rxjs/operators';
 })
 export class CommonApiService {
 
+  private apiUrl = 'https://localhost:7047/';
+
   constructor(private http: HttpClient) { }
 
   // Method to make GET request
   get<T>(url: string): Observable<T> {
-    return this.http.get<T>(url).pipe(
+    return this.http.get<T>(this.apiUrl + url).pipe(
       catchError(this.handleError)
     );
   }
 
   // Method to make POST request
   post<T>(url: string, body: any): Observable<T> {
-    return this.http.post<T>(url, body).pipe(
+    return this.http.post<T>(this.apiUrl + url + '/', body).pipe(
       catchError(this.handleError)
     );
   }
 
   // Method to make PUT request
   put<T>(url: string, body: any): Observable<T> {
-    return this.http.put<T>(url, body).pipe(
+    return this.http.put<T>(this.apiUrl + url + '/', body).pipe(
       catchError(this.handleError)
     );
   }
 
   // Method to make DELETE request
   delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(url).pipe(
+    return this.http.delete<T>(this.apiUrl + url + '/').pipe(
       catchError(this.handleError)
     );
   }

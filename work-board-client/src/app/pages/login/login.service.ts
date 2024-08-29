@@ -32,6 +32,7 @@ export class LoginService {
   }
 
   get signInForm(): FormGroup { return this._signInForm }
+  get signInFormGetValue(): FormGroup { return this._signInForm.value }
   get userIDControlSignIn() { return this._signInForm.get('userID') }
   get passwordControlSignIn() { return this._signInForm.get('password') }
 

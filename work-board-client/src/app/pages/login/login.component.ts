@@ -11,7 +11,8 @@ import { LoginService } from './login.service';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [CommonApiService]
 })
 export class LoginComponent implements OnInit {
 
@@ -55,9 +56,14 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.commonApiService.put<UserModel>('login', {}).subscribe(data => {
+    console.log(this.loginService.signInFormGetValue)
+    // this.commonApiService.put<UserModel>('login', this.loginService.signInFormGetValue).subscribe(data => {
 
-    })
+    // })
+
+    this.commonApiService.get<any>('WeatherForecast').subscribe(data => {
+      console.log(data)
+    });
   }
 
   signUp() {

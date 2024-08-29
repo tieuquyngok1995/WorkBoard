@@ -30,11 +30,11 @@
   <div class="col-3 example-container">
     <h2>Waiting</h2>
 
-    <div cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="newTask"
+    <div cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
       [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" class="example-list"
       (cdkDropListDropped)="drop($event)">
       <div class="example-box"><button (click)="openDialog()">Create new Task</button></div>
-      <div class="example-box row" *ngFor="let task of newTask" cdkDrag>
+      <div class="example-box row" *ngFor="let task of initTask" cdkDrag>
         <div class="col-6">
           {{task.taskName}}
         </div>

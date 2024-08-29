@@ -5,8 +5,12 @@ import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
 import { MatOption } from '@angular/material/core';
 import { TaskComponent } from '../task/task.component';
+import { TaskModel } from 'src/app/core/model/model';
+import { ProgramMode } from 'src/app/core/enum/ProgramMode';
 export interface DialogData {
-  animal: 'panda' | 'unicorn' | 'lion';
+  mode: ProgramMode;
+  task?: TaskModel;
+  index?: number;
 }
 
 @Component({
@@ -17,23 +21,24 @@ export interface DialogData {
 export class HomeComponent {
   allAssignees = [
     {
-      value: 'duy-tranb',
+      value: 'Duy-TranB',
       displayName: 'Duy-TranB'
     },
     {
-    value: 'duy-pna',
-    displayName: 'Duy-PNA'
-  },
-  {
-    value: 'tuan-vq',
-    displayName: 'Tuan-VQ'
-  },
-  {
-    value: 'thinh-nt',
-    displayName: 'Thinh-NT'
-  }]
+      value: 'Duy-PNA',
+      displayName: 'Duy-PNA'
+    },
+    {
+      value: 'Tuan-VQ',
+      displayName: 'Tuan-VQ'
+    },
+    {
+      value: 'Thinh-NT',
+      displayName: 'Thinh-NT'
+    }]
 
   filterForm: FormGroup;
+  initTask: TaskModel[] = [];
 
   constructor(public dialog: Dialog, private formBuilder: FormBuilder) {
     this.filterForm = new FormGroup({
@@ -45,6 +50,7 @@ export class HomeComponent {
     })
 
     this.subscriptionFunction();
+    this.initDataTest();
 
   }
 
@@ -64,7 +70,7 @@ export class HomeComponent {
     })
   }
 
-  toggleAllSelection(event:any) {
+  toggleAllSelection(event: any) {
     if (event._selected) {
       this.filterForm.controls['assignee'].patchValue([...this.allAssignees.map(element => element.value)])
       event._selected = true;
@@ -79,8 +85,13 @@ export class HomeComponent {
       disableClose: true,
       minWidth: '300px',
       data: {
-        animal: 'panda',
-      },
+        mode: ProgramMode.CREATE
+      } as DialogData,
+    }).closed.subscribe((result: any) => {
+      if (!result.isDelete) {
+        this.initTask = [result.data, ...this.initTask];
+        //this.applyFilter();
+      }
     });
   }
 
@@ -99,36 +110,59 @@ export class HomeComponent {
     }
   }
 
-  
-  initTask = [
-    {
-      taskName: 'Get to work',
-      taskType: 'Work',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-      assignee: 'duy-tranb'
-    },
-    {
-      taskName: 'Pick up groceries',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'thinh-nt'
-    },
-    {
-      taskName: 'Go home',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 1),
-      assignee: 'tuan-vq'
-    },
-    {
-      taskName: 'Fall asleep',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'duy-tranb'
-    }];
+  applyFilter(){
+    let valueFilter = this.filterForm.controls['assignee'].value ?? [];
+    this.newTask = this.initTask.filter(element => {
+      if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
+        return true;
+      return false;
+    });
+
+    this.inProgress = this.initInProgress.filter(element => {
+      if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
+        return true;
+      return false;
+    });
+  }
+
+  initDataTest() {
+    this.initTask = [
+      {
+        moduleID: '1',
+        taskName: 'Get to work',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Duy-TranB',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '2',
+        taskName: 'Pick up groceries',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Thinh-NT',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      }];
+  }
+
+
 
   initInProgress = [
     {
@@ -136,21 +170,21 @@ export class HomeComponent {
       taskType: 'Work',
       dateCreate: new Date(),
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'tuan-vq'
+      assignee: 'Tuan-VQ'
     },
     {
       taskName: 'Brush teeth',
       taskType: 'Home',
       dateCreate: new Date(),
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 1),
-      assignee: 'duy-tranb'
+      assignee: 'Duy-TranB'
     },
     {
       taskName: 'Take a shower',
       taskType: 'Home',
       dateCreate: new Date(),
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'duy-tranb'
+      assignee: 'Duy-TranB'
     },
     {
       taskName: 'Check e-mail',

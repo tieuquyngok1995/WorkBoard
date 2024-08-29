@@ -28,7 +28,7 @@ export class TaskComponent implements OnInit {
    */
   constructor(
     @Inject(DIALOG_DATA) public data: DialogData,
-    public dialogRef: DialogRef<{ isDelete: boolean, data: TaskModel }>,
+    public dialogRef: DialogRef<{ isDelete: boolean, data: TaskModel, index?: number }>,
     private taskService: TaskService,
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService) {

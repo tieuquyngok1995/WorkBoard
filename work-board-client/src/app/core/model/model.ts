@@ -20,7 +20,7 @@ export interface TaskModel {
   moduleID: string;
   taskName: string;
   taskType: string;
-  numRedmine: number;
+  numRedmine: string | null;
   assignee: string;
   dateCreate: Date;
   estimatedHour: number;

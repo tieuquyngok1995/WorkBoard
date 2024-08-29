@@ -5,7 +5,7 @@ export interface DataListOption {
 
 export interface UserModel {
   email: string;
-  userID: string;
+  userName: string;
   password: string;
 }
 

@@ -18,7 +18,7 @@ export class LoginService {
 
   private createFormGroupSignIn(user?: UserModel): FormGroup {
     return this.fb.group({
-      userID: [user?.userID || null, Validators.required],
+      userName: [user?.userName || null, Validators.required],
       password: [user?.password || null, Validators.required]
     });
   }
@@ -26,18 +26,18 @@ export class LoginService {
   private createFormGroupSignUp(user?: UserModel): FormGroup {
     return this.fb.group({
       email: [user?.email || null, [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
-      userID: [user?.userID || null, Validators.required],
+      userName: [user?.userName || null, Validators.required],
       password: [user?.password || null, Validators.required]
     });
   }
 
   get signInForm(): FormGroup { return this._signInForm }
-  get signInFormGetValue(): FormGroup { return this._signInForm.value }
-  get userIDControlSignIn() { return this._signInForm.get('userID') }
+  get signInFormGetValue() { return this._signInForm.value }
+  get userNameControlSignIn() { return this._signInForm.get('userName') }
   get passwordControlSignIn() { return this._signInForm.get('password') }
 
   get signUpForm(): FormGroup { return this._signUpForm }
   get emailControlSignUp() { return this._signUpForm.get('email') }
-  get userIDControlSignUp() { return this._signUpForm.get('userID') }
+  get userNameControlSignUp() { return this._signInForm.get('userName') }
   get passwordControlSignUp() { return this._signUpForm.get('password') }
 }

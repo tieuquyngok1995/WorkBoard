@@ -12,10 +12,10 @@
               <form [formGroup]="signInForm">
                 <h2 class="pb-1">Sign In</h2>
                 <div class="input-container ic1">
-                  <input id="userID" class="input" type="text" formControlName="userID" placeholder=" "
-                    [ngClass]="{'input-validate': userIDControlSignIn?.invalid && (userIDControlSignIn?.dirty || userIDControlSignIn?.touched)}" />
+                  <input id="userName" class="input" type="text" formControlName="userName" placeholder=" "
+                    [ngClass]="{'input-validate': userNameControlSignIn?.invalid && (userNameControlSignIn?.dirty || userNameControlSignIn?.touched)}" />
                   <div class="cut cut-short3"></div>
-                  <label for="userID" class="placeholder">User Name</label>
+                  <label for="userName" class="placeholder">User Name</label>
                 </div>
                 <div class="input-container ic1">
                   <input id="password" class="input" type="password" formControlName="password" placeholder=" "
@@ -40,10 +40,10 @@
                     <label for="email" class="placeholder">Email</label>
                   </div>
                   <div class="input-container ic1">
-                    <input id="userID" class="input" type="text" formControlName="userID" placeholder=" "
-                      [ngClass]="{'input-validate': userIDControlSignUp?.invalid && (userIDControlSignUp?.dirty || userIDControlSignUp?.touched)}" />
+                    <input id="userName" class="input" type="text" formControlName="userName" placeholder=" "
+                      [ngClass]="{'input-validate': userNameControlSignUp?.invalid && (userNameControlSignUp?.dirty || userNameControlSignUp?.touched)}" />
                     <div class="cut cut-short3"></div>
-                    <label for="userID" class="placeholder">User Name</label>
+                    <label for="userName" class="placeholder">User Name</label>
                   </div>
                   <div class="input-container ic1">
                     <input id="password" class="input" type="password" formControlName="password" placeholder=" "

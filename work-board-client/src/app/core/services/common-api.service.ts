@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
@@ -8,13 +8,23 @@ import { catchError } from 'rxjs/operators';
 })
 export class CommonApiService {
 
-  private apiUrl = 'https://localhost:7047/';
+  private apiUrl = 'https://localhost:7047/api/';
 
   constructor(private http: HttpClient) { }
 
   // Method to make GET request
-  get<T>(url: string): Observable<T> {
-    return this.http.get<T>(this.apiUrl + url).pipe(
+  get<T>(url: string, params?: { [key: string]: any }): Observable<T> {
+    let httpParams = new HttpParams();
+
+    if (params) {
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      }
+    }
+
+    return this.http.get<T>(this.apiUrl + url, { params: httpParams }).pipe(
       catchError(this.handleError)
     );
   }
@@ -34,8 +44,18 @@ export class CommonApiService {
   }
 
   // Method to make DELETE request
-  delete<T>(url: string): Observable<T> {
-    return this.http.delete<T>(this.apiUrl + url + '/').pipe(
+  delete<T>(url: string, params?: { [key: string]: any }): Observable<T> {
+    let httpParams = new HttpParams();
+
+    if (params) {
+      for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+          httpParams = httpParams.set(key, params[key]);
+        }
+      }
+    }
+
+    return this.http.delete<T>(this.apiUrl + url + '/', { params: httpParams }).pipe(
       catchError(this.handleError)
     );
   }

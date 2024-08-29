@@ -35,10 +35,10 @@ export class LoginComponent implements OnInit {
   }
 
   //#region Input validation check and processing
-  get userIDControlSignIn() { return this.loginService.userIDControlSignIn; }
+  get userNameControlSignIn() { return this.loginService.userNameControlSignIn; }
   get passwordControlSignIn() { return this.loginService.passwordControlSignIn; }
   get emailControlSignUp() { return this.loginService.emailControlSignUp; }
-  get userIDControlSignUp() { return this.loginService.userIDControlSignUp; }
+  get userNameControlSignUp() { return this.loginService.userNameControlSignUp; }
   get passwordControlSignUp() { return this.loginService.passwordControlSignUp; }
   //#endregion
 
@@ -56,14 +56,12 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    console.log(this.loginService.signInFormGetValue)
-    // this.commonApiService.put<UserModel>('login', this.loginService.signInFormGetValue).subscribe(data => {
-
-    // })
-
-    this.commonApiService.get<any>('WeatherForecast').subscribe(data => {
-      console.log(data)
-    });
+    const model: UserModel = this.loginService.signInFormGetValue;
+    this.commonApiService.get<UserModel>('Login/GetLogin', { userName: model.userName, password: model.password }).subscribe(data => {
+      if (data) {
+        console.log(data);
+      }
+    })
   }
 
   signUp() {

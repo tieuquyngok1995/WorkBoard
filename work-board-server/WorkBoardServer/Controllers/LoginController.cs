@@ -4,7 +4,8 @@ using WorkBoardServer.Services;
 
 namespace WorkBoardServer.Controllers
 {
-    public class LoginController : Controller
+    [MyApiControllerAttribute]
+    public class LoginController : ControllerBase
     {
         private readonly LoginService _service;
 
@@ -14,14 +15,16 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult Login(LoginModel model)
+        public IActionResult GetLogin(string userName, string password)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            return Ok();
+            LoginModel model = _service.Login(userName, password).FirstOrDefault();
+
+            return Ok(model);
         }
     }
 }

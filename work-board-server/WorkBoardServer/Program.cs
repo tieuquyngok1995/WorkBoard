@@ -1,8 +1,19 @@
+using System.Reflection;
 using WorkBoardServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var assembly = Assembly.GetExecutingAssembly();
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+// Find class Service
+var appServices = assembly.GetTypes().Where(x => x.Name.EndsWith("Service")).ToArray();
+
+foreach (var service in appServices)
+{
+    builder.Services.AddScoped(service);
+}
 
 // Add services to the container.
 builder.Services.AddControllers();

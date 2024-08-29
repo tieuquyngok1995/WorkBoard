@@ -9,41 +9,50 @@
         <div class="card-3d-wrapper">
           <div class="card-front">
             <div class="center-wrap">
-              <h2 class="pb-1">Sign In</h2>
-              <div class="input-container ic1">
-                <input id="userID" class="input" type="text" placeholder=" " />
-                <div class="cut cut-short3"></div>
-                <label for="userID" class="placeholder">User ID</label>
-              </div>
-              <div class="input-container ic1">
-                <input id="password" class="input" type="text" placeholder=" " />
-                <div class="cut cut-short2"></div>
-                <label for="password" class="placeholder">Password</label>
-              </div>
-              <button type="button" class="btn btn-outline-info mt-4">Submit</button>
-              <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
+              <form [formGroup]="signInForm">
+                <h2 class="pb-1">Sign In</h2>
+                <div class="input-container ic1">
+                  <input id="userID" class="input" type="text" formControlName="userID" placeholder=" "
+                    [ngClass]="{'input-validate': userIDControlSignIn?.invalid && (userIDControlSignIn?.dirty || userIDControlSignIn?.touched)}" />
+                  <div class="cut cut-short3"></div>
+                  <label for="userID" class="placeholder">User ID</label>
+                </div>
+                <div class="input-container ic1">
+                  <input id="password" class="input" type="password" formControlName="password" placeholder=" "
+                    [ngClass]="{'input-validate': passwordControlSignIn?.invalid && (passwordControlSignIn?.dirty || passwordControlSignIn?.touched)}" />
+                  <div class="cut cut-short2"></div>
+                  <label for="password" class="placeholder">Password</label>
+                </div>
+                <button type="button" class="btn btn-outline-info mt-4">Submit</button>
+                <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
+              </form>
             </div>
           </div>
           <div class="card-back">
             <div class="center-wrap">
               <div class="section text-center">
                 <h2 class="pb-1">Sign Up</h2>
-                <div class="input-container ic1">
-                  <input id="email" class="input" type="text" placeholder=" " />
-                  <div class="cut cut-short3"></div>
-                  <label for="email" class="placeholder">Email</label>
-                </div>
-                <div class="input-container ic1">
-                  <input id="userID" class="input" type="text" placeholder=" " />
-                  <div class="cut cut-short3"></div>
-                  <label for="userID" class="placeholder">User ID</label>
-                </div>
-                <div class="input-container ic1">
-                  <input id="password" class="input" type="text" placeholder=" " />
-                  <div class="cut cut-short3"></div>
-                  <label for="password" class="placeholder">Password</label>
-                </div>
-                <button type="button" class="btn btn-outline-info mt-4">Submit</button>
+                <form [formGroup]="signUpForm">
+                  <div class="input-container ic1">
+                    <input id="email" class="input" type="text" formControlName="email" placeholder=" "
+                      [ngClass]="{'input-validate': emailControlSignUp?.invalid && (emailControlSignUp?.dirty || emailControlSignUp?.touched)}" />
+                    <div class="cut cut-short3"></div>
+                    <label for="email" class="placeholder">Email</label>
+                  </div>
+                  <div class="input-container ic1">
+                    <input id="userID" class="input" type="text" formControlName="userID" placeholder=" "
+                      [ngClass]="{'input-validate': userIDControlSignUp?.invalid && (userIDControlSignUp?.dirty || userIDControlSignUp?.touched)}" />
+                    <div class="cut cut-short3"></div>
+                    <label for="userID" class="placeholder">User ID</label>
+                  </div>
+                  <div class="input-container ic1">
+                    <input id="password" class="input" type="password" formControlName="password" placeholder=" "
+                      [ngClass]="{'input-validate': passwordControlSignUp?.invalid && (passwordControlSignUp?.dirty || passwordControlSignUp?.touched)}" />
+                    <div class="cut cut-short3"></div>
+                    <label for="password" class="placeholder">Password</label>
+                  </div>
+                  <button type="button" class="btn btn-outline-info mt-4">Submit</button>
+                </form>
               </div>
             </div>
           </div>

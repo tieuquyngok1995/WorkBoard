@@ -1,3 +1,14 @@
+export interface DataListOption {
+  key: string;
+  value: string;
+}
+
+export interface UserModel {
+  email: string;
+  userID: string;
+  password: string;
+}
+
 export interface TaskModel {
   moduleID: string;
   taskName: string;

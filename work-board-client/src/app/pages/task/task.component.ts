@@ -1,13 +1,11 @@
 import { FormGroup } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-
-import { TaskModel } from './task.model';
 import { TaskService } from './task.service';
 import { DialogData } from '../home/home.component';
-import { DataListOption } from '../../shared/models/dataList.model';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
+import { DataListOption, TaskModel } from '../../core/model/model';
 
 @Component({
   selector: 'app-dialog-add-task',

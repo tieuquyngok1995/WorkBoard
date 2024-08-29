@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { TaskModel } from './task.model';
+
+import { TaskModel } from '../../core/model/model';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,19 @@ export class TaskService {
 
   private form: FormGroup;
 
+  /**
+   * Initialize and set base values
+   * @param fb Form Builder
+   */
   constructor(private fb: FormBuilder) {
     this.form = this.createFormGroup();
   }
 
+  /**
+   * Initialize FormGroup
+   * @param task 
+   * @returns FormGroup
+   */
   private createFormGroup(task?: TaskModel): FormGroup {
     return this.fb.group({
       moduleID: [task?.moduleID || null, Validators.required],
@@ -43,5 +53,5 @@ export class TaskService {
 
   get dateDeliveryControl() { return this.form.get('dateDelivery') }
 
-  updateForm(user: TaskModel) { this.form.patchValue(user) }
+  updateForm(task: TaskModel) { this.form.patchValue(task) }
 }

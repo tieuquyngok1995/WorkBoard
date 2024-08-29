@@ -7,11 +7,11 @@
       <p>{{data.message}}</p>
     </div>
     <div class="modal-footer" *ngIf="data.isConfirm">
-      <button type="button" class="btn btn-link" (click)="onConfirm()">Yes</button>
-      <button type="button" class="btn btn-danger btn-link" (click)="onCancel()">No</button>
+      <button type="button" class="btn btn-outline-info" (click)="onConfirm()">Yes</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">No</button>
     </div>
     <div class="modal-footer" *ngIf="!data.isConfirm">
-      <button type="button" class="btn btn-danger btn-link" (click)="onCancel()">Cancel</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>

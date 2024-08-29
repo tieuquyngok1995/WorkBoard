@@ -21,7 +21,7 @@ export class TaskService {
       numRedmine: [task?.numRedmine || null, Validators.pattern("^[0-9]*$")],
       assignee: [task?.assignee || null, Validators.required],
       dateCreate: [task?.dateCreate || '', Validators.required],
-      estimatedHour: [task?.estimatedHour || '', Validators.required, Validators.pattern("^[0-9]*$")],
+      estimatedHour: [task?.estimatedHour || '', [Validators.required, Validators.pattern("^[0-9]*$")]],
       dateDelivery: [task?.dateDelivery || '', Validators.required],
       note: [task?.note || null],
     });

@@ -1,22 +1,29 @@
-<div class="row filter-container">
-    <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
-      <mat-card-content>
-        <div class="row">
-          <div class="col-3">
-            <mat-form-field>
-              <mat-select formControlName="assignee"  placeholder="Choose User" multiple>
-                <mat-option  #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)" [value]="0">All</mat-option>
-                <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
-                  {{assignee.displayName}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-          <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
+<button type="button" class="btn btn-outline-info">Yes</button>
+<button type="button" class="btn btn-outline-secondary">No</button>
+<button type="button" class="btn btn-outline-danger">Yes</button>
+<button type="button" class="btn btn-outline-warning">No</button>
+<button type="button" class="btn btn-outline-dark">Yes</button>
 
+<div class="row filter-container">
+  <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-3">
+          <mat-form-field>
+            <mat-select formControlName="assignee" placeholder="Choose User" multiple>
+              <mat-option #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)"
+                [value]="0">All</mat-option>
+              <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
+                {{assignee.displayName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
-      </mat-card-content>
-    </mat-card>
+        <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
 
 </div>
 <div class="row">

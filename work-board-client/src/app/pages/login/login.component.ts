@@ -1,8 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { LoginService } from './login.service';
+import { UserModel } from '../../core/model/model';
+import { CommonApiService } from '../../core/services/common-api.service';
 import { MessageService } from '../../shared/service/message.service';
+import { DialogMessageService } from '../../shared/service/dialog-message.service';
+
+import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +26,9 @@ export class LoginComponent implements OnInit {
    */
   constructor(
     private loginService: LoginService,
-    private messageService: MessageService) {
+    private messageService: MessageService,
+    private commonApiService: CommonApiService,
+    private confirmDialogService: DialogMessageService) {
     this.signInForm = this.loginService.signInForm;
     this.signUpForm = this.loginService.signUpForm;
   }
@@ -39,6 +45,22 @@ export class LoginComponent implements OnInit {
    * On init dialog
    */
   ngOnInit() {
+
+  }
+
+  signIn() {
+    if (!this.signInForm.valid) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
+
+      return;
+    }
+
+    this.commonApiService.put<UserModel>('login', {}).subscribe(data => {
+
+    })
+  }
+
+  signUp() {
 
   }
 }

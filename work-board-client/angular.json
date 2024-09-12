@@ -69,6 +69,11 @@
           "defaultConfiguration": "production"
         },
         "serve": {
+          "options": {
+            "ssl": true,
+            "sslKey": "src/assets/certification/localhost-key.pem",
+            "sslCert": "src/assets/certification/localhost.pem"
+          },
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {

@@ -11,12 +11,10 @@ import { AuthModel, UserModel } from '../model/model';
 export class AuthService {
   private readonly authToken = 'authToken';
 
-  private _userName: string;
+  private _userName!: string;
   private _auth: AuthModel = { isAuthenticated: false };
 
-  constructor(private router: Router, private commonApiService: CommonApiService) {
-    this._userName = sessionStorage.getItem(this.authToken) ?? '';
-  }
+  constructor(private router: Router, private commonApiService: CommonApiService) { }
 
   get auth(): AuthModel {
     const isLoggedIn = sessionStorage.getItem(this.authToken);
@@ -27,6 +25,7 @@ export class AuthService {
   }
 
   get userName(): string {
+    if (!this._userName) this._userName = sessionStorage.getItem(this.authToken) ?? '';
     return this._userName;
   }
 
@@ -52,7 +51,7 @@ export class AuthService {
 
   signUp(model: UserModel): Observable<boolean> {
 
-    return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
+    return this.commonApiService.post<UserModel>(this.commonApiService.urlSignUp, model).pipe(
       map(data => {
         if (data) {
           sessionStorage.setItem(this.authToken, data.userName);

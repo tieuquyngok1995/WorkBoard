@@ -24,6 +24,11 @@ namespace WorkBoardServer.Controllers
 
             UserModel model = _service.SignIn(userName, password);
 
+            if (model.UserName == null)
+            {
+                return Unauthorized();
+            }
+
             return Ok(model);
         }
 
@@ -35,7 +40,12 @@ namespace WorkBoardServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            model = _service.SignIn(model.UserName, model.Password);
+            model = _service.SignUp(model.Email, model.UserName, model.Password);
+
+            if (model.UserName == null)
+            {
+                return Unauthorized();
+            }
 
             return Ok(model);
         }

@@ -23,9 +23,9 @@ export class LoginComponent implements OnInit {
 
   /**
    * Initialize and set base values
-   * @param data 
-   * @param dialogRef 
-   * @param taskService 
+   * @param data
+   * @param dialogRef
+   * @param taskService
    */
   constructor(
     private loginService: LoginService,
@@ -48,7 +48,10 @@ export class LoginComponent implements OnInit {
   /**
    * On init dialog
    */
-  ngOnInit() { }
+  ngOnInit() {
+    this.signInForm.reset();
+    this.signUpForm.reset();
+  }
 
   signIn() {
     if (!this.signInForm.valid) {

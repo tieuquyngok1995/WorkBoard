@@ -15,14 +15,27 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetLogin(string userName, string password)
+        public IActionResult SignIn(string userName, string password)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            UserModel model = _service.Login(userName, password).FirstOrDefault();
+            UserModel model = _service.SignIn(userName, password);
+
+            return Ok(model);
+        }
+
+        [HttpPost]
+        public IActionResult SignUp(UserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            model = _service.SignIn(model.UserName, model.Password);
 
             return Ok(model);
         }

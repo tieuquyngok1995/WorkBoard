@@ -1,9 +1,9 @@
-﻿CREATE PROCEDURE CheckLogin
+﻿CREATE PROCEDURE SignIn
     @UserName NVARCHAR(50),
     @Password NVARCHAR(50)
 AS
 BEGIN
-    -- Kiểm tra xem người dùng có tồn tại hay không
+    -- Check exist user
     IF EXISTS (
         SELECT 1 
         FROM Users 
@@ -11,7 +11,7 @@ BEGIN
         AND Password = @Password
     )
     BEGIN
-        -- Trả về thông tin người dùng
+        -- get user
         SELECT 
             UserID,
             Email,

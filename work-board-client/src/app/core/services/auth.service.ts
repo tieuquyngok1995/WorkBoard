@@ -1,29 +1,43 @@
 import { Injectable } from '@angular/core';
-import { AuthModel, UserModel } from '../model/model';
-import { CommonApiService } from './common-api.service';
+import { Router } from '@angular/router';
 import { catchError, map, Observable, of } from 'rxjs';
+
+import { CommonApiService } from './common-api.service';
+import { AuthModel, UserModel } from '../model/model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly authToken = 'authToken';
+
+  private _userName: string;
   private _auth: AuthModel = { isAuthenticated: false };
 
+  constructor(private router: Router, private commonApiService: CommonApiService) {
+    this._userName = sessionStorage.getItem(this.authToken) ?? '';
+  }
+
   get auth(): AuthModel {
+    const isLoggedIn = sessionStorage.getItem(this.authToken);
+
+    if (isLoggedIn) this._auth = { isAuthenticated: true };
+
     return this._auth;
   }
 
-  constructor(private commonApiService: CommonApiService) { }
+  get userName(): string {
+    return this._userName;
+  }
 
-  login(username: string, password: string): Observable<boolean> {
-    const url = 'Login/GetLogin';
-    const body = { username, password };
+  signIn(username: string, password: string): Observable<boolean> {
 
-    return this.commonApiService.get<UserModel>(url, body).pipe(
+    return this.commonApiService.get<UserModel>(this.commonApiService.urlSignIn, { username, password }).pipe(
       map(data => {
         if (data) {
-          localStorage.setItem('authToken', data.userName);
-          this._auth = { isAuthenticated: true, userName: data.userName };
+          sessionStorage.setItem(this.authToken, data.userName);
+          this._userName = data.userName;
+          this._auth = { isAuthenticated: true };
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -36,8 +50,30 @@ export class AuthService {
     );
   }
 
-  logout(): void {
-    localStorage.removeItem('authToken');
+  signUp(model: UserModel): Observable<boolean> {
+
+    return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
+      map(data => {
+        if (data) {
+          sessionStorage.setItem(this.authToken, data.userName);
+          this._userName = data.userName;
+          this._auth = { isAuthenticated: true };
+          return true;
+        } else {
+          this._auth = { isAuthenticated: false };
+          return false;
+        }
+      }),
+      catchError(() => {
+        return of(false);
+      })
+    );
+  }
+
+  logOut(): void {
+    sessionStorage.removeItem(this.authToken);
     this._auth = { isAuthenticated: false };
+
+    this.router.navigate(['/login']);
   }
 }

@@ -8,6 +8,9 @@ import { catchError } from 'rxjs/operators';
 })
 export class CommonApiService {
 
+  public urlSignIn = 'Login/SignIn';
+  public urlSignUp = 'Login/SignUp';
+
   private apiUrl = 'https://localhost:7047/api/';
 
   constructor(private http: HttpClient) { }

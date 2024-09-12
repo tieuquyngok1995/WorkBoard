@@ -1,11 +1,10 @@
 <nav>
-  <img src="../../../assets/images/logo.png" width="36" height="36">
-  <a href="#">Mask with linear-gradient</a>
+  <div class="logo"><img src="../../../assets/images/logo.png" width="36" height="36"></div>
+  <div class="logo-title"><a href="/">Work Board</a></div>
   <ul class="list">
-    <li><a href="#">About</a></li>
-    <li><a href="#">Projects</a></li>
-    <li><a href="#">News</a></li>
-    <li> <i class="mr-2 input-icon bi bi-person"></i><span>user</span></li>
-    <li><a routerLink="/login">Login</a></li>
+    <li><i class="mr-2 input-icon bi bi-person"></i><span>{{ userName }}</span></li>
+    <li><a><i class="bi bi-bell-fill"></i></a></li>
+    <li><a><i class="bi bi-gear-fill"></i></a></li>
+    <li><a (click)="logOut()"><i class="bi bi-box-arrow-right"></i></a></li>
   </ul>
 </nav>

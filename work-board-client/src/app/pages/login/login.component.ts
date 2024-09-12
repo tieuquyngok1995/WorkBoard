@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private messageService: MessageService,
     private navigationService: NavigationService,
-    private commonApiService: CommonApiService,
     private confirmDialogService: DialogMessageService) {
     this.signInForm = this.loginService.signInForm;
     this.signUpForm = this.loginService.signUpForm;
@@ -49,9 +48,7 @@ export class LoginComponent implements OnInit {
   /**
    * On init dialog
    */
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   signIn() {
     if (!this.signInForm.valid) {
@@ -61,16 +58,30 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.loginService.signInFormGetValue;
-    this.authService.login(model.userName, model.password).subscribe(result => {
+    this.authService.signIn(model.userName, model.password).subscribe(result => {
       if (result) {
         this.navigationService.navigateTo('/');
       } else {
-        alert('Login failed');
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E001'));
       }
     });
   }
 
   signUp() {
+    if (!this.signUpForm.valid) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
 
+      return;
+    }
+
+    const model: UserModel = this.loginService.signUpFormGetValue;
+    model.token = '';
+    this.authService.signUp(model).subscribe(result => {
+      if (result) {
+        this.navigationService.navigateTo('/');
+      } else {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E002'));
+      }
+    });
   }
 }

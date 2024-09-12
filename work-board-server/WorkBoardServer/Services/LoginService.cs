@@ -1,4 +1,5 @@
-﻿using WorkBoardServer.Models;
+﻿using WorkBoardServer.Common;
+using WorkBoardServer.Models;
 
 namespace WorkBoardServer.Services
 {
@@ -11,9 +12,25 @@ namespace WorkBoardServer.Services
             _databaseService = databaseService;
         }
 
-        public IEnumerable<UserModel> Login(string userName, string password)
+        public UserModel SignIn(string userName, string password)
         {
-            return _databaseService.ExecuteQuery<UserModel>("CheckLogin", new { userName = userName, password = password });
+            return _databaseService.ExecuteQuery<UserModel>(
+                GlobalConstants.PSignIn, new
+                {
+                    userName = userName,
+                    password = password
+                }).FirstOrDefault() ?? new UserModel();
+        }
+
+        public UserModel SignUp(string email, string userName, string password)
+        {
+            return _databaseService.ExecuteQuery<UserModel>(
+                GlobalConstants.PSignUp, new
+                {
+                    email = email,
+                    userName = userName,
+                    password = password
+                }).FirstOrDefault() ?? new UserModel();
         }
     }
 }

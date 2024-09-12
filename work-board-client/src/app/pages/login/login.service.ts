@@ -37,7 +37,8 @@ export class LoginService {
   get passwordControlSignIn() { return this._signInForm.get('password') }
 
   get signUpForm(): FormGroup { return this._signUpForm }
+  get signUpFormGetValue() { return this.signUpForm.value }
   get emailControlSignUp() { return this._signUpForm.get('email') }
-  get userNameControlSignUp() { return this._signInForm.get('userName') }
+  get userNameControlSignUp() { return this._signUpForm.get('userName') }
   get passwordControlSignUp() { return this._signUpForm.get('password') }
 }

@@ -5,7 +5,7 @@ export interface DataListOption {
 
 export interface AuthModel {
   isAuthenticated: boolean,
-  userName?: string | null
+  token?: string | null
 }
 
 export interface UserModel {
@@ -14,6 +14,7 @@ export interface UserModel {
   userName: string;
   password: string;
   roleID: number;
+  token: string;
 }
 
 export interface TaskModel {

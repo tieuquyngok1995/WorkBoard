@@ -14,16 +14,18 @@
   box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
 }
 
-.col-task-header-color {
+.col-task-header .header-banner {
   box-sizing: border-box;
   background: none 0% 0% / auto repeat scroll padding-box border-box rgb(0, 163, 191);
-  height: 36px;
+  height: 26px;
   color: rgb(9, 30, 66);
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.col-task-header-body {
-  padding-top: 4px;
-  padding-left: 80px;
+.col-task-header .header-body {
+  height: 32px;
+  padding-left: 74px;
   box-sizing: border-box;
   position: relative;
   color: rgb(9, 30, 66);
@@ -31,30 +33,29 @@
   background-color: rgb(255, 255, 255);
 }
 
-.col-task-header-body .col-task-header-icon {
+.col-task-header .header-body .header-icon {
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
   background-position: 50% 50%;
   background-repeat: no-repeat;
   background-size: contain;
   border-radius: 8px;
-  height: 48px;
+  height: 42px;
   left: 16px;
   position: absolute;
-  top: -24px;
-  width: 48px;
+  top: -14px;
+  width: 42px;
   color: rgb(9, 30, 66);
   border: 3px solid rgb(255, 255, 255);
 }
 
-.col-task-header-body h3 {
+.col-task-header .header-body .header-icon i {
+  font-size: 32px;
+}
+
+.col-task-header .header-body h3 {
   box-sizing: border-box;
-  font-family: "Charlie Display", sans-serif;
   font-size: 24px;
-  font-weight: 500;
-  line-height: 32px;
-  margin-bottom: 8px;
-  margin-top: 0px;
   color: rgb(9, 30, 66);
   text-align: left;
   text-decoration-color: rgb(9, 30, 66);
@@ -63,6 +64,26 @@
   white-space: normal;
   text-size-adjust: 100%;
   background-color: rgb(255, 255, 255);
+}
+
+.col-task-header .header-body .icon-setting {
+  height: 100%;
+  margin-top: 4px;
+}
+
+.col-task-header .header-body .icon-setting a {
+  font-size: 24px;
+}
+
+.col-task-header .header-body .icon-setting a:hover {
+  cursor: pointer;
+}
+
+.header-footer {
+  box-sizing: border-box;
+  background: none 0% 0% / auto repeat scroll padding-box border-box rgb(0, 163, 191);
+  height: 6px;
+  color: rgb(9, 30, 66);
 }
 
 .task-drop-list {

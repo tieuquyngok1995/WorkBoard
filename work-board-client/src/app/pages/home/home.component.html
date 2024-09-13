@@ -22,17 +22,24 @@
 <div class="row full-height justify-content-center">
   <div class="col-3 col-task-container">
     <div class="col-task-header">
-      <div class="col-task-header-color"></div>
-      <div class="col-task-header-body">
-        <div class="col-task-header-icon"></div>
-        <h3>Waiting</h3>
+      <div class="header-banner"></div>
+      <div class="header-body">
+        <div class="header-icon d-flex justify-content-center align-items-center">
+          <i class="bi bi-clipboard-data"></i>
+        </div>
+        <div class="row">
+          <div class="col-10">
+            <h3>Waiting</h3>
+          </div>
+          <div class="col-auto icon-setting"><a (click)="openDialog()"><i class=" bi bi-gear-fill"></i></a></div>
+        </div>
       </div>
+      <div class="header-footer"></div>
     </div>
 
     <div class="col-task">
       <div class="task-drop-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
         [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="example-box"><button (click)="openDialog()">Create new Task</button></div>
         <div class="example-box row" *ngFor="let task of initTask" cdkDrag>
           <div class="col-6">
             {{task.taskName}}
@@ -46,8 +53,16 @@
   </div>
 
   <div class="col-3 col-task-container">
-
-    <h2>In Progress</h2>
+    <div class="col-task-header">
+      <div class="header-banner"></div>
+      <div class="header-body">
+        <div class="header-icon d-flex justify-content-center align-items-center">
+          <i class="bi bi-hourglass-split"></i>
+        </div>
+        <h3>In Progress</h3>
+      </div>
+      <div class="header-footer"></div>
+    </div>
 
     <div class="col-task">
       <div class="task-drop-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
@@ -65,7 +80,16 @@
   </div>
 
   <div class="col-3 col-task-container">
-    <h2>Pending</h2>
+    <div class="col-task-header">
+      <div class="header-banner"></div>
+      <div class="header-body">
+        <div class="header-icon d-flex justify-content-center align-items-center">
+          <i class="bi bi-pause-circle"></i>
+        </div>
+        <h3>Pending</h3>
+      </div>
+      <div class="header-footer"></div>
+    </div>
 
     <div class="col-task">
       <div class="task-drop-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
@@ -76,7 +100,16 @@
   </div>
 
   <div class="col-3 col-task-container">
-    <h2>Completed</h2>
+    <div class="col-task-header">
+      <div class="header-banner"></div>
+      <div class="header-body">
+        <div class="header-icon d-flex justify-content-center align-items-center">
+          <i class="bi bi-clipboard2-check"></i>
+        </div>
+        <h3>Completed</h3>
+      </div>
+      <div class="header-footer"></div>
+    </div>
 
     <div class="col-task">
       <div class="task-drop-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"

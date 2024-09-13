@@ -22,6 +22,7 @@ p {
 }
 
 h2 {
+  font-size: 32px;
   font-weight: 600;
   color: #c4c3ca;
 }
@@ -30,7 +31,7 @@ h4 span {
   padding: 10px 30px;
   margin: 0 15px;
   text-transform: uppercase;
-  font-weight: 700;
+  font-weight: 500;
   color: #c4c3ca;
   background-color: #102770;
   border-radius: 25px;

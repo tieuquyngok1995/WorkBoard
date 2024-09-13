@@ -1,5 +1,5 @@
 export interface DataListOption {
-  key: string;
+  key: number;
   value: string;
 }
 
@@ -20,6 +20,7 @@ export interface UserModel {
 export interface TaskModel {
   moduleID: string;
   taskName: string;
+  taskTypeId: number;
   taskType: string;
   numRedmine: string | null;
   assignee: string;

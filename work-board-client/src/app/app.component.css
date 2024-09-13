@@ -5,7 +5,10 @@ body {
 
 .full-page {
   height: 100vh;
-  background-image: linear-gradient(to right, #c6ffdd, #fbd786, #f7797d);
+  min-height: 100vh;
+  background-image: url('src/assets/images/background.jpg');
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
 }
 
 .header {

@@ -45,27 +45,39 @@
             <div class="table">
               <div class="row row-text">
                 <div class="col">
-                  <h4 class="module-id text-danger"><i class="bi bi-bookmark-dash"></i>&nbsp;# Module ID </h4>
+                  <h4 class="module-id text-danger">
+                    <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
+                  </h4>
                 </div>
               </div>
               <div class="row row-text caption">
-                <h2 class="col"> {{task.taskName}} </h2>
+                <h2 class="col"> {{ task.taskName }} </h2>
               </div>
               <div class="row row-text table-footer">
-                <div class="col-4">
-                  <h4 class="task-type text-danger">
+                <div class="fixed-width-type">
+                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
+                  </h4>
+                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                    <i class="bi bi-bug"></i>&nbsp;Testing
+                  </h4>
+                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
                     <i class="bi bi-eye"></i>&nbsp;Review
+                  </h4>
+                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
-                <div class="col-3">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{task.assignee}} </h4>
+                <div class="fixed-width-assignee">
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
                 </div>
-                <div class="col-4 text-right">
-                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;date delivery </h4>
+                <div class="fixed-width-date">
+                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
                 </div>
-                <div class="col"></div>
+                <div class="col full-height">
+                  <h4><i class="bi bi-clock-history"></i>&nbsp; 200</h4>
+                </div>
+                <div class="col full-height"></div>
               </div>
             </div>
           </div>
@@ -87,14 +99,48 @@
     </div>
 
     <div class="col-task">
-      <div class="task-drop-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
+      <div class="col-task-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
         [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
-          <div class="col-6">
-            {{task.taskName}}
-          </div>
-          <div class="col-6">
-            {{task.assignee}}
+        <div class="row" *ngFor="let task of inProgress" cdkDrag>
+          <div class="card">
+            <div class="table">
+              <div class="row row-text">
+                <div class="col">
+                  <h4 class="module-id text-danger">
+                    <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
+                  </h4>
+                </div>
+              </div>
+              <div class="row row-text caption">
+                <h2 class="col"> {{ task.taskName }} </h2>
+              </div>
+              <div class="row row-text table-footer">
+                <div class="fixed-width-type">
+                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
+                  </h4>
+                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                    <i class="bi bi-bug"></i>&nbsp;Testing
+                  </h4>
+                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                    <i class="bi bi-eye"></i>&nbsp;Review
+                  </h4>
+                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  </h4>
+                </div>
+                <div class="fixed-width-assignee">
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                </div>
+                <div class="fixed-width-date">
+                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
+                </div>
+                <div class="col full-height">
+                  <h4><i class="bi bi-clock-history"></i>&nbsp; 200</h4>
+                </div>
+                <div class="col full-height"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -114,9 +160,50 @@
     </div>
 
     <div class="col-task">
-      <div class="task-drop-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
+      <div class="col-task-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
         [cdkDropListConnectedTo]="[newTaskList, inProgressList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of pending" cdkDrag>{{item}}</div>
+        <div class="row" *ngFor="let task of pending" cdkDrag>
+          <div class="card">
+            <div class="table">
+              <div class="row row-text">
+                <div class="col">
+                  <h4 class="module-id text-danger">
+                    <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
+                  </h4>
+                </div>
+              </div>
+              <div class="row row-text caption">
+                <h2 class="col"> {{ task.taskName }} </h2>
+              </div>
+              <div class="row row-text table-footer">
+                <div class="fixed-width-type">
+                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
+                  </h4>
+                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                    <i class="bi bi-bug"></i>&nbsp;Testing
+                  </h4>
+                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                    <i class="bi bi-eye"></i>&nbsp;Review
+                  </h4>
+                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  </h4>
+                </div>
+                <div class="fixed-width-assignee">
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                </div>
+                <div class="fixed-width-date">
+                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
+                </div>
+                <div class="col full-height">
+                  <h4><i class="bi bi-clock-history"></i>&nbsp; 200</h4>
+                </div>
+                <div class="col full-height"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -134,11 +221,51 @@
     </div>
 
     <div class="col-task">
-      <div class="task-drop-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
+      <div class="col-task-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
         [cdkDropListConnectedTo]="[newTaskList, inProgressList, pendingList]" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let item of completed" cdkDrag>{{item}}</div>
+        <div class="row" *ngFor="let task of completed" cdkDrag>
+          <div class="card">
+            <div class="table">
+              <div class="row row-text">
+                <div class="col">
+                  <h4 class="module-id text-danger">
+                    <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
+                  </h4>
+                </div>
+              </div>
+              <div class="row row-text caption">
+                <h2 class="col"> {{ task.taskName }} </h2>
+              </div>
+              <div class="row row-text table-footer">
+                <div class="fixed-width-type">
+                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
+                  </h4>
+                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                    <i class="bi bi-bug"></i>&nbsp;Testing
+                  </h4>
+                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                    <i class="bi bi-eye"></i>&nbsp;Review
+                  </h4>
+                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  </h4>
+                </div>
+                <div class="fixed-width-assignee">
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                </div>
+                <div class="fixed-width-date">
+                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
+                </div>
+                <div class="col full-height">
+                  <h4><i class="bi bi-clock-history"></i>&nbsp; 200</h4>
+                </div>
+                <div class="col full-height"></div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-
 </div>

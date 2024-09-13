@@ -19,6 +19,12 @@ export interface DialogData {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent {
+
+  public readonly TypeCoding: number = 1;
+  public readonly TypeTesting: number = 2;
+  public readonly TypeReview: number = 3;
+  public readonly TypeFixBug: number = 4;
+
   allAssignees = [
     {
       value: 'Duy-TranB',
@@ -130,6 +136,7 @@ export class HomeComponent {
       {
         moduleID: '1',
         taskName: 'Get to work',
+        taskTypeId: 1,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Duy-TranB',
@@ -141,6 +148,7 @@ export class HomeComponent {
       {
         moduleID: '2',
         taskName: 'Pick up groceries',
+        taskTypeId: 1,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Thinh-NT',
@@ -152,6 +160,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 1,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -163,6 +172,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 2,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -174,6 +184,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 2,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -185,6 +196,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 2,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -196,6 +208,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 3,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -207,6 +220,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 3,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -218,6 +232,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 3,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -229,6 +244,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -240,6 +256,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -251,6 +268,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -262,6 +280,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -273,6 +292,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -284,6 +304,7 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
+        taskTypeId: 4,
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Tuan-VQ',
@@ -298,45 +319,48 @@ export class HomeComponent {
 
   initInProgress = [
     {
-      taskName: 'Get up',
+      moduleID: '3',
+      taskName: 'Go home',
+      taskTypeId: 4,
       taskType: 'Work',
+      numRedmine: '',
+      assignee: 'Tuan-VQ',
       dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'Tuan-VQ'
-    },
-    {
-      taskName: 'Brush teeth',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 1),
-      assignee: 'Duy-TranB'
-    },
-    {
-      taskName: 'Take a shower',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'Duy-TranB'
-    },
-    {
-      taskName: 'Check e-mail',
-      taskType: 'Work',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 2),
-      assignee: 'duy-pna'
-    },
-    {
-      taskName: 'Walk dog',
-      taskType: 'Home',
-      dateCreate: new Date(),
-      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 1),
-      assignee: 'duy-pna'
+      estimatedHour: 2,
+      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+      note: ''
     }];
 
-  pending = ['Get up1', 'Brush teeth2', 'Take a shower3', 'Check e-mail4', 'Walk dog5'];
+  initPending = [
+    {
+      moduleID: '3',
+      taskName: 'Go home',
+      taskTypeId: 4,
+      taskType: 'Work',
+      numRedmine: '',
+      assignee: 'Tuan-VQ',
+      dateCreate: new Date(),
+      estimatedHour: 2,
+      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+      note: ''
+    }];
 
-  completed = ['Get up2', 'Brush teeth3', 'Take a shower4', 'Check e-mail5', 'Walk dog6'];
+  initCompleted = [
+    {
+      moduleID: '3',
+      taskName: 'Go home',
+      taskTypeId: 4,
+      taskType: 'Work',
+      numRedmine: '',
+      assignee: 'Tuan-VQ',
+      dateCreate: new Date(),
+      estimatedHour: 2,
+      dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+      note: ''
+    }];
 
   newTask = [...this.initTask];
   inProgress = [...this.initInProgress];
+  pending = [...this.initPending];
+  completed = [...this.initCompleted];
 }

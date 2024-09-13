@@ -33,16 +33,16 @@ export class TaskComponent implements OnInit {
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService) {
     this.dataListType = [
-      { key: '1', value: 'Coding' },
-      { key: '2', value: 'Review' },
-      { key: '3', value: 'Testing' },
-      { key: '4', value: 'Fixbug' }
+      { key: 1, value: 'Coding' },
+      { key: 2, value: 'Review' },
+      { key: 3, value: 'Testing' },
+      { key: 4, value: 'Fixbug' }
     ]
     this.dataListAssigne = [
-      { key: '1', value: 'Tuan-VQ' },
-      { key: '2', value: 'Thinh-NT' },
-      { key: '3', value: 'Duy-PNA' },
-      { key: '4', value: 'Hieu-MTH' }
+      { key: 1, value: 'Tuan-VQ' },
+      { key: 2, value: 'Thinh-NT' },
+      { key: 3, value: 'Duy-PNA' },
+      { key: 4, value: 'Hieu-MTH' }
     ]
     this.taskForm = this.taskService.taskForm;
   }

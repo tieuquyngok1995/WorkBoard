@@ -29,9 +29,9 @@ img {
 }
 
 .logo {
-  border: 2px solid rgba(9, 227, 147, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
   border-radius: 100px;
-  box-shadow: 0 4px 8px 0 rgba(21, 21, 21, .2);
+  box-shadow: 0 4px 4px 0 rgba(255, 255, 255, 0.2);
 }
 
 .logo-title {
@@ -44,7 +44,7 @@ img {
 }
 
 .logo-title a:hover {
-  color: #000000;
+  color: #d9ebba;
 }
 
 
@@ -84,7 +84,7 @@ span {
 
   li a:hover {
     cursor: pointer;
-    color: #000000;
+    color: #d9ebba;
     transform: scale(1.25);
   }
 }

@@ -9,8 +9,17 @@ body {
   font-family: 'SuseFont', sans-serif !important;
 }
 
+/* css text */
 h1, h2, h3, h4, h5, h6, p, a {
   font-family: 'SuseFont', sans-serif !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
 }
 
 textarea {

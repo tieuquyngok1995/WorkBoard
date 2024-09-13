@@ -38,14 +38,36 @@
     </div>
 
     <div class="col-task">
-      <div class="task-drop-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
+      <div class="col-task-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
         [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="example-box row" *ngFor="let task of initTask" cdkDrag>
-          <div class="col-6">
-            {{task.taskName}}
-          </div>
-          <div class="col-6">
-            {{task.assignee}}
+        <div class="row" *ngFor="let task of initTask" cdkDrag>
+          <div class="card">
+            <div class="table">
+              <div class="row row-text">
+                <div class="col">
+                  <h4 class="module-id text-danger"><i class="bi bi-bookmark-dash"></i>&nbsp;# Module ID </h4>
+                </div>
+              </div>
+              <div class="row row-text caption">
+                <h2 class="col"> {{task.taskName}} </h2>
+              </div>
+              <div class="row row-text table-footer">
+                <div class="col-4">
+                  <h4 class="task-type text-danger">
+                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
+                    <i class="bi bi-eye"></i>&nbsp;Review
+                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  </h4>
+                </div>
+                <div class="col-3">
+                  <h4><i class="bi bi-person"></i>&nbsp;{{task.assignee}} </h4>
+                </div>
+                <div class="col-4 text-right">
+                  <h4><i class="bi bi-calendar2-event"></i>&nbsp;date delivery </h4>
+                </div>
+                <div class="col"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>

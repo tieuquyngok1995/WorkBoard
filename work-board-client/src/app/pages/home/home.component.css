@@ -1,3 +1,4 @@
+/* ============ Column Task ============ */
 .col-task-container {
   width: 100%;
   max-width: 100%;
@@ -68,27 +69,74 @@
 
 .col-task-header .header-body .icon-setting {
   height: 100%;
-  margin-top: 4px;
+  margin-top: 5px;
 }
 
 .col-task-header .header-body .icon-setting a {
-  font-size: 24px;
+  font-size: 22px;
+  transition: transform 0.5s ease;
+  display: inline-block;
 }
 
 .col-task-header .header-body .icon-setting a:hover {
   cursor: pointer;
+  transform: scale(1.25);
 }
 
-.header-footer {
+.col-task-header .header-footer {
   box-sizing: border-box;
   background: none 0% 0% / auto repeat scroll padding-box border-box rgb(0, 163, 191);
   height: 6px;
   color: rgb(9, 30, 66);
 }
 
-.task-drop-list {
-  padding: 5px;
+.col-task .col-task-list {
   height: 100%;
+}
+
+/* ============ Card task ============ */
+
+.card {
+  box-sizing: border-box;
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  border-radius: 6px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  background: #fff;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  cursor: move;
+}
+
+.card .table {
+  padding: 0px 30px;
+  margin-bottom: 0;
+}
+
+.card .table h4 {
+  font-size: 12px;
+}
+
+.card .table .row-text {
+  height: 2vh;
+}
+
+.card .table .caption {
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.card .table .table-header .module-id {
+  text-align: right;
+}
+
+.card .table .table-body {
+  text-align: center;
+}
+
+.card .table .table-footer {
+  margin-bottom: 4px;
 }
 
 .example-list {
@@ -141,4 +189,89 @@
 .filter-container {
   /* height: 64px; */
   background-color: #fff !important;
+}
+
+
+/*---------------------------------------------------------------------- /
+CARDS
+----------------------------------------------------------------------- */
+
+
+/* ============ Card Blog ============ */
+
+
+/* ============ Btton ============ */
+
+.btn {
+  display: inline-block;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.42857143;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  background-image: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+.btn,
+.navbar .navbar-nav>li>a.btn {
+  border: none;
+  border-radius: 3px;
+  position: relative;
+  padding: 12px 30px;
+  margin: 10px 1px;
+  font-size: 12px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0;
+  will-change: box-shadow, transform;
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 1, 1), background-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn:focus,
+.btn:active,
+.btn:active:focus {
+  outline: 0;
+}
+
+.btn.btn-round,
+.navbar .navbar-nav>li>a.btn.btn-round {
+  border-radius: 30px;
+}
+
+.btn.btn-just-icon,
+.navbar .navbar-nav>li>a.btn.btn-just-icon {
+  font-size: 20px;
+  padding: 12px 12px;
+  line-height: 1em;
+}
+
+.btn.btn-just-icon i,
+.navbar .navbar-nav>li>a.btn.btn-just-icon i {
+  width: 20px;
+}
+
+
+/* Button Danger */
+
+.btn.btn-danger {
+  background-color: #f44336;
+  color: #FFFFFF;
+}
+
+.btn.btn-danger:focus,
+.btn.btn-danger:active,
+.btn.btn-danger:hover {
+  box-shadow: 0 14px 26px -12px rgba(244, 67, 54, 0.42), 0 4px 23px 0px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(244, 67, 54, 0.2);
 }

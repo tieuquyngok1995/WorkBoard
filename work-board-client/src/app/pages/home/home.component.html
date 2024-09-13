@@ -1,10 +1,4 @@
-<button type="button" class="btn btn-outline-info">Yes</button>
-<button type="button" class="btn btn-outline-secondary">No</button>
-<button type="button" class="btn btn-outline-danger">Yes</button>
-<button type="button" class="btn btn-outline-warning">No</button>
-<button type="button" class="btn btn-outline-dark">Yes</button>
-
-<div class="row filter-container">
+<!-- <div class="row filter-container">
   <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
     <mat-card-content>
       <div class="row">
@@ -24,61 +18,72 @@
       </div>
     </mat-card-content>
   </mat-card>
+</div> -->
+<div class="row full-height justify-content-center">
+  <div class="col-3 col-task-container">
+    <div class="col-task-header">
+      <div class="col-task-header-color"></div>
+      <div class="col-task-header-body">
+        <div class="col-task-header-icon"></div>
+        <h3>Waiting</h3>
+      </div>
+    </div>
 
-</div>
-<div class="row">
-  <div class="col-3 example-container">
-    <h2>Waiting</h2>
-
-    <div cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
-      [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box"><button (click)="openDialog()">Create new Task</button></div>
-      <div class="example-box row" *ngFor="let task of initTask" cdkDrag>
-        <div class="col-6">
-          {{task.taskName}}
-        </div>
-        <div class="col-6">
-          {{task.assignee}}
+    <div class="col-task">
+      <div class="task-drop-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
+        [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
+        <div class="example-box"><button (click)="openDialog()">Create new Task</button></div>
+        <div class="example-box row" *ngFor="let task of initTask" cdkDrag>
+          <div class="col-6">
+            {{task.taskName}}
+          </div>
+          <div class="col-6">
+            {{task.assignee}}
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-3 example-container">
+  <div class="col-3 col-task-container">
+
     <h2>In Progress</h2>
 
-    <div cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
-      [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
-        <div class="col-6">
-          {{task.taskName}}
-        </div>
-        <div class="col-6">
-          {{task.assignee}}
+    <div class="col-task">
+      <div class="task-drop-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
+        [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let task of inProgress" cdkDrag>
+          <div class="col-6">
+            {{task.taskName}}
+          </div>
+          <div class="col-6">
+            {{task.assignee}}
+          </div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-3 example-container">
+  <div class="col-3 col-task-container">
     <h2>Pending</h2>
 
-    <div cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
-      [cdkDropListConnectedTo]="[newTaskList, inProgressList, completedList]" class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of pending" cdkDrag>{{item}}</div>
+    <div class="col-task">
+      <div class="task-drop-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
+        [cdkDropListConnectedTo]="[newTaskList, inProgressList, completedList]" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of pending" cdkDrag>{{item}}</div>
+      </div>
     </div>
   </div>
 
-  <div class="col-3 example-container">
+  <div class="col-3 col-task-container">
     <h2>Completed</h2>
 
-    <div cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
-      [cdkDropListConnectedTo]="[newTaskList, inProgressList, pendingList]" class="example-list"
-      (cdkDropListDropped)="drop($event)">
-      <div class="example-box" *ngFor="let item of completed" cdkDrag>{{item}}</div>
+    <div class="col-task">
+      <div class="task-drop-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
+        [cdkDropListConnectedTo]="[newTaskList, inProgressList, pendingList]" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let item of completed" cdkDrag>{{item}}</div>
+      </div>
     </div>
   </div>
+
 </div>

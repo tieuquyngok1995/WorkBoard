@@ -110,7 +110,7 @@ export class HomeComponent {
     }
   }
 
-  applyFilter(){
+  applyFilter() {
     let valueFilter = this.filterForm.controls['assignee'].value ?? [];
     this.newTask = this.initTask.filter(element => {
       if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
@@ -144,6 +144,138 @@ export class HomeComponent {
         taskType: 'Work',
         numRedmine: '',
         assignee: 'Thinh-NT',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
+        dateCreate: new Date(),
+        estimatedHour: 2,
+        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        note: ''
+      },
+      {
+        moduleID: '3',
+        taskName: 'Go home',
+        taskType: 'Work',
+        numRedmine: '',
+        assignee: 'Tuan-VQ',
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),

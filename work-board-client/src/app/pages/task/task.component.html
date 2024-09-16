@@ -29,7 +29,7 @@
     <input id="numRedmine" class="input" type="text" formControlName="numRedmine" placeholder=" "
       [ngClass]="{'input-validate': numRedmineControl?.invalid && (numRedmineControl?.dirty || numRedmineControl?.touched)}" />
     <div class="cut cut-long1"></div>
-    <label for="numRedmine" class="placeholder">Task Redmine</label>
+    <label for="numRedmine" class="placeholder">Num Redmine</label>
   </div>
 
   <div class="input-container ic2">
@@ -40,6 +40,16 @@
     <label for="assignee" class="placeholder">Assignee</label>
     <datalist id="userAssignee">
       <option *ngFor="let data of dataListAssigne" [value]="data.value"></option>
+    </datalist>
+  </div>
+
+  <div class="input-container ic2">
+    <input id="priority" class="input" type="text" list="priorityLevel" formControlName="priority" placeholder=" "
+      appPreventInput />
+    <div class="cut cut-long1"></div>
+    <label for="priority" class="placeholder">Priority Level</label>
+    <datalist id="priorityLevel">
+      <option *ngFor="let data of dataListPriority" [value]="data.value"></option>
     </datalist>
   </div>
 

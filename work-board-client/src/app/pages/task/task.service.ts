@@ -30,6 +30,7 @@ export class TaskService {
       taskType: [task?.taskType || null, Validators.required],
       numRedmine: [task?.numRedmine || null, Validators.pattern("^[0-9]*$")],
       assignee: [task?.assignee || null, Validators.required],
+      priority: [task?.priority || null],
       dateCreate: [task?.dateCreate || '', Validators.required],
       estimatedHour: [task?.estimatedHour || '', [Validators.required, Validators.pattern("^[0-9]*$")]],
       dateDelivery: [task?.dateDelivery || '', Validators.required],
@@ -46,6 +47,8 @@ export class TaskService {
   get numRedmineControl() { return this.form.get('numRedmine') }
 
   get assigneeControl() { return this.form.get('assignee') }
+
+  get priorityControl() { return this.form.get('priority') }
 
   get dateCreateControl() { return this.form.get('dateCreate') }
 

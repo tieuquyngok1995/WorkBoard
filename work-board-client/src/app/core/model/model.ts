@@ -20,10 +20,10 @@ export interface UserModel {
 export interface TaskModel {
   moduleID: string;
   taskName: string;
-  taskTypeId: number;
-  taskType: string;
+  taskType: number;
   numRedmine: string | null;
   assignee: string;
+  priority: number;
   dateCreate: Date;
   estimatedHour: number;
   dateDelivery: Date;

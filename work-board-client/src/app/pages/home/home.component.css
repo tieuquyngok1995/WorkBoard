@@ -104,6 +104,7 @@
   box-sizing: border-box;
   display: inline-block;
   position: relative;
+  margin-top: 5px;
   width: 100%;
   border-radius: 6px;
   border-bottom: solid 1px #ccc;
@@ -189,4 +190,12 @@
 
 .example-list.cdk-drop-list-dragging .example-box:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.priority-high {
+  background-color: rgb(255 134 134);
+}
+
+.priority-medium {
+  background-color: rgb(168 198 229);
 }

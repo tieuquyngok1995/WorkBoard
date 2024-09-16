@@ -136,10 +136,11 @@ export class HomeComponent {
       {
         moduleID: '1',
         taskName: 'Get to work',
-        taskTypeId: 1,
-        taskType: 'Work',
+        taskType: 1,
+
         numRedmine: '',
         assignee: 'Duy-TranB',
+        priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -148,10 +149,11 @@ export class HomeComponent {
       {
         moduleID: '2',
         taskName: 'Pick up groceries',
-        taskTypeId: 1,
-        taskType: 'Work',
+        taskType: 1,
+
         numRedmine: '',
         assignee: 'Thinh-NT',
+        priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -160,10 +162,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 1,
-        taskType: 'Work',
+        taskType: 1,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -172,10 +175,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 2,
-        taskType: 'Work',
+        taskType: 2,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -184,10 +188,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 2,
-        taskType: 'Work',
+        taskType: 2,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -196,10 +201,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 2,
-        taskType: 'Work',
+        taskType: 2,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -208,10 +214,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 3,
-        taskType: 'Work',
+        taskType: 3,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -220,10 +227,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 3,
-        taskType: 'Work',
+        taskType: 3,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -232,10 +240,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 3,
-        taskType: 'Work',
+        taskType: 3,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -244,10 +253,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -256,10 +266,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -268,10 +279,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -280,10 +292,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -292,10 +305,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -304,10 +318,11 @@ export class HomeComponent {
       {
         moduleID: '3',
         taskName: 'Go home',
-        taskTypeId: 4,
-        taskType: 'Work',
+        taskType: 4,
+
         numRedmine: '',
         assignee: 'Tuan-VQ',
+        priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -321,10 +336,11 @@ export class HomeComponent {
     {
       moduleID: '3',
       taskName: 'Go home',
-      taskTypeId: 4,
-      taskType: 'Work',
+      taskType: 4,
+
       numRedmine: '',
       assignee: 'Tuan-VQ',
+      priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -335,10 +351,11 @@ export class HomeComponent {
     {
       moduleID: '3',
       taskName: 'Go home',
-      taskTypeId: 4,
-      taskType: 'Work',
+      taskType: 4,
+
       numRedmine: '',
       assignee: 'Tuan-VQ',
+      priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
@@ -349,10 +366,11 @@ export class HomeComponent {
     {
       moduleID: '3',
       taskName: 'Go home',
-      taskTypeId: 4,
-      taskType: 'Work',
+      taskType: 4,
+
       numRedmine: '',
       assignee: 'Tuan-VQ',
+      priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),

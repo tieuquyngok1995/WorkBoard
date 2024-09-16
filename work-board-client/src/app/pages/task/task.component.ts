@@ -16,9 +16,13 @@ export class TaskComponent implements OnInit {
   public taskForm: FormGroup;
 
   public dataListType!: DataListOption[];
+  public dataListPriority!: DataListOption[];
   public dataListAssigne!: DataListOption[];
 
   public isDelete!: boolean;
+
+  private taskType!: number;
+  private priority!: number;
 
   /**
    * Initialize and set base values
@@ -32,11 +36,17 @@ export class TaskComponent implements OnInit {
     private taskService: TaskService,
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService) {
+
     this.dataListType = [
       { key: 1, value: 'Coding' },
       { key: 2, value: 'Review' },
       { key: 3, value: 'Testing' },
       { key: 4, value: 'Fixbug' }
+    ]
+    this.dataListPriority = [
+      { key: 1, value: 'High' },
+      { key: 2, value: 'Medium' },
+      { key: 3, value: 'Low' }
     ]
     this.dataListAssigne = [
       { key: 1, value: 'Tuan-VQ' },
@@ -60,6 +70,9 @@ export class TaskComponent implements OnInit {
   get assigneeControl() {
     return this.taskService.assigneeControl;
   }
+  get priorityControl() {
+    return this.taskService.priorityControl;
+  }
   get dateCreateControl() {
     return this.taskService.dateCreateControl;
   }
@@ -75,6 +88,16 @@ export class TaskComponent implements OnInit {
    * On init dialog
    */
   ngOnInit() {
+    // Event change get value task type
+    this.taskTypeControl?.valueChanges.subscribe(val => {
+      this.taskType = val;
+    });
+
+    // Event change get value task type
+    this.priorityControl?.valueChanges.subscribe(val => {
+      this.priority = val;
+    });
+
     if (this.data) this.isDelete = true
   }
 
@@ -98,7 +121,12 @@ export class TaskComponent implements OnInit {
 
       return;
     }
-    this.dialogRef.close({ isDelete: false, data: this.taskForm.value });
+
+    const dataForm: TaskModel = this.taskForm.value;
+    dataForm.taskType = this.taskType;
+    dataForm.priority = this.priority;
+
+    this.dialogRef.close({ isDelete: false, data: dataForm });
   }
 
   /**

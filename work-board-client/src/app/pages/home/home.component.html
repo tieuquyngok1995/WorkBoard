@@ -41,11 +41,11 @@
       <div class="col-task-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
         [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
         <div class="row" *ngFor="let task of initTask" cdkDrag>
-          <div class="card">
+          <div class="card" [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
             <div class="table">
               <div class="row row-text">
                 <div class="col">
-                  <h4 class="module-id text-danger">
+                  <h4 class="module-id">
                     <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
                   </h4>
                 </div>
@@ -55,16 +55,16 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeCoding">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeTesting">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeReview">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeFixBug">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
@@ -102,11 +102,11 @@
       <div class="col-task-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
         [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
         <div class="row" *ngFor="let task of inProgress" cdkDrag>
-          <div class="card">
+          <div class="card" [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
             <div class="table">
               <div class="row row-text">
                 <div class="col">
-                  <h4 class="module-id text-danger">
+                  <h4 class="module-id">
                     <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
                   </h4>
                 </div>
@@ -116,16 +116,16 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeCoding">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeTesting">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeReview">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeFixBug">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
@@ -163,11 +163,11 @@
       <div class="col-task-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
         [cdkDropListConnectedTo]="[newTaskList, inProgressList, completedList]" (cdkDropListDropped)="drop($event)">
         <div class="row" *ngFor="let task of pending" cdkDrag>
-          <div class="card">
+          <div class="card" [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
             <div class="table">
               <div class="row row-text">
                 <div class="col">
-                  <h4 class="module-id text-danger">
+                  <h4 class="module-id">
                     <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
                   </h4>
                 </div>
@@ -177,16 +177,16 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeCoding">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeTesting">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeReview">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeFixBug">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
@@ -224,11 +224,11 @@
       <div class="col-task-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
         [cdkDropListConnectedTo]="[newTaskList, inProgressList, pendingList]" (cdkDropListDropped)="drop($event)">
         <div class="row" *ngFor="let task of completed" cdkDrag>
-          <div class="card">
+          <div class="card" [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
             <div class="table">
               <div class="row row-text">
                 <div class="col">
-                  <h4 class="module-id text-danger">
+                  <h4 class="module-id">
                     <i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}
                   </h4>
                 </div>
@@ -238,16 +238,16 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskTypeId == TypeCoding">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeCoding">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type text-success" *ngIf="task.taskTypeId == TypeTesting">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeTesting">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type text-info" *ngIf="task.taskTypeId == TypeReview">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeReview">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type text-danger" *ngIf="task.taskTypeId == TypeFixBug">
+                  <h4 class="task-type" *ngIf="task.taskType == TypeFixBug">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>

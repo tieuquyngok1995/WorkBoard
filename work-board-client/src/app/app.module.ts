@@ -18,6 +18,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
 import { LoginComponent } from './pages/login/login.component';
 import { TaskComponent } from './pages/task/task.component';
+import { TaskProgressComponent } from './pages/task-progress/task-progress.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { TaskComponent } from './pages/task/task.component';
     HomeComponent,
     HeaderComponent,
     LoginComponent,
-    TaskComponent
+    TaskComponent,
+    TaskProgressComponent
   ],
   imports: [
     BrowserModule,

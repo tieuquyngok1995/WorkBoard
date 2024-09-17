@@ -323,8 +323,8 @@
   }
 
   100% {
-    -webkit-transform: rotate(var(--process-left));
-    transform: rotate(var(--process-left));
+    -webkit-transform: rotate(var(--progress-left));
+    transform: rotate(var(--progress-left));
   }
 }
 
@@ -335,8 +335,8 @@
   }
 
   100% {
-    -webkit-transform: rotate(var(--process-right));
-    transform: rotate(var(--process-right));
+    -webkit-transform: rotate(var(--progress-right));
+    transform: rotate(var(--progress-right));
   }
 }
 

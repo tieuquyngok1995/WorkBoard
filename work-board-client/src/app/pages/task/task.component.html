@@ -1,16 +1,15 @@
 <form [formGroup]="taskForm">
   <div class="title">Create Task</div>
-  <div class="subtitle">Let's create new task</div>
   <div class="input-container ic1">
     <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" "
       [ngClass]="{'input-validate': moduleIDControl?.invalid && (moduleIDControl?.dirty || moduleIDControl?.touched)}" />
-    <div class="cut cut-short1"></div>
+    <div class="cut cut-short2"></div>
     <label for="moduleID" class="placeholder">Module ID</label>
   </div>
 
   <div class="input-container ic2">
     <input id="taskName" class="input" type="text" formControlName="taskName" placeholder=" " />
-    <div class="cut"></div>
+    <div class="cut cut-short2"></div>
     <label for="taskName" class="placeholder">Task Name</label>
   </div>
 
@@ -18,7 +17,7 @@
     <input id="taskType" class="input" type="text" list="listTaskType" formControlName="taskType" placeholder=" "
       appPreventInput
       [ngClass]="{'input-validate': taskTypeControl?.invalid && (taskTypeControl?.dirty || taskTypeControl?.touched)}" />
-    <div class="cut cut-short2"></div>
+    <div class="cut cut-short3"></div>
     <label for="taskType" class="placeholder">Task Type</label>
     <datalist id="listTaskType">
       <option *ngFor="let data of dataListType" [value]="data.value"></option>
@@ -28,7 +27,7 @@
   <div class="input-container ic2">
     <input id="numRedmine" class="input" type="text" formControlName="numRedmine" placeholder=" "
       [ngClass]="{'input-validate': numRedmineControl?.invalid && (numRedmineControl?.dirty || numRedmineControl?.touched)}" />
-    <div class="cut cut-long1"></div>
+    <div class="cut cut-long2"></div>
     <label for="numRedmine" class="placeholder">Num Redmine</label>
   </div>
 
@@ -36,7 +35,7 @@
     <input id="assignee" class="input" type="text" list="userAssignee" formControlName="assignee" placeholder=" "
       appPreventInput
       [ngClass]="{'input-validate': assigneeControl?.invalid && (assigneeControl?.dirty || assigneeControl?.touched)}" />
-    <div class="cut cut-short1"></div>
+    <div class="cut cut-short3"></div>
     <label for="assignee" class="placeholder">Assignee</label>
     <datalist id="userAssignee">
       <option *ngFor="let data of dataListAssigne" [value]="data.value"></option>
@@ -66,7 +65,7 @@
   <div class="input-container ic2">
     <input id="estimatedHour" class="input" type="text" formControlName="estimatedHour" placeholder=" "
       [ngClass]="{'input-validate': estimatedHourControl?.invalid && (estimatedHourControl?.dirty || estimatedHourControl?.touched)}" />
-    <div class="cut cut-long2"></div>
+    <div class="cut cut-long3"></div>
     <label for="estimatedHour" class="placeholder">Estimated Hours</label>
   </div>
 
@@ -82,7 +81,7 @@
 
   <div class="input-container ic3">
     <textarea id="note" class="input" rows="2" formControlName="note" placeholder=" "></textarea>
-    <div class="cut cut-short1"></div>
+    <div class="cut cut-short4"></div>
     <label for="note" class="placeholder">Note</label>
   </div>
 

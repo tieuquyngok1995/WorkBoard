@@ -25,7 +25,9 @@ export interface TaskModel {
   assignee: string;
   priority: number;
   dateCreate: Date;
+  workHour: number;
   estimatedHour: number;
+  progress: number;
   dateDelivery: Date;
   note: string;
 }

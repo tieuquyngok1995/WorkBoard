@@ -7,6 +7,7 @@ import { MatOption } from '@angular/material/core';
 import { TaskComponent } from '../task/task.component';
 import { TaskModel } from 'src/app/core/model/model';
 import { ProgramMode } from 'src/app/core/enum/ProgramMode';
+import { TaskProgressComponent } from '../task-progress/task-progress.component';
 export interface DialogData {
   mode: ProgramMode;
   task?: TaskModel;
@@ -101,6 +102,22 @@ export class HomeComponent {
     });
   }
 
+  public getProgress(progress: number) {
+    progress = progress > 50 ? progress - 50 : progress;
+    return Math.round(progress * 1.8) + 'deg'
+  }
+
+  openDialogTaskProgress() {
+    this.dialog.open(TaskProgressComponent, {
+      disableClose: true,
+      minWidth: '300px',
+      data: {
+        mode: ProgramMode.CREATE
+      } as DialogData,
+    }).closed.subscribe((result: any) => {
+
+    });
+  }
 
 
   drop(event: CdkDragDrop<any[]>) {
@@ -137,90 +154,97 @@ export class HomeComponent {
         moduleID: '1',
         taskName: 'Get to work',
         taskType: 1,
-
         numRedmine: '',
         assignee: 'Duy-TranB',
         priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '2',
         taskName: 'Pick up groceries',
         taskType: 1,
-
         numRedmine: '',
         assignee: 'Thinh-NT',
         priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 1,
-
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 2,
-
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 2,
-
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 2,
-
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        progress: 0,
         note: ''
       },
       {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 3,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       },
@@ -228,12 +252,13 @@ export class HomeComponent {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 3,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 2,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       },
@@ -241,12 +266,13 @@ export class HomeComponent {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 3,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       },
@@ -254,12 +280,13 @@ export class HomeComponent {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 4,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       },
@@ -267,12 +294,13 @@ export class HomeComponent {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 4,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       },
@@ -280,51 +308,13 @@ export class HomeComponent {
         moduleID: '3',
         taskName: 'Go home',
         taskType: 4,
-
+        progress: 0,
         numRedmine: '',
         assignee: 'Tuan-VQ',
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
+        workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         note: ''
       }];
@@ -337,12 +327,13 @@ export class HomeComponent {
       moduleID: '3',
       taskName: 'Go home',
       taskType: 4,
-
+      progress: 30,
       numRedmine: '',
       assignee: 'Tuan-VQ',
       priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
+      workHour: 0,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
       note: ''
     }];
@@ -352,12 +343,13 @@ export class HomeComponent {
       moduleID: '3',
       taskName: 'Go home',
       taskType: 4,
-
+      progress: 60,
       numRedmine: '',
       assignee: 'Tuan-VQ',
       priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
+      workHour: 0,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
       note: ''
     }];
@@ -367,12 +359,13 @@ export class HomeComponent {
       moduleID: '3',
       taskName: 'Go home',
       taskType: 4,
-
+      progress: 90,
       numRedmine: '',
       assignee: 'Tuan-VQ',
       priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
+      workHour: 0,
       dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
       note: ''
     }];

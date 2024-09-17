@@ -41,14 +41,15 @@
       <div class="col-task-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
         [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
         <div class="row" *ngFor="let task of initTask" cdkDrag>
-          <div class="card" [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
+          <div class="card" (dblclick)="openDialog()"
+            [ngClass]="{ 'priority-high': task.priority == 1, 'priority-medium': task.priority == 2 }">
             <div class="table">
               <div class="row row-text">
                 <div class="fixed-module-id">
-                  <h4><i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}</h4>
+                  <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="openDialog()"><i class=" bi bi-gear-fill"></i></a>
+                  <a (click)="openDialog()"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div class="fixed-action">
                   <a (click)="openDialog()"><i class="bi bi-trash-fill"></i></a>
@@ -59,13 +60,14 @@
                   <h2> {{ task.taskName }} </h2>
                 </div>
                 <div class="progress blue">
-                  <span class="progress-left" [ngStyle]="{ '--process-left': '0deg' }">
+                  <span class="progress-left" [ngStyle]="{ '--progress-left': '0deg' }">
                     <span class="progress-bar"></span>
                   </span>
-                  <span class="progress-right" [ngStyle]="{'--process-right': '90deg' }">
+                  <span class="progress-right"
+                    [ngStyle]="{'--progress-right': task.progress >= 50 ? '180deg' : getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <div class="progress-value">100%</div>
+                  <div class="progress-value">{{ task.progress }}%</div>
                 </div>
                 <div class="col full-height"></div>
               </div>
@@ -122,10 +124,10 @@
             <div class="table">
               <div class="row row-text">
                 <div class="fixed-module-id">
-                  <h4><i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}</h4>
+                  <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="openDialog()"><i class=" bi bi-gear-fill"></i></a>
+                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div class="fixed-action">
                   <a (click)="openDialog()"><i class="bi bi-trash-fill"></i></a>
@@ -136,13 +138,15 @@
                   <h2> {{ task.taskName }} </h2>
                 </div>
                 <div class="progress blue">
-                  <span class="progress-left" [ngStyle]="{ '--process-left': '0deg' }">
+                  <span class="progress-left"
+                    [ngStyle]="{ '--progress-left': task.progress < 50 ? '0deg' :getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <span class="progress-right" [ngStyle]="{'--process-right': '90deg' }">
+                  <span class="progress-right"
+                    [ngStyle]="{'--progress-right': task.progress >= 50 ? '180deg' : getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <div class="progress-value">100%</div>
+                  <div class="progress-value">{{ task.progress }}%</div>
                 </div>
                 <div class="col full-height"></div>
               </div>
@@ -199,10 +203,10 @@
             <div class="table">
               <div class="row row-text">
                 <div class="fixed-module-id">
-                  <h4><i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}</h4>
+                  <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="openDialog()"><i class=" bi bi-gear-fill"></i></a>
+                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div class="fixed-action">
                   <a (click)="openDialog()"><i class="bi bi-trash-fill"></i></a>
@@ -213,13 +217,14 @@
                   <h2> {{ task.taskName }} </h2>
                 </div>
                 <div class="progress blue">
-                  <span class="progress-left" [ngStyle]="{ '--process-left': '120deg' }">
+                  <span class="progress-left" [ngStyle]="{ '--progress-left': getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <span class="progress-right" [ngStyle]="{'--process-right': '180deg' }">
+                  <span class="progress-right"
+                    [ngStyle]="{'--progress-right': task.progress >= 50 ? '180deg' : getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <div class="progress-value">100%</div>
+                  <div class="progress-value">{{ task.progress }}%</div>
                 </div>
                 <div class="col full-height"></div>
               </div>
@@ -276,10 +281,10 @@
             <div class="table">
               <div class="row row-text">
                 <div class="fixed-module-id">
-                  <h4><i class="bi bi-bookmark-dash"></i>&nbsp;{{ task.moduleID }}</h4>
+                  <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="openDialog()"><i class=" bi bi-gear-fill"></i></a>
+                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div class="fixed-action">
                   <a (click)="openDialog()"><i class="bi bi-trash-fill"></i></a>
@@ -290,13 +295,14 @@
                   <h2> {{ task.taskName }} </h2>
                 </div>
                 <div class="progress blue">
-                  <span class="progress-left" [ngStyle]="{ '--process-left': '0deg' }">
+                  <span class="progress-left" [ngStyle]="{ '--progress-left': getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <span class="progress-right" [ngStyle]="{'--process-right': '90deg' }">
+                  <span class="progress-right"
+                    [ngStyle]="{'--progress-right': task.progress >= 50 ? '180deg' : getProgress(task.progress) }">
                     <span class="progress-bar"></span>
                   </span>
-                  <div class="progress-value">100%</div>
+                  <div class="progress-value">{{ task.progress }}%</div>
                 </div>
                 <div class="col full-height"></div>
               </div>

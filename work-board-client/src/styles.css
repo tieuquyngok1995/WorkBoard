@@ -47,15 +47,23 @@ textarea {
 }
 
 .cut-short1 {
-  width: 68px !important;
+  width: 70px !important;
 }
 
 .cut-short2 {
-  width: 70px !important;
+  width: 68px !important;
 }
 
 .cut-short3 {
   width: 65px !important;
+}
+
+.cut-short4 {
+  width: 40px !important;
+}
+
+.cut-medium {
+  width: 78px !important;
 }
 
 .cut-long1 {
@@ -63,6 +71,10 @@ textarea {
 }
 
 .cut-long2 {
+  width: 87px !important;
+}
+
+.cut-long3 {
   width: 95px !important;
 }
 

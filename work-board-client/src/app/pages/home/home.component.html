@@ -50,7 +50,7 @@
                 </div>
                 <div class="fixed-action"></div>
                 <div class="fixed-action">
-                  <a (click)="editTaskDialog(task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.WAITING, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">
@@ -127,10 +127,10 @@
                   <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
+                  <a (click)="editTaskProgressDialog(task.moduleID)"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div class="fixed-action">
-                  <a (click)="editTaskDialog(task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.PROGRESS, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">
@@ -206,11 +206,9 @@
                 <div class="fixed-module-id">
                   <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
+                <div class="fixed-action"></div>
                 <div class="fixed-action">
-                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
-                </div>
-                <div class="fixed-action">
-                  <a (click)="editTaskDialog(task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.PENDING, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">
@@ -285,12 +283,6 @@
               <div class="row row-text">
                 <div class="fixed-module-id">
                   <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
-                </div>
-                <div class="fixed-action">
-                  <a (click)="openDialogTaskProgress()"><i class="bi bi-pencil-square"></i></a>
-                </div>
-                <div class="fixed-action">
-                  <a (click)="editTaskDialog(task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">

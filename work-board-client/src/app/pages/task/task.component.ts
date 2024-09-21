@@ -1,12 +1,14 @@
 import { FormGroup } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { TaskService } from './task.service';
+
+import { ProgramMode } from '../../core/enum/enums';
+import { UtilsService } from '../../core/services/utils.service';
+import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
-import { ProgramMode } from 'src/app/core/enum/enums';
-import { UtilsService } from 'src/app/core/services/utils.service';
+
+import { TaskService } from './task.service';
 
 @Component({
   selector: 'app-dialog-add-task',
@@ -21,9 +23,6 @@ export class TaskComponent implements OnInit {
   public dataListType!: DataListOption[];
   public dataListPriority!: DataListOption[];
   public dataListAssigne!: DataListOption[];
-
-  private taskType!: number;
-  private priority!: number;
 
   /**
    * Initialize and set base values.

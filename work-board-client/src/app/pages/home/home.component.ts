@@ -6,10 +6,12 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 
 import { TaskDialog, TaskModel } from '../../core/model/model';
-import { ProgramMode, TaskType, TaskPriority } from '../../core/enum/enums';
+import { ProgramMode, TaskType, TaskPriority, JobStatus } from '../../core/enum/enums';
 
 import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
+import { MessageService } from 'src/app/shared/service/message.service';
+import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +20,7 @@ import { TaskProgressComponent } from '../task-progress/task-progress.component'
 })
 export class HomeComponent {
 
+  public readonly Status = JobStatus
   public readonly TaskType = TaskType;
   public readonly TaskPriority = TaskPriority;
 
@@ -51,7 +54,13 @@ export class HomeComponent {
    * @param dialog 
    * @param formBuilder 
    */
-  constructor(public dialog: Dialog, private formBuilder: FormBuilder) {
+  constructor(
+    private dialog: Dialog,
+    private messageService: MessageService,
+    private confirmDialogService: DialogMessageService,
+
+
+    private formBuilder: FormBuilder) {
     this.filterForm = new FormGroup({
       assignee: new FormControl<string[]>(['']),
       taskName: new FormControl(''),
@@ -117,7 +126,7 @@ export class HomeComponent {
   }
 
   /**
-   * Edit the created task with the value of the module ID.
+   * Edit the task with the value of the module ID.
    * @param moduleID 
    */
   editTaskDialog(moduleID: string) {
@@ -146,6 +155,36 @@ export class HomeComponent {
     });
   }
 
+  public deleteTask(mode: JobStatus, moduleID: string): void {
+    this.confirmDialogService.openDialog(this.messageService.getMessage('C001'), true).subscribe(result => {
+      if (!result) return;
+
+      if (mode === JobStatus.WAITING) {
+        this.initTask = this.initTask.filter(obj => obj.moduleID !== moduleID);
+      } else if (mode === JobStatus.PROGRESS) {
+        this.inProgress = this.inProgress.filter(obj => obj.moduleID !== moduleID);
+      } else if (mode === JobStatus.PENDING) {
+        this.pending = this.pending.filter(obj => obj.moduleID !== moduleID);
+      }
+    });
+  }
+  /**
+   * Edit task progress with the value of the module ID.
+   * @param moduleID 
+   */
+  editTaskProgressDialog(moduleID: string) {
+    let data = this.inProgress.find(obj => obj.moduleID === moduleID);
+
+    this.dialog.open(TaskProgressComponent, {
+      disableClose: true,
+      minWidth: this.sizeDialog,
+      data: { data } as TaskDialog,
+    }).closed.subscribe((result: any) => {
+      if (result) {
+        this.inProgress = this.inProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...result.data } : obj);
+      }
+    });
+  }
 
   private subscriptionFunction() {
     this.filterForm.controls['assignee'].valueChanges.subscribe(valueFilter => {
@@ -175,18 +214,6 @@ export class HomeComponent {
   public getProgress(progress: number) {
     progress = progress > 50 ? progress - 50 : progress;
     return Math.round(progress * 3.6) + 'deg'
-  }
-
-  openDialogTaskProgress() {
-    this.dialog.open(TaskProgressComponent, {
-      disableClose: true,
-      minWidth: this.sizeDialog,
-      data: {
-        mode: ProgramMode.CREATE
-      } as TaskDialog,
-    }).closed.subscribe((result: any) => {
-
-    });
   }
 
 
@@ -270,167 +297,15 @@ export class HomeComponent {
         listAssignee: null,
         listPriority: null,
         listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 2,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 1,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        progress: 0,
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 2,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 2,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        progress: 0,
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 2,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        progress: 0,
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 3,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 1,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 3,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 2,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 3,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      },
-      {
-        moduleID: '3',
-        taskName: 'Go home',
-        taskType: 4,
-        progress: 0,
-        numRedmine: '',
-        assignee: 'Tuan-VQ',
-        priority: 3,
-        dateCreate: new Date(),
-        estimatedHour: 2,
-        workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
-      }];
+      }
+    ];
   }
 
 
 
   initInProgress = [
     {
-      moduleID: '3',
+      moduleID: '4',
       taskName: 'Go home',
       taskType: 4,
       progress: 30,
@@ -446,7 +321,7 @@ export class HomeComponent {
 
   initPending = [
     {
-      moduleID: '3',
+      moduleID: '5',
       taskName: 'Go home',
       taskType: 4,
       progress: 60,
@@ -462,7 +337,7 @@ export class HomeComponent {
 
   initCompleted = [
     {
-      moduleID: '3',
+      moduleID: '6',
       taskName: 'Go home',
       taskType: 4,
       progress: 90,

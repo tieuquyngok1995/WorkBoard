@@ -30,9 +30,9 @@ export interface TaskModel {
   priority: number | null;
   listPriority: DataListOption[] | null;
   dateCreate: Date | null;
-  workHour: number | 0;
+  workHour: number;
   estimatedHour: number | null;
-  progress: number | 0;
+  progress: number;
   dateDelivery: Date | null;
   note: string | null;
 }

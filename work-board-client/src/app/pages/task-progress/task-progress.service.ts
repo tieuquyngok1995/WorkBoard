@@ -8,15 +8,27 @@ import { TaskModel } from '../../core/model/model';
 })
 export class TaskProgressService {
 
-  private form: FormGroup;
+  private form!: FormGroup;
 
   /**
-   * Initialize and set base values
+   * Initialize and set base values.
    * @param fb Form Builder
    */
-  constructor(private fb: FormBuilder) {
-    this.form = this.createFormGroup();
-  }
+  constructor(private fb: FormBuilder) { }
+
+  get taskProgressForm(): FormGroup { return this.form = this.createFormGroup() }
+
+  get workHour() { return this.form.get('workHour') }
+
+  get progress() { return this.form.get('progress') }
+
+  get note() { return this.form.get('note') }
+
+  /**
+   * Reset form
+   * @param form 
+   */
+  public resetForm(): void { this.form.reset }
 
   /**
    * Initialize FormGroup
@@ -30,12 +42,4 @@ export class TaskProgressService {
       note: [taskProgress?.note || null],
     });
   }
-
-  get taskProgressForm(): FormGroup { return this.form }
-
-  get workHourControl() { return this.form.get('workHour') }
-
-  get progressControl() { return this.form.get('progress') }
-
-  updateForm(taskProgress: TaskModel) { this.form.patchValue(taskProgress) }
 }

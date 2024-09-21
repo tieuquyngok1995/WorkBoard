@@ -1,9 +1,7 @@
 export enum ProgramMode {
-    INIT,
     CREATE,
     EDIT,
-    READ,
-    LIST
+    READ
 }
 
 export enum TaskPriority {
@@ -17,4 +15,11 @@ export enum TaskType {
     TESTING,
     REVIEW,
     FIXBUG
+}
+
+export enum JobStatus {
+    WAITING,
+    PROGRESS,
+    PENDING,
+    DONE
 }

@@ -35,6 +35,18 @@ export class TaskService {
   get dateDelivery() { return this.form.get('dateDelivery') }
 
   /**
+   * Update value to form
+   * @param task 
+   */
+  public updateForm(task: TaskModel): void { this.form.patchValue(task) }
+
+  /**
+   * Reset form
+   * @param form 
+   */
+  public resetForm(): void { this.form.reset }
+
+  /**
    * Initialize Form
    * @param task 
    * @returns Form
@@ -53,16 +65,4 @@ export class TaskService {
       note: [task?.note || null],
     });
   }
-
-  /**
-   * Update value to form
-   * @param task 
-   */
-  updateForm(task: TaskModel) { this.form.patchValue(task) }
-
-  /**
-   * Reset form
-   * @param form 
-   */
-  resetForm() { this.form.reset }
 }

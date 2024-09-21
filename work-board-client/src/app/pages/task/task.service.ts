@@ -8,20 +8,36 @@ import { TaskModel } from '../../core/model/model';
 })
 export class TaskService {
 
-  private form: FormGroup;
+  private form!: FormGroup;
 
   /**
-   * Initialize and set base values
+   * Initialize and set base values.
    * @param fb Form Builder
    */
-  constructor(private fb: FormBuilder) {
-    this.form = this.createFormGroup();
-  }
+  constructor(private fb: FormBuilder) { }
+
+  get taskForm(): FormGroup { return this.form = this.createFormGroup(); }
+
+  get moduleID() { return this.form.get('moduleID') }
+
+  get taskType() { return this.form.get('taskType') }
+
+  get numRedmine() { return this.form.get('numRedmine') }
+
+  get assignee() { return this.form.get('assignee') }
+
+  get priority() { return this.form.get('priority') }
+
+  get dateCreate() { return this.form.get('dateCreate') }
+
+  get estimatedHour() { return this.form.get('estimatedHour') }
+
+  get dateDelivery() { return this.form.get('dateDelivery') }
 
   /**
-   * Initialize FormGroup
+   * Initialize Form
    * @param task 
-   * @returns FormGroup
+   * @returns Form
    */
   private createFormGroup(task?: TaskModel): FormGroup {
     return this.fb.group({
@@ -31,30 +47,22 @@ export class TaskService {
       numRedmine: [task?.numRedmine || null, Validators.pattern("^[0-9]*$")],
       assignee: [task?.assignee || null, Validators.required],
       priority: [task?.priority || null],
-      dateCreate: [task?.dateCreate || '', Validators.required],
-      estimatedHour: [task?.estimatedHour || '', [Validators.required, Validators.pattern("^[0-9]*$")]],
-      dateDelivery: [task?.dateDelivery || '', Validators.required],
+      dateCreate: [task?.dateCreate || null, Validators.required],
+      estimatedHour: [task?.estimatedHour || null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      dateDelivery: [task?.dateDelivery || null, Validators.required],
       note: [task?.note || null],
     });
   }
 
-  get taskForm(): FormGroup { return this.form }
-
-  get moduleIDControl() { return this.form.get('moduleID') }
-
-  get taskTypeControl() { return this.form.get('taskType') }
-
-  get numRedmineControl() { return this.form.get('numRedmine') }
-
-  get assigneeControl() { return this.form.get('assignee') }
-
-  get priorityControl() { return this.form.get('priority') }
-
-  get dateCreateControl() { return this.form.get('dateCreate') }
-
-  get estimatedHourControl() { return this.form.get('estimatedHour') }
-
-  get dateDeliveryControl() { return this.form.get('dateDelivery') }
-
+  /**
+   * Update value to form
+   * @param task 
+   */
   updateForm(task: TaskModel) { this.form.patchValue(task) }
+
+  /**
+   * Reset form
+   * @param form 
+   */
+  resetForm() { this.form.reset }
 }

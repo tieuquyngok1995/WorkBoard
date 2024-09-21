@@ -1,18 +1,15 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { Component } from '@angular/core';
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
-import { MatCheckbox, MatCheckboxChange } from '@angular/material/checkbox';
-import { MatOption } from '@angular/material/core';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+
+
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
+
+import { TaskDialog, TaskModel } from '../../core/model/model';
+import { ProgramMode, TaskType, TaskPriority } from '../../core/enum/enums';
+
 import { TaskComponent } from '../task/task.component';
-import { TaskModel } from 'src/app/core/model/model';
-import { ProgramMode } from 'src/app/core/enum/ProgramMode';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
-export interface DialogData {
-  mode: ProgramMode;
-  task?: TaskModel;
-  index?: number;
-}
 
 @Component({
   selector: 'app-home',
@@ -21,10 +18,12 @@ export interface DialogData {
 })
 export class HomeComponent {
 
-  public readonly TypeCoding: number = 1;
-  public readonly TypeTesting: number = 2;
-  public readonly TypeReview: number = 3;
-  public readonly TypeFixBug: number = 4;
+  public readonly TaskType = TaskType;
+  public readonly TaskPriority = TaskPriority;
+
+  private readonly sizeDialog = '300px';
+  private readonly dataDialog!: TaskModel;
+
 
   allAssignees = [
     {
@@ -47,6 +46,11 @@ export class HomeComponent {
   filterForm: FormGroup;
   initTask: TaskModel[] = [];
 
+  /**
+   * Register and initialize.
+   * @param dialog 
+   * @param formBuilder 
+   */
   constructor(public dialog: Dialog, private formBuilder: FormBuilder) {
     this.filterForm = new FormGroup({
       assignee: new FormControl<string[]>(['']),
@@ -59,7 +63,89 @@ export class HomeComponent {
     this.subscriptionFunction();
     this.initDataTest();
 
+
+    // TODO:
+    this.dataDialog = {
+      moduleID: '',
+      taskName: null,
+      taskType: null,
+      numRedmine: null,
+      assignee: null,
+      priority: null,
+      dateCreate: null,
+      estimatedHour: 0,
+      workHour: 0,
+      dateDelivery: null,
+      progress: 0,
+      note: null,
+      listTaskType: [
+        { key: 0, value: 'Coding' },
+        { key: 1, value: 'Review' },
+        { key: 2, value: 'Testing' },
+        { key: 3, value: 'Fixbug' }
+      ],
+      listPriority: [
+        { key: 0, value: 'High' },
+        { key: 1, value: 'Medium' },
+        { key: 2, value: 'Low' }
+      ],
+      listAssignee: [
+        { key: 0, value: 'Tuan-VQ' },
+        { key: 1, value: 'Thinh-NT' },
+        { key: 2, value: 'Duy-PNA' },
+        { key: 3, value: 'Hieu-MTH' }
+      ]
+    }
   }
+
+  /**
+   * Open and process creating a new task.
+   */
+  addTaskDialog() {
+    this.dialog.open(TaskComponent, {
+      disableClose: true,
+      minWidth: this.sizeDialog,
+      data: {
+        mode: ProgramMode.CREATE,
+        data: this.dataDialog
+      } as TaskDialog,
+    }).closed.subscribe((result: any) => {
+      if (result) {
+        this.initTask = [result.data, ...this.initTask];
+      }
+    });
+  }
+
+  /**
+   * Edit the created task with the value of the module ID.
+   * @param moduleID 
+   */
+  editTaskDialog(moduleID: string) {
+    const data = this.initTask.find(obj => obj.moduleID === moduleID);
+
+    this.dialog.open(TaskComponent, {
+      disableClose: true,
+      minWidth: this.sizeDialog,
+      data: {
+        mode: ProgramMode.EDIT,
+        data: {
+          ...data,
+          listAssignee: this.dataDialog.listAssignee,
+          listPriority: this.dataDialog.listPriority,
+          listTaskType: this.dataDialog.listTaskType
+        }
+      } as TaskDialog,
+    }).closed.subscribe((result: any) => {
+      if (result) {
+        if (result.isDelete) {
+          this.initTask = this.initTask.filter(obj => obj.moduleID !== moduleID);
+        } else {
+          this.initTask = this.initTask.map(obj => obj.moduleID === moduleID ? { ...obj, ...result.data } : obj);
+        }
+      }
+    });
+  }
+
 
   private subscriptionFunction() {
     this.filterForm.controls['assignee'].valueChanges.subscribe(valueFilter => {
@@ -86,34 +172,18 @@ export class HomeComponent {
     }
   }
 
-
-  openDialog() {
-    this.dialog.open(TaskComponent, {
-      disableClose: true,
-      minWidth: '300px',
-      data: {
-        mode: ProgramMode.CREATE
-      } as DialogData,
-    }).closed.subscribe((result: any) => {
-      if (!result.isDelete) {
-        this.initTask = [result.data, ...this.initTask];
-        //this.applyFilter();
-      }
-    });
-  }
-
   public getProgress(progress: number) {
     progress = progress > 50 ? progress - 50 : progress;
-    return Math.round(progress * 1.8) + 'deg'
+    return Math.round(progress * 3.6) + 'deg'
   }
 
   openDialogTaskProgress() {
     this.dialog.open(TaskProgressComponent, {
       disableClose: true,
-      minWidth: '300px',
+      minWidth: this.sizeDialog,
       data: {
         mode: ProgramMode.CREATE
-      } as DialogData,
+      } as TaskDialog,
     }).closed.subscribe((result: any) => {
 
     });
@@ -153,30 +223,36 @@ export class HomeComponent {
       {
         moduleID: '1',
         taskName: 'Get to work',
-        taskType: 1,
+        taskType: 0,
         numRedmine: '',
         assignee: 'Duy-TranB',
-        priority: 1,
-        dateCreate: new Date(),
+        priority: 0,
+        dateCreate: new Date('2024/09/11'),
         estimatedHour: 2,
         workHour: 0,
-        dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
+        dateDelivery: new Date('2024/09/23'),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '2',
         taskName: 'Pick up groceries',
-        taskType: 1,
+        taskType: 0,
         numRedmine: '',
         assignee: 'Thinh-NT',
-        priority: 2,
+        priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -190,7 +266,10 @@ export class HomeComponent {
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -204,7 +283,10 @@ export class HomeComponent {
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -218,7 +300,10 @@ export class HomeComponent {
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -232,7 +317,10 @@ export class HomeComponent {
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -246,7 +334,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -260,7 +351,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -274,7 +368,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -288,7 +385,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -302,7 +402,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       },
       {
         moduleID: '3',
@@ -316,7 +419,10 @@ export class HomeComponent {
         estimatedHour: 2,
         workHour: 0,
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
-        note: ''
+        note: '',
+        listAssignee: null,
+        listPriority: null,
+        listTaskType: null
       }];
   }
 

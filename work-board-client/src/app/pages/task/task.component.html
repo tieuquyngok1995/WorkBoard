@@ -1,7 +1,7 @@
 <form [formGroup]="taskForm">
-  <div class="title">Create Task</div>
+  <div class="title">{{ title }}</div>
   <div class="input-container ic1">
-    <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" "
+    <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" " [readonly]="isEdit"
       [ngClass]="{'input-validate': moduleIDControl?.invalid && (moduleIDControl?.dirty || moduleIDControl?.touched)}" />
     <div class="cut cut-short2"></div>
     <label for="moduleID" class="placeholder">Module ID</label>
@@ -63,7 +63,7 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="estimatedHour" class="input" type="text" formControlName="estimatedHour" placeholder=" "
+    <input id="estimatedHour" class="input" type="number" formControlName="estimatedHour" placeholder=" "
       [ngClass]="{'input-validate': estimatedHourControl?.invalid && (estimatedHourControl?.dirty || estimatedHourControl?.touched)}" />
     <div class="cut cut-long3"></div>
     <label for="estimatedHour" class="placeholder">Estimated Hours</label>
@@ -87,7 +87,7 @@
 
   <div class="row justify-content-center pt-3">
     <button class="col-3 btn btn-outline-info mr-4" (click)="save()">Save</button>
-    <button class="col-3 btn btn-outline-danger" [disabled]="isDelete" (click)="delete()">Delete</button>
+    <button class="col-3 btn btn-outline-danger" [disabled]="!isEdit" (click)="delete()">Delete</button>
     <button class="col-3 btn btn-outline-secondary ml-4" (click)="cancel()">Cancel</button>
   </div>
 </form>

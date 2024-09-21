@@ -1,3 +1,5 @@
+import { ProgramMode } from "../enum/enums";
+
 export interface DataListOption {
   key: number;
   value: string;
@@ -19,15 +21,24 @@ export interface UserModel {
 
 export interface TaskModel {
   moduleID: string;
-  taskName: string;
-  taskType: number;
+  taskName: string | null;
+  taskType: number | null;
+  listTaskType: DataListOption[] | null;
   numRedmine: string | null;
-  assignee: string;
-  priority: number;
-  dateCreate: Date;
-  workHour: number;
-  estimatedHour: number;
-  progress: number;
-  dateDelivery: Date;
-  note: string;
+  assignee: string | null;
+  listAssignee: DataListOption[] | null;
+  priority: number | null;
+  listPriority: DataListOption[] | null;
+  dateCreate: Date | null;
+  workHour: number | 0;
+  estimatedHour: number | null;
+  progress: number | 0;
+  dateDelivery: Date | null;
+  note: string | null;
+}
+
+export interface TaskDialog {
+  mode?: ProgramMode;
+  isDelete?: boolean;
+  data?: TaskModel;
 }

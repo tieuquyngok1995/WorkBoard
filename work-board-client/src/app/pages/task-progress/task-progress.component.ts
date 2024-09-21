@@ -1,9 +1,9 @@
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { DialogData } from '../home/home.component';
 import { TaskModel } from '../home/home.model';
 import { FormGroup } from '@angular/forms';
 import { TaskProgressService } from './task-progress.service';
+import { TaskDialog } from 'src/app/core/model/model';
 
 @Component({
   selector: 'app-task-progress',
@@ -23,10 +23,9 @@ export class TaskProgressComponent implements OnInit {
    * @param taskService 
    */
   constructor(
-    @Inject(DIALOG_DATA) public data: DialogData,
+    @Inject(DIALOG_DATA) public data: TaskDialog,
     public dialogRef: DialogRef<{ isDelete: boolean, data: TaskModel, index?: number }>,
     private taskProgressService: TaskProgressService) {
-
     this.taskProgressForm = this.taskProgressService.taskProgressForm;
   }
 

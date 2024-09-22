@@ -33,5 +33,12 @@ namespace WorkBoardServer.Services
                 return connection.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
             }
         }
+        public int ExecuteNonQuery(string storedProcedureName, object parameters = null, int timeOut = 30)
+        {
+            using (var connection = CreateConnection())
+            {
+                return connection.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: timeOut);
+            }
+        }
     }
 }

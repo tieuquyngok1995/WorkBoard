@@ -87,18 +87,18 @@ export class HomeComponent {
       dateDelivery: null,
       progress: 0,
       note: null,
-      listTaskType: [
+      dataTaskType: [
         { key: 0, value: 'Coding' },
         { key: 1, value: 'Review' },
         { key: 2, value: 'Testing' },
         { key: 3, value: 'Fixbug' }
       ],
-      listPriority: [
+      dataPriority: [
         { key: 0, value: 'High' },
         { key: 1, value: 'Medium' },
         { key: 2, value: 'Low' }
       ],
-      listAssignee: [
+      dataAssignee: [
         { key: 0, value: 'Tuan-VQ' },
         { key: 1, value: 'Thinh-NT' },
         { key: 2, value: 'Duy-PNA' },
@@ -139,9 +139,9 @@ export class HomeComponent {
         mode: ProgramMode.EDIT,
         data: {
           ...data,
-          listAssignee: this.dataDialog.listAssignee,
-          listPriority: this.dataDialog.listPriority,
-          listTaskType: this.dataDialog.listTaskType
+          dataAssignee: this.dataDialog.dataAssignee,
+          dataPriority: this.dataDialog.dataPriority,
+          dataTaskType: this.dataDialog.dataTaskType
         }
       } as TaskDialog,
     }).closed.subscribe((result: any) => {
@@ -260,9 +260,9 @@ export class HomeComponent {
         dateDelivery: new Date('2024/09/23'),
         progress: 0,
         note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
+        dataAssignee: null,
+        dataPriority: null,
+        dataTaskType: null
       },
       {
         moduleID: '2',
@@ -277,9 +277,9 @@ export class HomeComponent {
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
         note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
+        dataAssignee: null,
+        dataPriority: null,
+        dataTaskType: null
       },
       {
         moduleID: '3',
@@ -294,9 +294,9 @@ export class HomeComponent {
         dateDelivery: new Date(new Date().getTime() + 60 * 60 * 1000 * 24),
         progress: 0,
         note: '',
-        listAssignee: null,
-        listPriority: null,
-        listTaskType: null
+        dataAssignee: null,
+        dataPriority: null,
+        dataTaskType: null
       }
     ];
   }

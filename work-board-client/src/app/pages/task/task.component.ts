@@ -77,9 +77,9 @@ export class TaskComponent implements OnInit {
     this.taskService.resetForm();
 
     if (this.dialog.data) {
-      this.dataListAssigne = this.dialog.data.listAssignee ?? [];
-      this.dataListPriority = this.dialog.data.listPriority ?? [];
-      this.dataListType = this.dialog.data.listTaskType ?? [];
+      this.dataListAssigne = this.dialog.data.dataAssignee ?? [];
+      this.dataListPriority = this.dialog.data.dataPriority ?? [];
+      this.dataListType = this.dialog.data.dataTaskType ?? [];
 
       if (this.dialog.mode === ProgramMode.EDIT) {
         this.title = 'Edit Task';

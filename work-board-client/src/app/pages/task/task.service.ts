@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
 
 import { TaskModel } from '../../core/model/model';
 
@@ -53,16 +53,16 @@ export class TaskService {
    */
   private createFormGroup(task?: TaskModel): FormGroup {
     return this.fb.group({
-      moduleID: [task?.moduleID || null, Validators.required],
-      taskName: [task?.taskName || null],
+      moduleID: [task?.moduleID || null, [Validators.required, Validators.maxLength(20)]],
+      taskName: [task?.taskName || null, Validators.maxLength(100)],
       taskType: [task?.taskType || null, Validators.required],
-      numRedmine: [task?.numRedmine || null, Validators.pattern("^[0-9]*$")],
+      numRedmine: [task?.numRedmine || null, [Validators.pattern("^[0-9]*$"), Validators.max(9999999)]],
       assignee: [task?.assignee || null, Validators.required],
       priority: [task?.priority || null],
       dateCreate: [task?.dateCreate || null, Validators.required],
-      estimatedHour: [task?.estimatedHour || null, [Validators.required, Validators.pattern("^[0-9]*$")]],
+      estimatedHour: [task?.estimatedHour || null, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.max(9999999)]],
       dateDelivery: [task?.dateDelivery || null, Validators.required],
-      note: [task?.note || null],
+      note: [task?.note || null, Validators.maxLength(1000)],
     });
   }
 }

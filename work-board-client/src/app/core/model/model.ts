@@ -23,12 +23,12 @@ export interface TaskModel {
   moduleID: string;
   taskName: string | null;
   taskType: number | null;
-  listTaskType: DataListOption[] | null;
+  dataTaskType: DataListOption[] | null;
   numRedmine: string | null;
   assignee: string | null;
-  listAssignee: DataListOption[] | null;
+  dataAssignee: DataListOption[] | null;
   priority: number | null;
-  listPriority: DataListOption[] | null;
+  dataPriority: DataListOption[] | null;
   dateCreate: Date | null;
   workHour: number;
   estimatedHour: number | null;
@@ -41,4 +41,22 @@ export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;
   data?: TaskModel;
+}
+
+class CreateTaskModel implements TaskModel {
+  moduleID = '';
+  taskName = null;
+  taskType = null;
+  dataTaskType = null;
+  numRedmine = null;
+  assignee = null;
+  dataAssignee = null;
+  priority = null;
+  dataPriority = null;
+  dateCreate = null;
+  workHour = 0;
+  estimatedHour = null;
+  progress = 0;
+  dateDelivery = null;
+  note = null;
 }

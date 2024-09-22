@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
+import { LoadingService } from './core/services/loading.service';
 
 @Component({
   selector: 'app-root',
@@ -7,12 +8,15 @@ import { AuthService } from './core/services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'work-board-client';
+
+  public loading = this.loadingService.loading$;
 
   /**
    * Initialize and set base values
    */
-  constructor(private authService: AuthService) {
+  constructor(
+    private authService: AuthService,
+    private loadingService: LoadingService) {
 
   }
 

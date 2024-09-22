@@ -3,6 +3,19 @@ body {
   margin: 0 !important;
 }
 
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgb(91 86 86 / 70%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
 .full-page {
   height: 100vh;
   min-height: 100vh;

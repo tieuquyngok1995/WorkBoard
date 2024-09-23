@@ -1,5 +1,4 @@
 CREATE PROCEDURE CreateTask
-	@UserUpdate varchar(25),
     @data TaskType READONLY
 AS
 BEGIN
@@ -15,9 +14,10 @@ BEGIN
         ,[EstimatedHour]
         ,[Progress]
         ,[DateDelivery]
+        ,[Note]
+		,[JobStatus]
         ,[UserUpdate]
-        ,[DateUpdate]
-        ,[Note])
+        ,[DateUpdate])
 	SELECT 
 		 ModuleID
 		,TaskName
@@ -30,8 +30,9 @@ BEGIN
 		,EstimatedHour
 		,0
 		,DateDelivery
-		,@UserUpdate
-		, GETDATE()
 		,Note
+		,0
+		, null
+		, null
     FROM @data
 END

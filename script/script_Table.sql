@@ -32,9 +32,10 @@ create table Task (
 	EstimatedHour smallint,
 	Progress smallint,
 	DateDelivery date,
+	Note nvarchar(max),
+	JobStatus smallint not null ,
 	UserUpdate varchar(25),
-	DateUpdate date,
-	Note nvarchar(max)
+	DateUpdate date
 	FOREIGN KEY (Assignee) REFERENCES dbo.Users(UserID)          
 );
 

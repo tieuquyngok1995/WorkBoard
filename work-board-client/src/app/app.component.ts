@@ -12,7 +12,7 @@ export class AppComponent {
   public loading = this.loadingService.loading$;
 
   /**
-   * Initialize and set base values
+   * Initialize and s
    */
   constructor(
     private authService: AuthService,

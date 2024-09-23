@@ -10,18 +10,18 @@ namespace WorkBoardServer.Models
         public string? TaskName { get; set; }
 
         [Required(ErrorMessage = "Task Type is required.")]
-        public int TaskType { get; set; }
+        public short TaskType { get; set; }
 
         public DataListOption[]? DataTaskType { get; set; }
 
-        public string? NumRedmine { get; set; }
+        public int? NumRedmine { get; set; }
 
         [Required(ErrorMessage = "Assignee is required.")]
-        public string Assignee { get; set; }
+        public short Assignee { get; set; }
 
         public DataListOption[]? DataAssignee { get; set; }
 
-        public int? Priority { get; set; }
+        public short? Priority { get; set; }
 
         public DataListOption[]? DataPriority { get; set; }
 
@@ -31,7 +31,7 @@ namespace WorkBoardServer.Models
         public int? WorkHour { get; set; }
 
         [Required(ErrorMessage = "Estimated Hour is required.")]
-        public int EstimatedHour { get; set; }
+        public short EstimatedHour { get; set; }
 
         public int? Progress { get; set; }
 

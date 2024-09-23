@@ -14,13 +14,10 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="taskType" class="input" type="text" list="listTaskType" formControlName="taskType" placeholder=" "
-      appPreventInput appInputValidation />
+    <input id="taskType" class="input" type="text" formControlName="taskType" placeholder=" " appPreventInput
+      appDataList [DataList]="dataListType" appInputValidation />
     <div class="cut cut-short3"></div>
     <label for="taskType" class="placeholder">Task Type</label>
-    <datalist id="listTaskType">
-      <option *ngFor="let data of dataListType" [value]="data.value"></option>
-    </datalist>
   </div>
 
   <div class="input-container ic2">
@@ -30,23 +27,17 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="assignee" class="input" type="text" list="userAssignee" formControlName="assignee" placeholder=" "
-      appPreventInput appInputValidation />
+    <input id="assignee" class="input" type="text" formControlName="assignee" placeholder=" " appPreventInput
+      appDataList [DataList]="dataListAssigne" appInputValidation />
     <div class="cut cut-short3"></div>
     <label for="assignee" class="placeholder">Assignee</label>
-    <datalist id="userAssignee">
-      <option *ngFor="let data of dataListAssigne" [value]="data.value"></option>
-    </datalist>
   </div>
 
   <div class="input-container ic2">
-    <input id="priority" class="input" type="text" list="priorityLevel" formControlName="priority" placeholder=" "
-      appPreventInput />
+    <input id="priority" class="input" type="text" formControlName="priority" placeholder=" " appPreventInput
+      appDataList [DataList]="dataListPriority" />
     <div class="cut cut-long1"></div>
     <label for="priority" class="placeholder">Priority Level</label>
-    <datalist id="priorityLevel">
-      <option *ngFor="let data of dataListPriority" [value]="data.value"></option>
-    </datalist>
   </div>
 
   <div class="input-container ic2">

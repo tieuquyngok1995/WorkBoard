@@ -76,7 +76,6 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.loginService.signUpFormGetValue;
-    model.token = '';
     this.authService.signUp(model).subscribe(result => {
       if (result) {
         this.navigationService.navigateTo('/');

@@ -25,7 +25,7 @@ export interface TaskModel {
   taskType: number | null;
   dataTaskType: DataListOption[] | null;
   numRedmine: string | null;
-  assignee: string | null;
+  assignee: number | null;
   dataAssignee: DataListOption[] | null;
   priority: number | null;
   dataPriority: DataListOption[] | null;

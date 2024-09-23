@@ -87,8 +87,6 @@ export class TaskComponent implements OnInit {
         this.isEdit = true;
 
         this.taskService.updateForm(this.dialog.data)
-        this.taskTypeControl?.setValue(this.utilsService.getValueDataList(this.dialog.data.taskType ?? 0, this.dataListType));
-        this.priorityControl?.setValue(this.utilsService.getValueDataList(this.dialog.data.priority ?? 0, this.dataListPriority));
       }
     }
   }
@@ -114,10 +112,6 @@ export class TaskComponent implements OnInit {
     }
 
     const dataForm: TaskModel = this.taskForm.value;
-    dataForm.taskType = this.utilsService.getKeyDataList(this.taskTypeControl?.value, this.dataListType);
-    dataForm.priority = this.utilsService.getKeyDataList(this.priorityControl?.value, this.dataListPriority);
-    dataForm.workHour = 0;
-    dataForm.progress = 0;
 
     this.dialogRef.close({ data: dataForm });
   }

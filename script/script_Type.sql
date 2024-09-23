@@ -3,13 +3,13 @@ DROP TYPE IF EXISTS TaskType;
 CREATE TYPE TaskType AS TABLE
 (
 	ModuleID nvarchar(25),
-	TaskName nvarchar(100),
+	TaskName nvarchar(100) NULL,
 	TaskType smallint,
 	NumRedmine int,
-	Assignee smallint not null, 
+	Assignee smallint, 
 	Priority smallint,
 	DateCreate date,
 	EstimatedHour smallint,
 	DateDelivery date,
-	Note nvarchar(max)
+	Note nvarchar(max) NULL
 );

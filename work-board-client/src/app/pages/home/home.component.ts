@@ -5,7 +5,7 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
 
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 
-import { TaskDialog, TaskModel } from '../../core/model/model';
+import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
 import { ProgramMode, TaskType, TaskPriority, JobStatus } from '../../core/enum/enums';
 
 import { TaskComponent } from '../task/task.component';
@@ -28,6 +28,7 @@ export class HomeComponent {
   private readonly sizeDialog = '300px';
   private readonly dataDialog!: TaskModel;
 
+  private dataListAssigne!: DataListOption[];
 
   allAssignees = [
     {
@@ -73,7 +74,12 @@ export class HomeComponent {
     this.subscriptionFunction();
     this.initDataTest();
 
-
+    this.dataListAssigne = [
+      { key: 0, value: 'Tuan-VQ' },
+      { key: 1, value: 'Thinh-NT' },
+      { key: 2, value: 'Duy-PNA' },
+      { key: 3, value: 'Hieu-MTH' }
+    ];
     // TODO:
     this.dataDialog = {
       moduleID: '',
@@ -99,12 +105,7 @@ export class HomeComponent {
         { key: 1, value: 'Medium' },
         { key: 2, value: 'Low' }
       ],
-      dataAssignee: [
-        { key: 0, value: 'Tuan-VQ' },
-        { key: 1, value: 'Thinh-NT' },
-        { key: 2, value: 'Duy-PNA' },
-        { key: 3, value: 'Hieu-MTH' }
-      ]
+      dataAssignee: this.dataListAssigne
     }
   }
 
@@ -223,6 +224,10 @@ export class HomeComponent {
     return Math.round(progress * 3.6) + 'deg'
   }
 
+  public getNameAssignee(assignee: number | null) {
+    return this.dataListAssigne.find(item => item.key === assignee)?.value;
+  }
+
 
   drop(event: CdkDragDrop<any[]>) {
     if (event.previousContainer === event.container) {
@@ -259,7 +264,7 @@ export class HomeComponent {
         taskName: 'Get to work',
         taskType: 0,
         numRedmine: '',
-        assignee: 'Duy-TranB',
+        assignee: 0,
         priority: 0,
         dateCreate: new Date('2024/09/11'),
         estimatedHour: 2,
@@ -276,7 +281,7 @@ export class HomeComponent {
         taskName: 'Pick up groceries',
         taskType: 0,
         numRedmine: '',
-        assignee: 'Thinh-NT',
+        assignee: 1,
         priority: 1,
         dateCreate: new Date(),
         estimatedHour: 2,
@@ -293,7 +298,7 @@ export class HomeComponent {
         taskName: 'Go home',
         taskType: 1,
         numRedmine: '',
-        assignee: 'Tuan-VQ',
+        assignee: 2,
         priority: 3,
         dateCreate: new Date(),
         estimatedHour: 2,
@@ -317,7 +322,7 @@ export class HomeComponent {
       taskType: 4,
       progress: 30,
       numRedmine: '',
-      assignee: 'Tuan-VQ',
+      assignee: 3,
       priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,
@@ -333,7 +338,7 @@ export class HomeComponent {
       taskType: 4,
       progress: 60,
       numRedmine: '',
-      assignee: 'Tuan-VQ',
+      assignee: 1,
       priority: 1,
       dateCreate: new Date(),
       estimatedHour: 2,

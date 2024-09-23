@@ -86,7 +86,7 @@
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ getNameAssignee(task.assignee) }} </h4>
                 </div>
                 <div class="fixed-width-date">
                   <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>

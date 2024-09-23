@@ -2,6 +2,7 @@
 using Microsoft.Data.SqlClient.Server;
 using System.Data;
 using WorkBoardServer.Common;
+using WorkBoardServer.Helpers;
 using WorkBoardServer.Models;
 
 namespace WorkBoardServer.Services
@@ -49,12 +50,13 @@ namespace WorkBoardServer.Services
                 new SqlMetaData("DateCreate", SqlDbType.Date),
                 new SqlMetaData("EstimatedHour", SqlDbType.SmallInt),
                 new SqlMetaData("DateDelivery", SqlDbType.Date),
-                new SqlMetaData("Note", SqlDbType.NVarChar)
+                new SqlMetaData("Note", SqlDbType.NVarChar, -1)
             };
 
             SqlDataRecord record = new SqlDataRecord(metaData);
             record.SetString(0, model.ModuleID);
-            record.SetString(1, model.TaskName);
+            // SqlHelper.SetNullValue(record, 0, model.TaskName);
+            record.SetString(1, model.TaskName ?? "");
             record.SetInt16(2, model.TaskType);
             record.SetInt32(3, model.NumRedmine.HasValue ? model.NumRedmine.Value : 0);
             record.SetInt16(4, model.Assignee);
@@ -62,7 +64,8 @@ namespace WorkBoardServer.Services
             record.SetDateTime(6, model.DateCreate);
             record.SetInt16(7, model.EstimatedHour);
             record.SetDateTime(8, model.DateDelivery);
-            record.SetString(9, model.Note);
+            // SqlHelper.SetNullValue(record, 9, model.Note);
+            record.SetString(9, model.Note ?? "");
 
             return record;
         }

@@ -1,3 +1,10 @@
+IF OBJECT_ID('dbo.CreateTask', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE dbo.CreateTask;
+END
+
+GO
+
 CREATE PROCEDURE CreateTask
     @data TaskType READONLY
 AS

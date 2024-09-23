@@ -15,6 +15,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HandleApiInterceptor } from './core/interceptor/handle-api.interceptor';
 import { SharedModule } from './shared/module/shared.module';
 import { ConfirmDialogComponent } from './shared/dialog-message/dialog-message.component';
+import { DataListDirective } from './shared/directives/datalist.directive';
 import { InputValidationDirective } from './shared/directives/input-validation.directive';
 
 import { HomeComponent } from './pages/home/home.component';
@@ -28,6 +29,7 @@ import { ErrorComponent } from './pages/error/login.component';
   declarations: [
     AppComponent,
     ConfirmDialogComponent,
+    DataListDirective,
     InputValidationDirective,
     HomeComponent,
     HeaderComponent,

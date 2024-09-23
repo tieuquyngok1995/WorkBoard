@@ -29,8 +29,7 @@ export class AuthService {
     return this._userName;
   }
 
-  signIn(username: string, password: string): Observable<boolean> {
-
+  public signIn(username: string, password: string): Observable<boolean> {
     return this.commonApiService.get<UserModel>(this.commonApiService.urlSignIn, { username, password }).pipe(
       map(data => {
         if (data) {
@@ -42,15 +41,11 @@ export class AuthService {
           this._auth = { isAuthenticated: false };
           return false;
         }
-      }),
-      catchError(() => {
-        return of(false);
       })
     );
   }
 
-  signUp(model: UserModel): Observable<boolean> {
-
+  public signUp(model: UserModel): Observable<boolean> {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignUp, model).pipe(
       map(data => {
         if (data) {
@@ -62,14 +57,11 @@ export class AuthService {
           this._auth = { isAuthenticated: false };
           return false;
         }
-      }),
-      catchError(() => {
-        return of(false);
       })
     );
   }
 
-  logOut(): void {
+  public logOut(): void {
     sessionStorage.removeItem(this.authToken);
     this._auth = { isAuthenticated: false };
 

@@ -4,5 +4,11 @@ export const MESSAGES = {
   A001: 'There is an invalid input field value. Please check again.',
 
   E001: 'Login failed. Please check your login information.',
-  E002: 'Registration failed. Please check your registration information.'
-};
+  E002: 'Registration failed. Please check your registration information.',
+  E003: 'Task creation failed. Please check the information.',
+  E004: 'This field is required',
+  E005: 'Exceeds maximum length',
+  E006: 'The email address is invalid',
+  E007: 'This field is invalid format',
+  E008: 'Invalid input field',
+}

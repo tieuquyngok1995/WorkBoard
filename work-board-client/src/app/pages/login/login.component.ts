@@ -3,12 +3,12 @@ import { FormGroup } from '@angular/forms';
 
 import { UserModel } from '../../core/model/model';
 import { AuthService } from '../../core/services/auth.service';
-import { CommonApiService } from '../../core/services/common-api.service';
 import { MessageService } from '../../shared/service/message.service';
+import { CommonApiService } from '../../core/services/common-api.service';
+import { NavigationService } from '../../core/services/navigation.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
 
 import { LoginService } from './login.service';
-import { NavigationService } from '../../core/services/navigation.service';
 
 @Component({
   selector: 'app-login',
@@ -28,8 +28,8 @@ export class LoginComponent implements OnInit {
    * @param taskService
    */
   constructor(
-    private loginService: LoginService,
     private authService: AuthService,
+    private loginService: LoginService,
     private messageService: MessageService,
     private navigationService: NavigationService,
     private confirmDialogService: DialogMessageService) {
@@ -38,25 +38,24 @@ export class LoginComponent implements OnInit {
   }
 
   //#region Input validation check and processing
-  get userNameControlSignIn() { return this.loginService.userNameControlSignIn; }
-  get passwordControlSignIn() { return this.loginService.passwordControlSignIn; }
-  get emailControlSignUp() { return this.loginService.emailControlSignUp; }
-  get userNameControlSignUp() { return this.loginService.userNameControlSignUp; }
-  get passwordControlSignUp() { return this.loginService.passwordControlSignUp; }
+  get userNameControlSignIn() { return this.loginService.userNameSignIn; }
+  get passwordControlSignIn() { return this.loginService.passwordSignIn; }
+  get emailControlSignUp() { return this.loginService.emailSignUp; }
+  get userNameControlSignUp() { return this.loginService.userNameSignUp; }
+  get passwordControlSignUp() { return this.loginService.passwordSignUp; }
   //#endregion
 
   /**
    * On init dialog
    */
   ngOnInit() {
-    this.signInForm.reset();
-    this.signUpForm.reset();
+    this.loginService.resetFormSignIn();
+    this.loginService.resetFormSignUp();
   }
 
   signIn() {
     if (!this.signInForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
-
       return;
     }
 
@@ -73,7 +72,6 @@ export class LoginComponent implements OnInit {
   signUp() {
     if (!this.signUpForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
-
       return;
     }
 

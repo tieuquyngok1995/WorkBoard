@@ -13,13 +13,13 @@
                 <h2 class="pb-1">Sign In</h2>
                 <div class="input-container ic1">
                   <input id="userNameIn" class="input" type="text" formControlName="userName" placeholder=" "
-                    [ngClass]="{'input-validate': userNameControlSignIn?.invalid && (userNameControlSignIn?.dirty || userNameControlSignIn?.touched)}" />
+                    appInputValidation />
                   <div class="cut cut-short3"></div>
                   <label for="userNameIn" class="placeholder">User Name</label>
                 </div>
                 <div class="input-container ic1">
                   <input id="passwordIn" class="input" type="password" formControlName="password" placeholder=" "
-                    [ngClass]="{'input-validate': passwordControlSignIn?.invalid && (passwordControlSignIn?.dirty || passwordControlSignIn?.touched)}" />
+                    appInputValidation />
                   <div class="cut cut-short2"></div>
                   <label for="passwordIn" class="placeholder">Password</label>
                 </div>
@@ -35,19 +35,19 @@
                 <form [formGroup]="signUpForm">
                   <div class="input-container ic1">
                     <input id="email" class="input" type="text" formControlName="email" placeholder=" "
-                      [ngClass]="{'input-validate': emailControlSignUp?.invalid && (emailControlSignUp?.dirty || emailControlSignUp?.touched)}" />
+                      appInputValidation />
                     <div class="cut cut-short3"></div>
                     <label for="email" class="placeholder">Email</label>
                   </div>
                   <div class="input-container ic1">
                     <input id="userName" class="input" type="text" formControlName="userName" placeholder=" "
-                      [ngClass]="{'input-validate': userNameControlSignUp?.invalid && (userNameControlSignUp?.dirty || userNameControlSignUp?.touched)}" />
+                      appInputValidation />
                     <div class="cut cut-short3"></div>
                     <label for="userName" class="placeholder">User Name</label>
                   </div>
                   <div class="input-container ic1">
                     <input id="password" class="input" type="password" formControlName="password" placeholder=" "
-                      [ngClass]="{'input-validate': passwordControlSignUp?.invalid && (passwordControlSignUp?.dirty || passwordControlSignUp?.touched)}" />
+                      appInputValidation />
                     <div class="cut cut-short3"></div>
                     <label for="password" class="placeholder">Password</label>
                   </div>

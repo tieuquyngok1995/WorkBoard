@@ -94,13 +94,13 @@ h4 span {
 
 .card-3d-wrap {
   position: relative;
-  width: 440px;
+  width: 23.5vw;
   max-width: 100%;
   height: 400px;
   -webkit-transform-style: preserve-3d;
   transform-style: preserve-3d;
   perspective: 800px;
-  margin-top: 60px;
+  margin-top: 40px;
 }
 
 .card-3d-wrapper {

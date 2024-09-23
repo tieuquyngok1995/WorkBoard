@@ -27,8 +27,8 @@ export class TaskProgressComponent implements OnInit {
   constructor(
     @Inject(DIALOG_DATA)
     private dialog: TaskDialog,
-    private dialogRef: DialogRef<TaskDialog>,
     private messageService: MessageService,
+    private dialogRef: DialogRef<TaskDialog>,
     private taskProgressService: TaskProgressService,
     private confirmDialogService: DialogMessageService) {
     this.taskProgressForm = taskProgressService.taskProgressForm;

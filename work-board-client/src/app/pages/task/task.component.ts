@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { ProgramMode } from '../../core/enum/enums';
@@ -9,6 +9,7 @@ import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
 
 import { TaskService } from './task.service';
+import { InputValidationDirective } from 'src/app/shared/directives/input-validation.directive';
 
 @Component({
   selector: 'app-dialog-add-task',
@@ -33,17 +34,17 @@ export class TaskComponent implements OnInit {
   constructor(
     @Inject(DIALOG_DATA)
     private dialog: TaskDialog,
-    private dialogRef: DialogRef<TaskDialog>,
     private taskService: TaskService,
     private utilsService: UtilsService,
     private messageService: MessageService,
+    private dialogRef: DialogRef<TaskDialog>,
     private confirmDialogService: DialogMessageService) {
     this.title = 'Create Task';
     this.taskForm = taskService.taskForm;
   }
 
   //#region Input validation check and processing
-  get moduleIDControl() {
+  get moduleID() {
     return this.taskService.moduleID;
   }
   get taskTypeControl() {

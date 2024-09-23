@@ -1,23 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using WorkBoardServer.Common;
 
 namespace WorkBoardServer.Models
 {
     public class UserModel
     {
-        public int UserID { get; set; }
+        public int? UserID { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredFieldMessage)]
+        [Required(ErrorMessage = "Email is required.")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredFieldMessage)]
+        [Required(ErrorMessage = "UserName is required.")]
         public string UserName { get; set; }
 
-        [Required(ErrorMessage = ErrorMessages.RequiredFieldMessage)]
+        [Required(ErrorMessage = "Password is required.")]
         public string Password { get; set; }
 
-        public int RoleID { get; set; }
+        public int? RoleID { get; set; }
 
-        public string Token { get; set; }
+        public string? Token { get; set; }
     }
 }

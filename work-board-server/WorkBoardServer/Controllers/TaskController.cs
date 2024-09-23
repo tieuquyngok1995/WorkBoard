@@ -26,7 +26,7 @@ namespace WorkBoardServer.Controllers
 
             if (!result)
             {
-                return NotFound();
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
 
             return Ok(model);

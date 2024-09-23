@@ -10,6 +10,7 @@ export class CommonApiService {
 
   public urlSignIn = 'Login/SignIn';
   public urlSignUp = 'Login/SignUp';
+  public urlCreateTask = 'Task/CreateTask';
 
   private apiUrl = 'https://localhost:7047/api/';
 

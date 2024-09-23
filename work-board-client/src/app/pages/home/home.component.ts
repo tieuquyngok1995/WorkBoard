@@ -12,6 +12,7 @@ import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
 import { MessageService } from 'src/app/shared/service/message.service';
 import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
+import { HomeService } from './home.service';
 
 @Component({
   selector: 'app-home',
@@ -56,9 +57,9 @@ export class HomeComponent {
    */
   constructor(
     private dialog: Dialog,
+    private homeService: HomeService,
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService,
-
 
     private formBuilder: FormBuilder) {
     this.filterForm = new FormGroup({
@@ -118,9 +119,15 @@ export class HomeComponent {
         mode: ProgramMode.CREATE,
         data: this.dataDialog
       } as TaskDialog,
-    }).closed.subscribe((result: any) => {
-      if (result) {
-        this.initTask = [result.data, ...this.initTask];
+    }).closed.subscribe((dialogResult: any) => {
+      if (dialogResult) {
+        this.homeService.createTask(dialogResult.data).subscribe(result => {
+          if (!result) {
+            this.confirmDialogService.openDialog(this.messageService.getMessage('E003'));
+          } else {
+            this.initTask = [dialogResult.data, ...this.initTask];
+          }
+        });
       }
     });
   }

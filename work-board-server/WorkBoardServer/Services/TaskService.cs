@@ -27,8 +27,9 @@ namespace WorkBoardServer.Services
                         Value = model
                     });
             }
-            catch
+            catch (Exception ex)
             {
+                var test = ex;
                 return false;
             }
             return true;

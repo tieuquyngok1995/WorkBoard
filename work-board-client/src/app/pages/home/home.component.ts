@@ -122,10 +122,10 @@ export class HomeComponent {
     }).closed.subscribe((dialogResult: any) => {
       if (dialogResult) {
         this.homeService.createTask(dialogResult.data).subscribe(result => {
-          if (!result) {
-            this.confirmDialogService.openDialog(this.messageService.getMessage('E003'));
-          } else {
+          if (result) {
             this.initTask = [dialogResult.data, ...this.initTask];
+          } else {
+            this.confirmDialogService.openDialog(this.messageService.getMessage('E003'));
           }
         });
       }

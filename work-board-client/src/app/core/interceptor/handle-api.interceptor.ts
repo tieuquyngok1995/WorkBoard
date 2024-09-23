@@ -21,11 +21,11 @@ export class HandleApiInterceptor implements HttpInterceptor {
         next.handle(request).pipe(
           catchError((error: HttpErrorResponse) => {
             if (error.status === 400 || error.status === 500) {
-              return throwError(() => error);
+              return throwError(() => error.ok);
             }
 
             this.router.navigate(['/404']);
-            return throwError(() => error);
+            return throwError(() => error.ok);
           }),
           finalize(() => {
             this.loadingService.hide();

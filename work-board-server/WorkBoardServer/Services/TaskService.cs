@@ -1,8 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.Data.SqlClient.Server;
 using System.Data;
 using WorkBoardServer.Common;
-using WorkBoardServer.Helpers;
 using WorkBoardServer.Models;
 
 namespace WorkBoardServer.Services
@@ -20,13 +18,13 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                _databaseService.ExecuteQuery<UserModel>(
+                _databaseService.ExecuteNonQuery(
                     GlobalConstants.PCreateTask, new SqlParameter
                     {
                         ParameterName = "@data",
                         SqlDbType = SqlDbType.Structured,
                         TypeName = "TaskType",
-                        Value = GetProductRecords(model)
+                        Value = CreateProductRecords(model)
                     });
             }
             catch (Exception ex)
@@ -37,37 +35,33 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        private SqlDataRecord GetProductRecords(TaskModel model)
+        private DataTable CreateProductRecords(TaskModel model)
         {
-            SqlMetaData[] metaData = new SqlMetaData[]
-            {
-                new SqlMetaData("ModuleID", SqlDbType.NVarChar, 25),
-                new SqlMetaData("TaskName", SqlDbType.NVarChar, 100),
-                new SqlMetaData("TaskType", SqlDbType.SmallInt),
-                new SqlMetaData("NumRedmine", SqlDbType.Int),
-                new SqlMetaData("Assignee", SqlDbType.SmallInt),
-                new SqlMetaData("Priority", SqlDbType.SmallInt),
-                new SqlMetaData("DateCreate", SqlDbType.Date),
-                new SqlMetaData("EstimatedHour", SqlDbType.SmallInt),
-                new SqlMetaData("DateDelivery", SqlDbType.Date),
-                new SqlMetaData("Note", SqlDbType.NVarChar, -1)
-            };
+            DataTable taskTable = new DataTable();
+            taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
+            taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
+            taskTable.Columns.Add("Type", typeof(short));                // smallint not null
+            taskTable.Columns.Add("NumRedmine", typeof(int));            // int
+            taskTable.Columns.Add("Assignee", typeof(short));            // smallint not null
+            taskTable.Columns.Add("Priority", typeof(short));            // smallint
+            taskTable.Columns.Add("DateCreate", typeof(DateTime));       // date
+            taskTable.Columns.Add("EstimatedHour", typeof(short));       // smallint
+            taskTable.Columns.Add("DateDelivery", typeof(DateTime));     // date
+            taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
-            SqlDataRecord record = new SqlDataRecord(metaData);
-            record.SetString(0, model.ModuleID);
-            // SqlHelper.SetNullValue(record, 0, model.TaskName);
-            record.SetString(1, model.TaskName ?? "");
-            record.SetInt16(2, model.TaskType);
-            record.SetInt32(3, model.NumRedmine.HasValue ? model.NumRedmine.Value : 0);
-            record.SetInt16(4, model.Assignee);
-            record.SetInt16(5, model.Priority.HasValue ? model.Priority.Value : (short)0);
-            record.SetDateTime(6, model.DateCreate);
-            record.SetInt16(7, model.EstimatedHour);
-            record.SetDateTime(8, model.DateDelivery);
-            // SqlHelper.SetNullValue(record, 9, model.Note);
-            record.SetString(9, model.Note ?? "");
+            taskTable.Rows.Add(
+                model.ModuleID,
+                model.TaskName,
+                model.Type,
+                model.NumRedmine,
+                model.Assignee,
+                model.Priority.HasValue ? model.Priority.Value : 2,
+                model.DateCreate,
+                model.EstimatedHour,
+                model.DateDelivery,
+                model.Note);
 
-            return record;
+            return taskTable;
         }
     }
 }

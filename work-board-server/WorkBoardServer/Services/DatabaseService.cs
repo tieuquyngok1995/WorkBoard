@@ -13,7 +13,7 @@ namespace WorkBoardServer.Services
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
-        public IDbConnection CreateConnection()
+        public SqlConnection CreateConnection()
         {
             return new SqlConnection(_connectionString);
         }
@@ -26,18 +26,27 @@ namespace WorkBoardServer.Services
             }
         }
 
-        public int ExecuteNonQuery(string storedProcedureName, object parameters = null)
+        public int ExecuteNonQuery(string storedProcedureName, object parameters = null, int? timeout = null)
         {
-            using (var connection = CreateConnection())
+            using (SqlConnection connection = CreateConnection())
             {
-                return connection.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
-            }
-        }
-        public int ExecuteNonQuery(string storedProcedureName, object parameters = null, int timeOut = 30)
-        {
-            using (var connection = CreateConnection())
-            {
-                return connection.Execute(storedProcedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: timeOut);
+                using (var command = new SqlCommand(storedProcedureName, connection))
+                {
+                    command.CommandType = CommandType.StoredProcedure;
+
+                    if (parameters is not null)
+                    {
+                        command.Parameters.AddRange(new[] { parameters });
+                    }
+
+                    if (timeout.HasValue)
+                    {
+                        command.CommandTimeout = timeout.Value;
+                    }
+
+                    connection.Open();
+                    return command.ExecuteNonQuery();
+                }
             }
         }
     }

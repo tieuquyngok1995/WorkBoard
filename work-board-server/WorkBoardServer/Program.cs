@@ -1,4 +1,6 @@
+using Serilog;
 using System.Reflection;
+using WorkBoardServer.Helpers;
 using WorkBoardServer.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,6 +16,15 @@ foreach (var service in appServices)
 {
     builder.Services.AddScoped(service);
 }
+
+// Serilog
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Debug()
+    .WriteTo.File($"logs/log-.txt", rollingInterval: RollingInterval.Day) // Ghi log ra file
+    .CreateLogger();
+
+// 
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -48,6 +59,10 @@ app.UseHttpsRedirection();
 
 // Apply the CORS policy
 app.UseCors("AllowSpecificOrigin");
+
+app.UseSerilogRequestLogging();
+
+app.UseMiddleware<LoggingMiddleware>();
 
 app.UseAuthorization();
 

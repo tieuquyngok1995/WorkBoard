@@ -10,20 +10,24 @@ namespace WorkBoardServer.Models
         public string? TaskName { get; set; }
 
         [Required(ErrorMessage = "Task Type is required.")]
-        public short TaskType { get; set; }
+        public short Type { get; set; }
 
-        public DataListOption[]? DataTaskType { get; set; }
+        public string? TypeName { get; set; }
+
+        public List<DataListOption>? DataTaskType { get; set; }
 
         public int? NumRedmine { get; set; }
 
         [Required(ErrorMessage = "Assignee is required.")]
         public short Assignee { get; set; }
 
-        public DataListOption[]? DataAssignee { get; set; }
+        public string? AssigneeName { get; set; }
+
+        public List<DataListOption>? DataAssignee { get; set; }
 
         public short? Priority { get; set; }
 
-        public DataListOption[]? DataPriority { get; set; }
+        public List<DataListOption>? DataPriority { get; set; }
 
         [Required(ErrorMessage = "Date Create is required.")]
         public DateTime DateCreate { get; set; }
@@ -39,5 +43,7 @@ namespace WorkBoardServer.Models
         public DateTime DateDelivery { get; set; }
 
         public string? Note { get; set; }
+
+        public short? TaskStatus { get; set; }
     }
 }

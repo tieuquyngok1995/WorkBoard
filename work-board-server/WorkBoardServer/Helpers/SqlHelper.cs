@@ -1,24 +1,50 @@
-﻿using Microsoft.Data.SqlClient.Server;
+﻿using System.Data;
 
 namespace WorkBoardServer.Helpers
 {
-    public class SqlHelper
+    public static class SqlHelper
     {
-        public static void SetNullValue(SqlDataRecord record, int ordinal, string val)
+        public static DataTable ToDataTable<T>(this IEnumerable<T> source) where T : class
         {
-            if (string.IsNullOrEmpty(val))
-            {
-                record.SetDBNull(ordinal);
-            }
-            else
-            {
-                record.SetString(ordinal, val);
-            }
+            return source.ToDataTable(typeof(T).Name);
         }
 
-        internal static void SetNoteValue(SqlDataRecord record, int v, string? note)
+        /// <summary>
+        /// DataTableを返します。
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="tableName"></param>
+        /// <returns></returns>
+        /// <remarks></remarks>
+        public static DataTable ToDataTable<T>(this IEnumerable<T> source, string tableName) where T : class
         {
-            throw new NotImplementedException();
+
+            var type = typeof(T);
+
+            System.Reflection.PropertyInfo[] props = type.GetProperties().Where(x => x.CanRead).ToArray();
+
+            var table = new DataTable(tableName);
+
+            foreach (var prop in props)
+            {
+                var pType = Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType;
+                table.Columns.Add(prop.Name, pType.IsEnum ? pType.GetEnumUnderlyingType() : pType);
+            }
+
+            if (source is not null)
+            {
+
+                table.BeginLoadData();
+
+                foreach (var item in source)
+                    table.Rows.Add(props.Select(x => x.GetValue(item, null)).ToArray());
+
+                table.EndLoadData();
+                table.AcceptChanges();
+
+            }
+
+            return table;
         }
     }
 }

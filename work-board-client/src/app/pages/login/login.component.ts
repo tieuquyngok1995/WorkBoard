@@ -60,7 +60,7 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.loginService.signInFormGetValue;
-    this.authService.signIn(model.userName, model.password).subscribe(result => {
+    this.authService.signIn(model).subscribe(result => {
       if (result) {
         this.navigationService.navigateTo('/');
       } else {

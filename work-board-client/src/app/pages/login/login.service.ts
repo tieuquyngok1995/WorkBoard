@@ -44,7 +44,7 @@ export class LoginService {
   }
   private createFormGroupSignUp(user?: UserModel): FormGroup {
     return this.fb.group({
-      email: [user?.email || null, [Validators.required, Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
+      email: [user?.email || null, [Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
       userName: [user?.userName || null, Validators.required],
       password: [user?.password || null, Validators.required]
     });

@@ -4,7 +4,7 @@ using WorkBoardServer.Services;
 
 namespace WorkBoardServer.Controllers
 {
-    [MyApiControllerAttribute]
+    [MyApiController]
     public class TaskController : ControllerBase
     {
         public readonly TaskService _service;

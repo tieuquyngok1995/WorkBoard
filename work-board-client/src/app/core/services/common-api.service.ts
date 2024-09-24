@@ -29,7 +29,7 @@ export class CommonApiService {
       }
     }
 
-    return this.http.get<T>(this.apiUrl + url, { params: httpParams });
+    return this.http.get<T>(this.apiUrl + url, { withCredentials: true, params: httpParams });
   }
 
   // Method to make POST request

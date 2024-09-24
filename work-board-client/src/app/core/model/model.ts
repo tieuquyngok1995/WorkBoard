@@ -16,7 +16,6 @@ export interface UserModel {
   userName: string;
   password: string;
   roleID: number;
-  token: string;
 }
 
 export interface HomeModel {

@@ -6,8 +6,7 @@ namespace WorkBoardServer.Models
     {
         public int? UserID { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Required(ErrorMessage = "UserName is required.")]
         public string UserName { get; set; }
@@ -16,7 +15,5 @@ namespace WorkBoardServer.Models
         public string Password { get; set; }
 
         public int? RoleID { get; set; }
-
-        public string? Token { get; set; }
     }
 }

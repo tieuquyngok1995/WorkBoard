@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Routing;
 
 namespace WorkBoardServer;
-public class MyApiControllerAttribute
+
+[Authorize]
+public class MyApiController
     : ApiControllerAttribute, IRouteTemplateProvider
 {
     private const string route = "api/[controller]/[action]";

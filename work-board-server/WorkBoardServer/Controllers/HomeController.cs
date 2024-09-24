@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
 
 namespace WorkBoardServer.Controllers
 {
-    [MyApiControllerAttribute]
+    [MyApiController]
     public class HomeController : ControllerBase
     {
         private readonly HomeService _service;
@@ -15,11 +16,15 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetIndex(int userID)
+        public IActionResult GetIndex()
         {
+            var cookies = Request.Cookies;
+            // Kiểm tra cookie hiện tại
+            //var userId = GetUserIdFromToken(HttpContext);
+
             HomeModel model = new HomeModel();
 
-            model.listTasks = _service.GetTaskModels(userID);
+            model.listTasks = _service.GetTaskModels(0);
             if (model.listTasks.Count == 0)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -33,6 +38,16 @@ namespace WorkBoardServer.Controllers
             };
 
             return Ok(model);
+        }
+
+        private string GetUserIdFromToken(HttpContext httpContext)
+        {
+            if (httpContext.User.Identity.IsAuthenticated)
+            {
+                var userIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
+                return userIdClaim?.Value;
+            }
+            return null;
         }
     }
 }

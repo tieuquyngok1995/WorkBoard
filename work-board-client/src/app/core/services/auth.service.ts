@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { catchError, map, Observable, of } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { CommonApiService } from './common-api.service';
 import { AuthModel, UserModel } from '../model/model';
@@ -9,7 +9,7 @@ import { AuthModel, UserModel } from '../model/model';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly authToken = 'authToken';
+  private readonly userNameToken = 'userNameToken';
   private readonly userIDToken = 'userIDToken';
 
   private _userID!: number;
@@ -19,7 +19,7 @@ export class AuthService {
   constructor(private router: Router, private commonApiService: CommonApiService) { }
 
   get auth(): AuthModel {
-    const isLoggedIn = sessionStorage.getItem(this.authToken);
+    const isLoggedIn = sessionStorage.getItem(this.userNameToken);
 
     if (isLoggedIn) this._auth = { isAuthenticated: true };
 
@@ -32,15 +32,15 @@ export class AuthService {
   }
 
   get userName(): string {
-    if (!this._userName) this._userName = sessionStorage.getItem(this.authToken) ?? '';
+    if (!this._userName) this._userName = sessionStorage.getItem(this.userNameToken) ?? '';
     return this._userName;
   }
 
-  public signIn(username: string, password: string): Observable<boolean> {
-    return this.commonApiService.get<UserModel>(this.commonApiService.urlSignIn, { username, password }).pipe(
+  public signIn(model: UserModel): Observable<boolean> {
+    return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
       map(data => {
         if (data) {
-          sessionStorage.setItem(this.authToken, data.userName);
+          sessionStorage.setItem(this.userNameToken, data.userName);
           sessionStorage.setItem(this.userIDToken, data.userID.toString());
           this._auth = { isAuthenticated: true };
           return true;
@@ -56,7 +56,7 @@ export class AuthService {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignUp, model).pipe(
       map(data => {
         if (data) {
-          sessionStorage.setItem(this.authToken, data.userName);
+          sessionStorage.setItem(this.userNameToken, data.userName);
           sessionStorage.setItem(this.userIDToken, data.userID.toString());
           this._auth = { isAuthenticated: true };
           return true;
@@ -69,7 +69,7 @@ export class AuthService {
   }
 
   public logOut(): void {
-    sessionStorage.removeItem(this.authToken);
+    sessionStorage.removeItem(this.userNameToken);
     this._auth = { isAuthenticated: false };
 
     this.router.navigate(['/login']);

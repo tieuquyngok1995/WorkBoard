@@ -1,5 +1,5 @@
 import { Dialog } from '@angular/cdk/dialog';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 
@@ -13,13 +13,15 @@ import { TaskProgressComponent } from '../task-progress/task-progress.component'
 import { MessageService } from 'src/app/shared/service/message.service';
 import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
 import { HomeService } from './home.service';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { CommonApiService } from 'src/app/core/services/common-api.service';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
   public readonly Status = JobStatus
   public readonly TaskType = TaskType;
@@ -58,6 +60,7 @@ export class HomeComponent {
    */
   constructor(
     private dialog: Dialog,
+    private authService: AuthService,
     private homeService: HomeService,
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService,
@@ -71,8 +74,8 @@ export class HomeComponent {
       dateDelivery: new FormControl(''),
     })
 
-    this.subscriptionFunction();
-    this.initDataTest();
+    // this.subscriptionFunction();
+    // this.initDataTest();
 
     this.dataListAssigne = [
       { key: 0, value: 'Tuan-VQ' },
@@ -107,6 +110,13 @@ export class HomeComponent {
       ],
       dataAssignee: this.dataListAssigne
     }
+  }
+
+  public ngOnInit(): void {
+    const userID = this.authService.userID;
+    this.homeService.getInit(userID).subscribe(data => {
+      console.log(data)
+    })
   }
 
   /**

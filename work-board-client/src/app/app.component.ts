@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone } from '@angular/core';
 import { AuthService } from './core/services/auth.service';
 import { LoadingService } from './core/services/loading.service';
 
@@ -9,17 +9,26 @@ import { LoadingService } from './core/services/loading.service';
 })
 export class AppComponent {
 
-  public loading = this.loadingService.loading$;
+  public isLoading = false;
 
   /**
    * Initialize and s
    */
   constructor(
     private authService: AuthService,
-    private loadingService: LoadingService) {
+    private loadingService: LoadingService,
+    private changeDetectorRef: ChangeDetectorRef,
+    private ngZone: NgZone) {
 
   }
-
+  ngOnInit() {
+    this.loadingService.loading$.subscribe(result => {
+      this.ngZone.run(() => {
+        this.isLoading = result;
+        this.changeDetectorRef.detectChanges();
+      });
+    });
+  }
   public get isAuthenticated(): boolean {
     return this.authService.auth.isAuthenticated;
   }

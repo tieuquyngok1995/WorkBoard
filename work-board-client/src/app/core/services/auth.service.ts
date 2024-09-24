@@ -10,7 +10,9 @@ import { AuthModel, UserModel } from '../model/model';
 })
 export class AuthService {
   private readonly authToken = 'authToken';
+  private readonly userIDToken = 'userIDToken';
 
+  private _userID!: number;
   private _userName!: string;
   private _auth: AuthModel = { isAuthenticated: false };
 
@@ -24,6 +26,11 @@ export class AuthService {
     return this._auth;
   }
 
+  get userID(): number {
+    if (!this._userID) this._userID = Number(sessionStorage.getItem(this.userIDToken)) ?? -1;
+    return this._userID;
+  }
+
   get userName(): string {
     if (!this._userName) this._userName = sessionStorage.getItem(this.authToken) ?? '';
     return this._userName;
@@ -34,7 +41,7 @@ export class AuthService {
       map(data => {
         if (data) {
           sessionStorage.setItem(this.authToken, data.userName);
-          this._userName = data.userName;
+          sessionStorage.setItem(this.userIDToken, data.userID.toString());
           this._auth = { isAuthenticated: true };
           return true;
         } else {
@@ -50,7 +57,7 @@ export class AuthService {
       map(data => {
         if (data) {
           sessionStorage.setItem(this.authToken, data.userName);
-          this._userName = data.userName;
+          sessionStorage.setItem(this.userIDToken, data.userID.toString());
           this._auth = { isAuthenticated: true };
           return true;
         } else {

@@ -19,6 +19,11 @@ export interface UserModel {
   token: string;
 }
 
+export interface HomeModel {
+  taskDialog: TaskModel;
+  listTasks: TaskModel[];
+}
+
 export interface TaskModel {
   moduleID: string;
   taskName: string | null;

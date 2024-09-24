@@ -112,6 +112,7 @@ export class TaskComponent implements OnInit {
     }
 
     const dataForm: TaskModel = this.taskForm.value;
+    dataForm.progress = 0;
 
     this.dialogRef.close({ data: dataForm });
   }

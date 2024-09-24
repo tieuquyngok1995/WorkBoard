@@ -10,25 +10,26 @@ CREATE PROCEDURE CreateTask
 AS
 BEGIN
     INSERT INTO Task (
-		 [ModuleID] 
-		,[TaskName]
-		,[TaskType]
-        ,[NumRedmine]
-        ,[Assignee]
-        ,[Priority]
-        ,[DateCreate]
-        ,[WorkHour]
-        ,[EstimatedHour]
-        ,[Progress]
-        ,[DateDelivery]
-        ,[Note]
-		,[JobStatus]
-        ,[UserUpdate]
-        ,[DateUpdate])
+		 ModuleID 
+		,TaskName
+		,Type
+        ,NumRedmine
+        ,Assignee
+        ,Priority
+        ,DateCreate
+        ,WorkHour
+        ,EstimatedHour
+        ,Progress
+        ,DateDelivery
+        ,Note
+		,TaskStatus
+        ,UserUpdate
+        ,DateUpdate
+		,FlgDelete)
 	SELECT 
 		 ModuleID
 		,TaskName
-		,TaskType
+		,Type
 		,NumRedmine
 		,Assignee
 		,Priority
@@ -41,5 +42,6 @@ BEGIN
 		,0
 		, null
 		, null
+		,0
     FROM @data
 END

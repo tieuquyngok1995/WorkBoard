@@ -54,6 +54,7 @@ yarn-error.log*
 # .NET Core
 bin/
 obj/
+logs/
 *.dll
 *.exe
 *.pdb
@@ -98,3 +99,4 @@ dotnet-tools.json
 
 # Local history for VSCode
 .history/
+

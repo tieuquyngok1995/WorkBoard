@@ -7,11 +7,11 @@ namespace WorkBoardServer.Controllers
     [MyApiControllerAttribute]
     public class TaskController : ControllerBase
     {
-        public readonly TaskService _taskService;
+        public readonly TaskService _service;
 
         public TaskController(TaskService taskService)
         {
-            _taskService = taskService;
+            _service = taskService;
         }
 
         [HttpPost]
@@ -22,7 +22,7 @@ namespace WorkBoardServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            bool result = _taskService.Create(model);
+            bool result = _service.Create(model);
 
             if (!result)
             {

@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonApiService {
+
+  private readonly authToken = 'authToken';
 
   public urlSignIn = 'Login/SignIn';
   public urlSignUp = 'Login/SignUp';
@@ -15,7 +17,7 @@ export class CommonApiService {
 
   private apiUrl = 'https://localhost:7047/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private cookieService: CookieService) { }
 
   // Method to make GET request
   get<T>(url: string, params?: { [key: string]: any }): Observable<T> {
@@ -29,7 +31,8 @@ export class CommonApiService {
       }
     }
 
-    return this.http.get<T>(this.apiUrl + url, { withCredentials: true, params: httpParams });
+    const header = new HttpHeaders().set('Authorization', 'Bearer' + this.cookieService.get(this.authToken));
+    return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
   }
 
   // Method to make POST request

@@ -11,8 +11,8 @@ export class HomeService {
 
   constructor(private commonApiService: CommonApiService) { }
 
-  public getInit(userID: number): Observable<HomeModel | null> {
-    return this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex, { userID }).pipe(
+  public getInit(): Observable<HomeModel | null> {
+    return this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex).pipe(
       map((data) => data),
       catchError((error) => of(error))
     );

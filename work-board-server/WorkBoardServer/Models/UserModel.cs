@@ -15,5 +15,7 @@ namespace WorkBoardServer.Models
         public string Password { get; set; }
 
         public int? RoleID { get; set; }
+
+        public string? Token { get; set; }
     }
 }

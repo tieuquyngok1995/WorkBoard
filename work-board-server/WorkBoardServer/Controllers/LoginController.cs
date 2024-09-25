@@ -31,19 +31,8 @@ namespace WorkBoardServer.Controllers
                 return Unauthorized();
             }
 
-            string token = _jwtTokenService.GenerateToken(model);
+            model.Token = _jwtTokenService.GenerateToken(model);
 
-            Response.Cookies.Append("authToken", token, new CookieOptions
-            {
-                HttpOnly = true,
-                Secure = true,
-                SameSite = SameSiteMode.None,
-                Expires = DateTime.UtcNow.AddMinutes(30),
-                Path = "/",
-                IsEssential = true
-            });
-            var cookies = Request.Cookies; // Kiểm tra cookie hiện tại
-            var responseCookies = Response.Cookies; // Kiểm tra cookie đã thêm vào phản hồi
             return Ok(model);
         }
 
@@ -55,14 +44,16 @@ namespace WorkBoardServer.Controllers
                 return BadRequest(ModelState);
             }
 
-            body = _service.SignUp(body.Email, body.UserName, body.Password);
+            UserModel model = _service.SignUp(body.Email, body.UserName, body.Password);
 
-            if (body.UserName == null)
+            if (model.UserName == null)
             {
                 return Unauthorized();
             }
 
-            return Ok(body);
+            model.Token = _jwtTokenService.GenerateToken(model);
+
+            return Ok(model);
         }
     }
 }

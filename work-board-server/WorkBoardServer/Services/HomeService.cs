@@ -31,7 +31,7 @@ namespace WorkBoardServer.Services
                 GlobalConstants.PGetPriority).AsList();
         }
 
-        public List<TaskModel> GetTaskModels(int userID)
+        public List<TaskModel> GetTaskModels(string? userID)
         {
             return _databaseService.ExecuteQuery<TaskModel>(
                 GlobalConstants.PGetTask, new { @UserID = userID }).AsList();

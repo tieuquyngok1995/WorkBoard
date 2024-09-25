@@ -113,8 +113,7 @@ export class HomeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    const userID = this.authService.userID;
-    this.homeService.getInit(userID).subscribe(data => {
+    this.homeService.getInit().subscribe(data => {
       console.log(data)
     })
   }

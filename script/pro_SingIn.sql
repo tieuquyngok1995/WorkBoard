@@ -1,4 +1,11 @@
-﻿CREATE PROCEDURE SignIn
+﻿IF OBJECT_ID('dbo.SignIn', 'P') IS NOT NULL
+BEGIN
+    DROP PROCEDURE dbo.SignIn;
+END
+
+GO
+
+CREATE PROCEDURE SignIn
     @UserName NVARCHAR(50),
     @Password NVARCHAR(50)
 AS

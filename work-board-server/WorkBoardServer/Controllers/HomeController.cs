@@ -18,13 +18,11 @@ namespace WorkBoardServer.Controllers
         [HttpGet]
         public IActionResult GetIndex()
         {
-            var cookies = Request.Cookies;
-            // Kiểm tra cookie hiện tại
-            //var userId = GetUserIdFromToken(HttpContext);
+            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
             HomeModel model = new HomeModel();
 
-            model.listTasks = _service.GetTaskModels(0);
+            model.listTasks = _service.GetTaskModels(userId);
             if (model.listTasks.Count == 0)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError);
@@ -38,16 +36,6 @@ namespace WorkBoardServer.Controllers
             };
 
             return Ok(model);
-        }
-
-        private string GetUserIdFromToken(HttpContext httpContext)
-        {
-            if (httpContext.User.Identity.IsAuthenticated)
-            {
-                var userIdClaim = httpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-                return userIdClaim?.Value;
-            }
-            return null;
         }
     }
 }

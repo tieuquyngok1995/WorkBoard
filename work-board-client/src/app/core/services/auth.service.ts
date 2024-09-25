@@ -4,19 +4,19 @@ import { map, Observable } from 'rxjs';
 
 import { CommonApiService } from './common-api.service';
 import { AuthModel, UserModel } from '../model/model';
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private readonly authToken = 'authToken';
   private readonly userNameToken = 'userNameToken';
-  private readonly userIDToken = 'userIDToken';
 
-  private _userID!: number;
   private _userName!: string;
   private _auth: AuthModel = { isAuthenticated: false };
 
-  constructor(private router: Router, private commonApiService: CommonApiService) { }
+  constructor(private router: Router, private cookieService: CookieService, private commonApiService: CommonApiService) { }
 
   get auth(): AuthModel {
     const isLoggedIn = sessionStorage.getItem(this.userNameToken);
@@ -24,11 +24,6 @@ export class AuthService {
     if (isLoggedIn) this._auth = { isAuthenticated: true };
 
     return this._auth;
-  }
-
-  get userID(): number {
-    if (!this._userID) this._userID = Number(sessionStorage.getItem(this.userIDToken)) ?? -1;
-    return this._userID;
   }
 
   get userName(): string {
@@ -40,9 +35,11 @@ export class AuthService {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
       map(data => {
         if (data) {
-          sessionStorage.setItem(this.userNameToken, data.userName);
-          sessionStorage.setItem(this.userIDToken, data.userID.toString());
+          // save cookie auth
+          this.cookieService.set(this.authToken, data.token, { secure: true, sameSite: 'Lax' });
+
           this._auth = { isAuthenticated: true };
+          sessionStorage.setItem(this.userNameToken, data.userName);
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -56,9 +53,11 @@ export class AuthService {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignUp, model).pipe(
       map(data => {
         if (data) {
-          sessionStorage.setItem(this.userNameToken, data.userName);
-          sessionStorage.setItem(this.userIDToken, data.userID.toString());
+          // save cookie auth
+          this.cookieService.set(this.authToken, data.token, { secure: true, sameSite: 'Lax' });
+
           this._auth = { isAuthenticated: true };
+          sessionStorage.setItem(this.userNameToken, data.userName);
           return true;
         } else {
           this._auth = { isAuthenticated: false };

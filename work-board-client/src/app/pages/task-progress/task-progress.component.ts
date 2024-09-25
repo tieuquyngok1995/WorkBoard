@@ -20,9 +20,11 @@ export class TaskProgressComponent implements OnInit {
 
   /**
    * Initialize and set base values.
-   * @param data 
+   * @param dialog 
+   * @param messageService 
    * @param dialogRef 
-   * @param taskService 
+   * @param taskProgressService 
+   * @param confirmDialogService 
    */
   constructor(
     @Inject(DIALOG_DATA)
@@ -47,7 +49,7 @@ export class TaskProgressComponent implements OnInit {
   //#endregion
 
   /**
-   * On init dialog
+   * On init dialog.
    */
   ngOnInit() {
     // Reset form 
@@ -66,7 +68,7 @@ export class TaskProgressComponent implements OnInit {
   }
 
   /**
-   * Event click Save data
+   * Event click Save data.
    */
   save() {
     if (!this.taskProgressForm.valid) {
@@ -79,7 +81,7 @@ export class TaskProgressComponent implements OnInit {
   }
 
   /**
-   * Event click Cancel dialog 
+   * Event click Cancel dialog.
    */
   cancel() {
     this.dialogRef.close();

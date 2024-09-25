@@ -12,10 +12,16 @@ export class HeaderComponent implements OnInit {
 
   constructor(private authService: AuthService) { }
 
+  /**
+   * On init dialog.
+   */
   ngOnInit(): void {
     this.userName = this.authService.userName
   }
 
+  /**
+   * Event log out.
+   */
   logOut(): void {
     this.authService.logOut();
   }

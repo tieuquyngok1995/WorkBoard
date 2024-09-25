@@ -22,10 +22,12 @@ export class LoginComponent implements OnInit {
   public signUpForm: FormGroup;
 
   /**
-   * Initialize and set base values
-   * @param data
-   * @param dialogRef
-   * @param taskService
+   * Initialize and set base values.
+   * @param authService 
+   * @param loginService 
+   * @param messageService 
+   * @param navigationService 
+   * @param confirmDialogService 
    */
   constructor(
     private authService: AuthService,
@@ -37,29 +39,26 @@ export class LoginComponent implements OnInit {
     this.signUpForm = this.loginService.signUpForm;
   }
 
-  //#region Input validation check and processing
-  get userNameControlSignIn() { return this.loginService.userNameSignIn; }
-  get passwordControlSignIn() { return this.loginService.passwordSignIn; }
-  get emailControlSignUp() { return this.loginService.emailSignUp; }
-  get userNameControlSignUp() { return this.loginService.userNameSignUp; }
-  get passwordControlSignUp() { return this.loginService.passwordSignUp; }
-  //#endregion
-
   /**
-   * On init dialog
+   * On init dialog.
    */
   ngOnInit() {
+    // Reset form
     this.loginService.resetFormSignIn();
     this.loginService.resetFormSignUp();
   }
 
+  /**
+   * Event sing in.
+   * @returns 
+   */
   signIn() {
     if (!this.signInForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
       return;
     }
 
-    const model: UserModel = this.loginService.signInFormGetValue;
+    const model: UserModel = this.signInForm.value;
     this.authService.signIn(model).subscribe(result => {
       if (result) {
         this.navigationService.navigateTo('/');
@@ -69,13 +68,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  /**
+   * Event sing up.
+   * @returns 
+   */
   signUp() {
     if (!this.signUpForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
       return;
     }
 
-    const model: UserModel = this.loginService.signUpFormGetValue;
+    const model: UserModel = this.signUpForm.value;
     this.authService.signUp(model).subscribe(result => {
       if (result) {
         this.navigationService.navigateTo('/');

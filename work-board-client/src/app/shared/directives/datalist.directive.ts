@@ -6,7 +6,7 @@ import { DataListOption } from 'src/app/core/model/model';
   selector: '[appDataList]'
 })
 export class DataListDirective {
-  @Input('DataList') dataList: DataListOption[] | undefined;
+  @Input('dataList') dataList: DataListOption[] | undefined;
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {

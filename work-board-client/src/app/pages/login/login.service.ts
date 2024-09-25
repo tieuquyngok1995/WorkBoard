@@ -11,28 +11,25 @@ export class LoginService {
   private _signInForm!: FormGroup;
   private _signUpForm!: FormGroup;
 
+  /**
+   * Initialize and set base values.
+   * @param fb Form Builder
+   */
   constructor(private fb: FormBuilder) { }
 
+  // Get form
   get signInForm(): FormGroup { return this._signInForm = this.createFormGroupSignIn() }
-  get signInFormGetValue() { return this._signInForm.value }
-  get userNameSignIn() { return this._signInForm.get('userName') }
-  get passwordSignIn() { return this._signInForm.get('password') }
-
   get signUpForm(): FormGroup { return this._signUpForm = this.createFormGroupSignUp() }
-  get signUpFormGetValue() { return this._signUpForm.value }
-  get emailSignUp() { return this._signUpForm.get('email') }
-  get userNameSignUp() { return this._signUpForm.get('userName') }
-  get passwordSignUp() { return this._signUpForm.get('password') }
 
   /**
-   * Reset form
+   * Reset form.
    * @param form 
    */
   public resetFormSignIn(): void { this._signInForm.reset }
   public resetFormSignUp(): void { this._signUpForm.reset }
 
   /**
-   * Initialize Form
+   * Initialize Form.
    * @param task 
    * @returns Form
    */
@@ -49,5 +46,4 @@ export class LoginService {
       password: [user?.password || null, Validators.required]
     });
   }
-
 }

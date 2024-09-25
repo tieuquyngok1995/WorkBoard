@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { FormBuilder, FormGroup, MaxLengthValidator, Validators } from '@angular/forms';
-
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { TaskModel } from '../../core/model/model';
 
 @Injectable({
@@ -16,38 +15,23 @@ export class TaskService {
    */
   constructor(private fb: FormBuilder) { }
 
+  // Get form
   get taskForm(): FormGroup { return this.form = this.createFormGroup(); }
 
-  get moduleID() { return this.form.get('moduleID') }
-
-  get taskType() { return this.form.get('taskType') }
-
-  get numRedmine() { return this.form.get('numRedmine') }
-
-  get assignee() { return this.form.get('assignee') }
-
-  get priority() { return this.form.get('priority') }
-
-  get dateCreate() { return this.form.get('dateCreate') }
-
-  get estimatedHour() { return this.form.get('estimatedHour') }
-
-  get dateDelivery() { return this.form.get('dateDelivery') }
-
   /**
-   * Update value to form
+   * Update value to form.
    * @param task 
    */
   public updateForm(task: TaskModel): void { this.form.patchValue(task) }
 
   /**
-   * Reset form
+   * Reset form.
    * @param form 
    */
   public resetForm(): void { this.form.reset }
 
   /**
-   * Initialize Form
+   * Initialize Form.
    * @param task 
    * @returns Form
    */

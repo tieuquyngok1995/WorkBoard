@@ -2,13 +2,12 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { GLOBAL } from '../constants/global';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommonApiService {
-
-  private readonly authToken = 'authToken';
 
   public urlSignIn = 'Login/SignIn';
   public urlSignUp = 'Login/SignUp';
@@ -31,7 +30,7 @@ export class CommonApiService {
       }
     }
 
-    const header = new HttpHeaders().set('Authorization', 'Bearer' + this.cookieService.get(this.authToken));
+    const header = new HttpHeaders().set('Authorization', 'Bearer' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
     return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
   }
 

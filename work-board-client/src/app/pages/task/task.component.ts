@@ -1,15 +1,13 @@
 import { FormGroup } from '@angular/forms';
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { ProgramMode } from '../../core/enum/enums';
-import { UtilsService } from '../../core/services/utils.service';
 import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-
 import { TaskService } from './task.service';
-import { InputValidationDirective } from 'src/app/shared/directives/input-validation.directive';
+import { GLOBAL } from 'src/app/core/constants/global';
 
 @Component({
   selector: 'app-dialog-add-task',
@@ -28,50 +26,24 @@ export class TaskComponent implements OnInit {
   /**
    * Initialize and set base values.
    * @param dialog 
-   * @param dialogRef 
    * @param taskService 
+   * @param messageService 
+   * @param dialogRef 
+   * @param confirmDialogService 
    */
   constructor(
     @Inject(DIALOG_DATA)
     private dialog: TaskDialog,
     private taskService: TaskService,
-    private utilsService: UtilsService,
     private messageService: MessageService,
     private dialogRef: DialogRef<TaskDialog>,
     private confirmDialogService: DialogMessageService) {
-    this.title = 'Create Task';
+    this.title = GLOBAL.CREATE_TASK;
     this.taskForm = taskService.taskForm;
   }
 
-  //#region Input validation check and processing
-  get moduleID() {
-    return this.taskService.moduleID;
-  }
-  get taskTypeControl() {
-    return this.taskService.taskType;
-  }
-  get numRedmineControl() {
-    return this.taskService.numRedmine;
-  }
-  get assigneeControl() {
-    return this.taskService.assignee;
-  }
-  get priorityControl() {
-    return this.taskService.priority;
-  }
-  get dateCreateControl() {
-    return this.taskService.dateCreate;
-  }
-  get estimatedHourControl() {
-    return this.taskService.estimatedHour;
-  }
-  get dateDeliveryControl() {
-    return this.taskService.dateDelivery;
-  }
-  //#endregion
-
   /**
-   * On init dialog
+   * On init dialog.
    */
   public ngOnInit(): void {
     // Reset form 
@@ -83,7 +55,7 @@ export class TaskComponent implements OnInit {
       this.dataListType = this.dialog.data.dataTaskType ?? [];
 
       if (this.dialog.mode === ProgramMode.EDIT) {
-        this.title = 'Edit Task';
+        this.title = GLOBAL.EDIT_TASK;
         this.isEdit = true;
 
         this.taskService.updateForm(this.dialog.data)
@@ -92,7 +64,7 @@ export class TaskComponent implements OnInit {
   }
 
   /**
-   * Filter date, allows to select days from Monday to Friday
+   * Filter date, allows to select days from Monday to Friday.
    * @param d date input
    * @returns boolean filter date
    */
@@ -103,7 +75,7 @@ export class TaskComponent implements OnInit {
   };
 
   /**
-   * Event click Save data
+   * Event click Save data.
    */
   public save(): void {
     if (!this.taskForm.valid) {
@@ -118,14 +90,14 @@ export class TaskComponent implements OnInit {
   }
 
   /**
-   * Event click Delete data
+   * Event click Delete data.
    */
   public delete(): void {
     this.dialogRef.close({ isDelete: true });
   }
 
   /**
-   * Event click Cancel dialog 
+   * Event click Cancel dialog .
    */
   public cancel(): void {
     this.dialogRef.close();

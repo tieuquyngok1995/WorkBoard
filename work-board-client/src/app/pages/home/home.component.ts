@@ -140,6 +140,39 @@ export class HomeComponent implements OnInit {
   }
 
   /**
+   * Handle edit task.
+   * @param mode 
+   * @param moduleID 
+   * @param task 
+   * @param taskEdit 
+   * @returns 
+   */
+  private handleEditTask(mode: JobStatus, moduleID: string, task?: TaskModel, taskEdit?: TaskModel) {
+    if (this.utilsService.objCompare(task, taskEdit)) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('A002'));
+      return;
+    }
+
+    if (mode === JobStatus.COMPLETED) {
+      return;
+    }
+
+    this.homeService.updateTask(taskEdit).subscribe(result => {
+      if (result) {
+        if (mode === JobStatus.WAITING) {
+          this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        } else if (mode === JobStatus.PROGRESS) {
+          this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        } else if (mode === JobStatus.PENDING) {
+          this.dataColPending = this.dataColPending.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        }
+      } else {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
+      }
+    })
+  }
+
+  /**
    * Delete the task based on the module ID.
    * @param mode 
    * @param moduleID 
@@ -148,13 +181,19 @@ export class HomeComponent implements OnInit {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C001'), true).subscribe(result => {
       if (!result) return;
 
-      if (mode === JobStatus.WAITING) {
-        this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
-      } else if (mode === JobStatus.PROGRESS) {
-        this.dataColProgress = this.dataColProgress.filter(obj => obj.moduleID !== moduleID);
-      } else if (mode === JobStatus.PENDING) {
-        this.dataColPending = this.dataColPending.filter(obj => obj.moduleID !== moduleID);
-      }
+      this.homeService.delete(moduleID).subscribe(result => {
+        if (result) {
+          if (mode === JobStatus.WAITING) {
+            this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
+          } else if (mode === JobStatus.PROGRESS) {
+            this.dataColProgress = this.dataColProgress.filter(obj => obj.moduleID !== moduleID);
+          } else if (mode === JobStatus.PENDING) {
+            this.dataColPending = this.dataColPending.filter(obj => obj.moduleID !== moduleID);
+          }
+        } else {
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E012'));
+        }
+      })
     });
   }
 
@@ -201,33 +240,6 @@ export class HomeComponent implements OnInit {
         event.currentIndex,
       );
     }
-  }
-
-  private handleEditTask(mode: JobStatus, moduleID: string, task?: TaskModel, taskEdit?: TaskModel) {
-    if (this.utilsService.objCompare(task, taskEdit)) {
-      this.confirmDialogService.openDialog(this.messageService.getMessage('A002'));
-      return;
-    }
-
-    if (mode === JobStatus.COMPLETED) {
-      return;
-    }
-
-    this.homeService.updateTask(taskEdit).subscribe(result => {
-      if (result) {
-        if (mode === JobStatus.WAITING) {
-          this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-        } else if (mode === JobStatus.PROGRESS) {
-          this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-        } else if (mode === JobStatus.PENDING) {
-          this.dataColPending = this.dataColPending.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-        }
-      } else {
-        this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
-      }
-    })
-
-
   }
 
   // private subscriptionFunction() {

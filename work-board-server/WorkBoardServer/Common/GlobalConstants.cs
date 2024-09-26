@@ -6,6 +6,7 @@
         public const string PSignUp = "SignUp";
         public const string PCreateTask = "CreateTask";
         public const string PUpdateTask = "UpdateTask";
+        public const string PDeleteTask = "DeleteTask";
 
         public const string PGetTask = "GetTask";
         public const string PGetTaskType = "GetTaskType";

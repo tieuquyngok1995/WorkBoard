@@ -63,5 +63,25 @@ namespace WorkBoardServer.Controllers
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
+
+        [HttpGet]
+        public IActionResult DeleteTask(string moduleID)
+        {
+            try
+            {
+                bool result = _service.Delete(moduleID);
+
+                if (!result)
+                {
+                    return BadRequest("Failed to update data.");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
     }
 }

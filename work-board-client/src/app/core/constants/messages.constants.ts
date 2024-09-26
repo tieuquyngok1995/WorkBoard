@@ -15,5 +15,6 @@ export const MESSAGES = {
   E008: 'Invalid input field',
   E009: 'An error occurred during processing. Error details: ',
   E010: 'Task edit failed. Please check the information.',
-  E011: 'No corresponding data available.'
+  E011: 'No corresponding data available.',
+  E012: 'Task delete failed. Please check the information.',
 }

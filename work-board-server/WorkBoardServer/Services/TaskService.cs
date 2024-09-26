@@ -101,5 +101,18 @@ namespace WorkBoardServer.Services
             }
             return true;
         }
+
+        public bool Delete(string moduleID)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.PDeleteTask, new
+                {
+                    @moduleID = moduleID,
+                });
+            }
+            catch { return false; }
+            return true;
+        }
     }
 }

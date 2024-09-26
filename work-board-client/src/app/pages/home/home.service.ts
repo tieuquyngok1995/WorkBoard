@@ -31,4 +31,11 @@ export class HomeService {
       catchError(() => of(false))
     );
   }
+
+  public delete(moduleID: string): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlDeleteTask, { moduleID }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 }

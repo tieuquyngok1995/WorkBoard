@@ -13,6 +13,7 @@ export class CommonApiService {
   public urlSignUp = 'Login/SignUp';
   public urlGetIndex = 'Home/GetIndex';
   public urlCreateTask = 'Task/CreateTask';
+  public urlUpdateTask = 'Task/UpdateTask';
 
   private apiUrl = 'https://localhost:7047/api/';
 
@@ -30,7 +31,7 @@ export class CommonApiService {
       }
     }
 
-    const header = new HttpHeaders().set('Authorization', 'Bearer' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
+    const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
     return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
   }
 

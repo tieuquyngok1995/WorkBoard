@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -6,11 +6,18 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   templateUrl: './dialog-message.component.html',
   styleUrls: ['./dialog-message.component.css']
 })
-export class ConfirmDialogComponent {
+export class ConfirmDialogComponent implements OnInit {
+  public message!: string;
 
   constructor(
-    public dialogRef: MatDialogRef<ConfirmDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { message: string, isConfirm: boolean }) { }
+    @Inject(MAT_DIALOG_DATA)
+    public readonly data: { message: string, isConfirm: boolean },
+    private readonly dialogRef: MatDialogRef<ConfirmDialogComponent>
+  ) { }
+
+  public ngOnInit(): void {
+    this.message = this.data.message.replace('.', '.<br>');
+  }
 
   onConfirm(): void {
     this.dialogRef.close(true);

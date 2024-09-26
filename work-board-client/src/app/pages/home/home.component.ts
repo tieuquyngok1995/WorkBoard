@@ -33,7 +33,7 @@ export class HomeComponent implements OnInit {
   private dataDialog!: TaskModel;
 
   /**
-   * Register and initialize.
+   * A constructor initializes a class's objects upon creation.
    * @param dialog 
    * @param formBuilder 
    */

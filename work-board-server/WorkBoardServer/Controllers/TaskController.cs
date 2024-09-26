@@ -36,19 +36,27 @@ namespace WorkBoardServer.Controllers
         [HttpPost]
         public IActionResult UpdateTask(TaskModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                bool result = _service.Update(model);
+
+                if (!result)
+                {
+                    return BadRequest("Failed to update data.");
+                }
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Message = "An error occurred while updating data.", Error = ex.Message });
             }
 
-            bool result = _service.Update(model);
-
-            if (!result)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError);
-            }
-
-            return Ok(model);
         }
     }
 }

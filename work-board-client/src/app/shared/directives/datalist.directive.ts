@@ -1,57 +1,56 @@
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
 import { NgControl } from '@angular/forms';
-import { DataListOption } from 'src/app/core/model/model';
+import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { DataListOption } from '../../core/model/model';
 
 @Directive({
   selector: '[appDataList]'
 })
 export class DataListDirective {
+  // Set data list option
   @Input('optionList') optionList: DataListOption[] | undefined;
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    const dataList = document.getElementById(inputElement.id + 'Option');
-
-    if (dataList) {
-      const options = Array.from(dataList.getElementsByTagName('option')) as HTMLOptionElement[];
-
-      // Tìm option phù hợp
-      const selectedOption = options.find(option => option.value === inputElement.value);
-
-      if (selectedOption && this.ngControl.control) {
-        const key = selectedOption.getAttribute('data-key') || '';
-
-        this.ngControl.control.setValue(Number(key));
-
-        inputElement.value = selectedOption.value;
-      }
-    }
+    // Get the key of the option based on the value.
+    this.getKeyOption(event);
   }
 
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param el 
+   * @param ngControl 
+   */
   constructor(private el: ElementRef, private ngControl: NgControl) { }
 
+  /**
+   * On page initialization.
+   */
   ngOnInit() {
-    // Khi directive được khởi tạo, kiểm tra và hiển thị value từ key trong FormControl
-    this.updateInputValueFromKey();
+    this.updateValueFromKey();
   }
 
+  /**
+   * Fired after the view and child views of the component have been initialized.
+   */
   ngAfterViewInit() {
     if (this.optionList) {
-      this.createDataList();
+      this.createOption();
     }
   }
 
-  createDataList() {
+  /**
+   * Create Option.
+   */
+  private createOption() {
     const inputElement = this.el.nativeElement;
     const dataListId = inputElement.id + 'Option';
 
-    // Tạo datalist mới
+    // Create new element datalist
     const dataList = document.createElement('datalist');
     dataList.id = dataListId;
 
     if (this.optionList) {
-
+      // Set key to data key option
       this.optionList.forEach(item => {
         const option = document.createElement('option');
         option.value = item.value;
@@ -59,18 +58,44 @@ export class DataListDirective {
         dataList.appendChild(option);
       });
 
+      // Add html to page
       inputElement.parentNode?.insertBefore(dataList, inputElement.nextSibling);
       inputElement.setAttribute('list', dataListId);
     }
   }
 
-  private updateInputValueFromKey() {
-    const key = this.ngControl.control?.value; // Lấy giá trị key từ FormControl
+  /**
+   * Get the key of the option based on the value.
+   * @param event 
+   */
+  private getKeyOption(event: Event) {
+    const inputElement = event.target as HTMLInputElement;
+    const optionList = document.getElementById(inputElement.id + 'Option');
+
+    if (optionList) {
+      const options = Array.from(optionList.getElementsByTagName('option')) as HTMLOptionElement[];
+
+      // Find option by value
+      const selectedOption = options.find(option => option.value === inputElement.value);
+      if (selectedOption && this.ngControl.control) {
+        const key = selectedOption.getAttribute('data-key') || '';
+        // Set value
+        this.ngControl.control.setValue(Number(key));
+        inputElement.value = selectedOption.value;
+      }
+    }
+  }
+
+  /**
+   * Update the value of the option based on the key.
+   */
+  private updateValueFromKey() {
+    const key = this.ngControl.control?.value;
     if (this.optionList) {
       const selectedItem = this.optionList.find(item => item.key === key);
       if (selectedItem) {
         const inputElement = this.el.nativeElement as HTMLInputElement;
-        inputElement.value = selectedItem.value; // Hiển thị value trong input
+        inputElement.value = selectedItem.value;
       }
     }
   }

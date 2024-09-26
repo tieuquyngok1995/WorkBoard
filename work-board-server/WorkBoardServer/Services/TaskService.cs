@@ -63,6 +63,7 @@ namespace WorkBoardServer.Services
             try
             {
                 DataTable taskTable = new DataTable();
+                taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
                 taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
                 taskTable.Columns.Add("Type", typeof(short));                // smallint not null
                 taskTable.Columns.Add("NumRedmine", typeof(int));            // int
@@ -74,6 +75,7 @@ namespace WorkBoardServer.Services
                 taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
                 taskTable.Rows.Add(
+                    model.ModuleID,
                     model.TaskName,
                     model.Type,
                     model.NumRedmine,

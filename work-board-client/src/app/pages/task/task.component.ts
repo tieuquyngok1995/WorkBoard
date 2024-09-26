@@ -24,7 +24,7 @@ export class TaskComponent implements OnInit {
   public dataListAssigne!: DataListOption[];
 
   /**
-   * Initialize and set base values.
+   * A constructor initializes a class's objects upon creation.
    * @param dialog 
    * @param taskService 
    * @param messageService 

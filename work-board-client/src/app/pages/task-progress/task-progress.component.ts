@@ -19,7 +19,7 @@ export class TaskProgressComponent implements OnInit {
   public taskProgressForm: FormGroup;
 
   /**
-   * Initialize and set base values.
+   * A constructor initializes a class's objects upon creation.
    * @param dialog 
    * @param messageService 
    * @param dialogRef 

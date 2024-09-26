@@ -12,7 +12,7 @@ export class LoginService {
   private _signUpForm!: FormGroup;
 
   /**
-   * Initialize and set base values.
+   * A constructor initializes a class's objects upon creation.
    * @param fb Form Builder
    */
   constructor(private fb: FormBuilder) { }

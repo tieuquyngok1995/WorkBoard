@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   public signUpForm: FormGroup;
 
   /**
-   * Initialize and set base values.
+   * A constructor initializes a class's objects upon creation.
    * @param authService 
    * @param loginService 
    * @param messageService 

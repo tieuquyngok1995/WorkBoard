@@ -13,5 +13,7 @@ export const MESSAGES = {
   E006: 'The email address is invalid',
   E007: 'This field is invalid format',
   E008: 'Invalid input field',
-  E009: 'An error occurred during processing. Error details: '
+  E009: 'An error occurred during processing. Error details: ',
+  E010: 'Task edit failed. Please check the information.',
+  E011: 'No corresponding data available.'
 }

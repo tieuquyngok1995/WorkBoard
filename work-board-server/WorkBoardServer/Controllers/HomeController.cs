@@ -18,25 +18,32 @@ namespace WorkBoardServer.Controllers
         [HttpGet]
         public IActionResult GetIndex()
         {
-            string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (userId is null)
+            try
             {
-                return NotFound();
+                string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId is null)
+                {
+                    return NotFound();
+                }
+
+                HomeModel model = new HomeModel();
+                model.listTasks = _service.GetTaskModels(userId);
+
+                model.taskDialog = new TaskModel()
+                {
+                    DataTaskType = _service.GetDataTaskType(),
+                    DataAssignee = _service.GetDataAssignee(),
+                    DataPriority = _service.GetDataPriority(),
+                    DataTaskStatus = _service.GetTaskStatus()
+                };
+
+                return Ok(model);
             }
-
-            HomeModel model = new HomeModel();
-            model.listTasks = _service.GetTaskModels(userId);
-
-            model.taskDialog = new TaskModel()
+            catch (Exception ex)
             {
-                DataTaskType = _service.GetDataTaskType(),
-                DataAssignee = _service.GetDataAssignee(),
-                DataPriority = _service.GetDataPriority(),
-                DataTaskStatus = _service.GetTaskStatus()
-            };
-
-            return Ok(model);
+                return StatusCode(500, new { Error = ex.Message });
+            }
         }
     }
 }

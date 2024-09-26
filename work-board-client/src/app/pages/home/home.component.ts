@@ -98,14 +98,28 @@ export class HomeComponent implements OnInit {
    * @param moduleID 
    */
   editTaskDialog(mode: JobStatus, moduleID: string) {
-    const data = this.dataColWaiting.find(obj => obj.moduleID === moduleID);
+    let data: TaskModel | undefined;
+    if (mode === JobStatus.WAITING) {
+      data = this.dataColWaiting.find(obj => obj.moduleID === moduleID);
+    } else if (mode === JobStatus.PROGRESS) {
+      data = this.dataColProgress.find(obj => obj.moduleID === moduleID);
+    } else if (mode === JobStatus.PENDING) {
+      data = this.dataColPending.find(obj => obj.moduleID === moduleID);
+    } else {
+      data = this.dataColCompleted.find(obj => obj.moduleID === moduleID);
+    }
+
+    if (!data) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('E011'));
+      return;
+    }
 
     // Open diag task
     this.dialog.open(TaskComponent, {
       disableClose: true,
       minWidth: this.sizeDialog,
       data: {
-        mode: ProgramMode.EDIT,
+        mode: mode === JobStatus.COMPLETED ? ProgramMode.READ : ProgramMode.EDIT,
         data: {
           ...data,
           dataAssignee: this.dataDialog.dataAssignee,
@@ -195,21 +209,25 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    if (mode === JobStatus.COMPLETED) {
+      return;
+    }
+
     this.homeService.updateTask(taskEdit).subscribe(result => {
       if (result) {
-
+        if (mode === JobStatus.WAITING) {
+          this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        } else if (mode === JobStatus.PROGRESS) {
+          this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        } else if (mode === JobStatus.PENDING) {
+          this.dataColPending = this.dataColPending.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+        }
+      } else {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
       }
     })
 
-    if (mode === JobStatus.WAITING) {
-      this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-    } else if (mode === JobStatus.PROGRESS) {
-      this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-    } else if (mode === JobStatus.PENDING) {
-      this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-    } else {
-      this.dataColCompleted = this.dataColCompleted.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
-    }
+
   }
 
   // private subscriptionFunction() {

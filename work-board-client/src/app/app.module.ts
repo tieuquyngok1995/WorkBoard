@@ -16,7 +16,7 @@ import { HandleApiInterceptor } from './core/interceptor/handle-api.interceptor'
 import { SharedModule } from './shared/module/shared.module';
 import { ConfirmDialogComponent } from './shared/dialog-message/dialog-message.component';
 import { DataListDirective } from './shared/directives/datalist.directive';
-import { InputValidationDirective } from './shared/directives/input-validation.directive';
+import { InputDirective } from './shared/directives/input-validation.directive';
 
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
@@ -30,7 +30,7 @@ import { ErrorComponent } from './pages/error/login.component';
     AppComponent,
     ConfirmDialogComponent,
     DataListDirective,
-    InputValidationDirective,
+    InputDirective,
     HomeComponent,
     HeaderComponent,
     ErrorComponent,

@@ -17,21 +17,27 @@ namespace WorkBoardServer.Controllers
         [HttpPost]
         public IActionResult CreateTask(TaskModel model)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                bool result = _service.Create(model);
+
+                if (!result)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError);
+                }
+
+                return Ok(model);
             }
-
-            bool result = _service.Create(model);
-
-            if (!result)
+            catch (Exception ex)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return StatusCode(500, new { Error = ex.Message });
             }
-
-            return Ok(model);
         }
-
 
         [HttpPost]
         public IActionResult UpdateTask(TaskModel model)
@@ -54,9 +60,8 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Message = "An error occurred while updating data.", Error = ex.Message });
+                return StatusCode(500, new { Error = ex.Message });
             }
-
         }
     }
 }

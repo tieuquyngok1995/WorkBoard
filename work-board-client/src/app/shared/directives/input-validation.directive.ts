@@ -4,15 +4,19 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
 import { MESSAGES } from '../../core/constants/messages.constants';
 
 @Directive({
-  selector: '[appInputValidation]'
+  selector: '[appInputDirective]'
 })
-export class InputValidationDirective {
+export class InputDirective {
   // Create app input
-  @Input() appInputValidation: string | undefined;
+  @Input() appInputDirective: string | undefined;
   // Create element html
   private errorDivElement: HTMLElement | null = null;
   private errorLabelElement: HTMLElement | null = null;
   private width: string = '36%';
+
+  @Input() set appInputReadonly(isRead: boolean) {
+    this.setReadonly(isRead);
+  }
 
   @HostListener('input') onInputChange() {
     this.checkValidity(this.control.control);
@@ -41,6 +45,36 @@ export class InputValidationDirective {
    */
   constructor(private el: ElementRef, private renderer: Renderer2, private control: NgControl) { }
 
+  /**
+   * Set readonly input
+   * @param isEdit 
+   */
+  private setReadonly(isRead: boolean): void {
+    if (isRead) {
+      this.renderer.setAttribute(this.el.nativeElement, 'readonly', 'true');
+      this.renderer.addClass(this.el.nativeElement, 'input-readonly');
+      this.updateLabelColor('placeholder-readonly');
+    } else {
+      this.renderer.removeAttribute(this.el.nativeElement, 'readonly');
+      this.renderer.removeClass(this.el.nativeElement, 'input-readonly');
+      this.updateLabelColor('');
+    }
+  }
+
+  /**
+   * Update color label
+   * @param className 
+   */
+  private updateLabelColor(className: string): void {
+    const label = this.el.nativeElement.parentNode.querySelector('label');
+    if (label) {
+      if (className) {
+        this.renderer.addClass(label, className);
+      } else {
+        this.renderer.removeClass(label, 'placeholder-readonly');
+      }
+    }
+  }
   /**
    * Check the validity.
    */

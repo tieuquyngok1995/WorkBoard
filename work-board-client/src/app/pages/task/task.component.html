@@ -1,49 +1,53 @@
 <form [formGroup]="taskForm">
   <div class="title">{{ title }}</div>
   <div class="input-container ic1">
-    <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" " [readonly]="isEdit"
-      appInputValidation />
+    <input id="moduleID" class="input" type="text" formControlName="moduleID" placeholder=" " appInputDirective
+      [appInputReadonly]="isReadModuleID" />
     <div class="cut cut-short2"></div>
     <label for="moduleID" class="placeholder">Module ID</label>
   </div>
 
   <div class="input-container ic2">
-    <input id="taskName" class="input" type="text" formControlName="taskName" placeholder=" " />
+    <input id="taskName" class="input" type="text" formControlName="taskName" placeholder=" " appInputDirective
+      [appInputReadonly]="isRead" />
     <div class="cut cut-short2"></div>
     <label for="taskName" class="placeholder">Task Name</label>
   </div>
 
   <div class="input-container ic2">
     <input id="taskType" class="input" type="text" formControlName="type" placeholder=" " appPreventInput appDataList
-      [optionList]="dataListType" appInputValidation />
+      [optionList]="dataListType" appInputDirective [appInputReadonly]="isRead" />
     <div class="cut cut-short3"></div>
     <label for="taskType" class="placeholder">Task Type</label>
   </div>
 
   <div class="input-container ic2">
-    <input id="numRedmine" class="input" type="text" formControlName="numRedmine" placeholder=" " appInputValidation />
+    <input id="numRedmine" class="input" type="text" formControlName="numRedmine" placeholder=" " appInputDirective
+      [appInputReadonly]="isRead" />
     <div class="cut cut-long2"></div>
     <label for="numRedmine" class="placeholder">Num Redmine</label>
   </div>
 
   <div class="input-container ic2">
     <input id="assignee" class="input" type="text" formControlName="assignee" placeholder=" " appPreventInput
-      appDataList [optionList]="dataListAssigne" appInputValidation />
+      appDataList [optionList]="dataListAssigne" appInputDirective [appInputReadonly]="isRead" />
     <div class="cut cut-short3"></div>
     <label for="assignee" class="placeholder">Assignee</label>
   </div>
 
   <div class="input-container ic2">
     <input id="priority" class="input" type="text" formControlName="priority" placeholder=" " appPreventInput
-      appDataList [optionList]="dataListPriority" />
+      appDataList [optionList]="dataListPriority" appInputDirective [appInputReadonly]="isRead" />
     <div class="cut cut-long1"></div>
     <label for="priority" class="placeholder">Priority Level</label>
   </div>
 
   <div class="input-container ic2">
     <input id="dateCreate" class="input" type="text" matInput [matDatepickerFilter]="dateFilter" [readonly]="true"
-      [matDatepicker]="dateCreate" formControlName="dateCreate" placeholder=" " appInputValidation />
-    <mat-datepicker-toggle matIconSuffix [for]="dateCreate" class="date-picker"></mat-datepicker-toggle>
+      [matDatepicker]="dateCreate" formControlName="dateCreate" placeholder=" " appInputDirective
+      [appInputReadonly]="isRead" />
+    <mat-datepicker-toggle matIconSuffix [for]="dateCreate" class="date-picker"
+      [disabled]="isRead"></mat-datepicker-toggle>
     <mat-datepicker #dateCreate></mat-datepicker>
     <div class="cut cut-long1"></div>
     <label for="dateCreate" class="placeholder">Date Created</label>
@@ -51,29 +55,32 @@
 
   <div class="input-container ic2">
     <input id="estimatedHour" class="input" type="number" formControlName="estimatedHour" placeholder=" "
-      appInputValidation />
+      appInputDirective [appInputReadonly]="isRead" />
     <div class="cut cut-long3"></div>
     <label for="estimatedHour" class="placeholder">Estimated Hours</label>
   </div>
 
   <div class="input-container ic2">
     <input id="dateDelivery" class="input" type="text" matInput [matDatepickerFilter]="dateFilter" [readonly]="true"
-      [matDatepicker]="dateDelivery" formControlName="dateDelivery" placeholder=" " appInputValidation />
-    <mat-datepicker-toggle matIconSuffix [for]="dateDelivery" class="date-picker"></mat-datepicker-toggle>
+      [matDatepicker]="dateDelivery" formControlName="dateDelivery" placeholder=" " appInputDirective
+      [appInputReadonly]="isRead" />
+    <mat-datepicker-toggle matIconSuffix [for]="dateDelivery" class="date-picker"
+      [disabled]="isRead"></mat-datepicker-toggle>
     <mat-datepicker #dateDelivery></mat-datepicker>
     <div class="cut cut-long1"></div>
     <label for="dateDelivery" class="placeholder">Date Delivery</label>
   </div>
 
   <div class="input-container ic3">
-    <textarea id="note" class="input" rows="2" formControlName="note" placeholder=" "></textarea>
+    <textarea id="note" class="input" rows="2" formControlName="note" placeholder=" " appInputDirective
+      [appInputReadonly]="isRead"></textarea>
     <div class="cut cut-short4"></div>
     <label for="note" class="placeholder">Note</label>
   </div>
 
   <div class="row justify-content-center pt-3">
-    <button class="col-3 btn btn-outline-info mr-4" (click)="save()">Save</button>
-    <button class="col-3 btn btn-outline-danger" [disabled]="!isEdit" (click)="delete()">Delete</button>
+    <button class="col-3 btn btn-outline-info mr-4" [disabled]="isRead" (click)="save()">Save</button>
+    <button class="col-3 btn btn-outline-danger" [disabled]="isReadModuleID" (click)="delete()">Delete</button>
     <button class="col-3 btn btn-outline-secondary ml-4" (click)="cancel()">Cancel</button>
   </div>
 </form>

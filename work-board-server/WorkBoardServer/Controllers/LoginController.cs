@@ -19,41 +19,55 @@ namespace WorkBoardServer.Controllers
         [HttpPost]
         public IActionResult SignIn(UserModel body)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                UserModel model = _service.SignIn(body.UserName, body.Password);
+
+                if (model.UserName == null)
+                {
+                    return Unauthorized();
+                }
+
+                model.Token = _jwtTokenService.GenerateToken(model);
+
+                return Ok(model);
             }
-
-            UserModel model = _service.SignIn(body.UserName, body.Password);
-
-            if (model.UserName == null)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return StatusCode(500, new { Error = ex.Message });
             }
-
-            model.Token = _jwtTokenService.GenerateToken(model);
-
-            return Ok(model);
         }
 
         [HttpPost]
         public IActionResult SignUp(UserModel body)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                return BadRequest(ModelState);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                UserModel model = _service.SignUp(body.Email, body.UserName, body.Password);
+
+                if (model.UserName == null)
+                {
+                    return Unauthorized();
+                }
+
+                model.Token = _jwtTokenService.GenerateToken(model);
+
+                return Ok(model);
             }
-
-            UserModel model = _service.SignUp(body.Email, body.UserName, body.Password);
-
-            if (model.UserName == null)
+            catch (Exception ex)
             {
-                return Unauthorized();
+                return StatusCode(500, new { Error = ex.Message });
             }
-
-            model.Token = _jwtTokenService.GenerateToken(model);
-
-            return Ok(model);
         }
     }
 }

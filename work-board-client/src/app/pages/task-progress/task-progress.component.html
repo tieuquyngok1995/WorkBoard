@@ -1,14 +1,14 @@
 <form [formGroup]="taskProgressForm">
   <div class="title">Edit Task Progress</div>
   <div class="input-container ic1">
-    <input id="workHour" class="input" type="text" formControlName="workHour" placeholder=" " appInputValidation />
+    <input id="workHour" class="input" type="text" formControlName="workHour" placeholder=" " appInputDirective />
     <div class="cut"></div>
     <label for="workHour" class="placeholder">Work Hours</label>
   </div>
 
   <div class="input-container ic2">
     <input id="progress" class="input" type="number" min="0" max="100" step="1" formControlName="progress"
-      placeholder=" " appInputValidation />
+      placeholder=" " appInputDirective />
     <div class="cut cut-medium"></div>
     <label for="progress" class="placeholder">Task Progress</label>
     <h2 class="precent">%</h2>

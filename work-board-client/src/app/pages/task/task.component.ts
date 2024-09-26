@@ -16,7 +16,8 @@ import { GLOBAL } from 'src/app/core/constants/global';
 })
 export class TaskComponent implements OnInit {
   public title: string;
-  public isEdit!: boolean;
+  public isRead!: boolean;
+  public isReadModuleID!: boolean;
   public taskForm!: FormGroup;
 
   public dataListType!: DataListOption[];
@@ -56,10 +57,15 @@ export class TaskComponent implements OnInit {
 
       if (this.dialog.mode === ProgramMode.EDIT) {
         this.title = GLOBAL.EDIT_TASK;
-        this.isEdit = true;
+        this.isReadModuleID = true;
 
-        this.taskService.updateForm(this.dialog.data)
+      } else if (this.dialog.mode === ProgramMode.READ) {
+        this.title = GLOBAL.READ_TASK;
+        this.isRead = true;
+        this.isReadModuleID = true;
       }
+
+      this.taskService.updateForm(this.dialog.data)
     }
   }
 

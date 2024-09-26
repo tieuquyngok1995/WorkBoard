@@ -6,12 +6,12 @@ import { DataListOption } from 'src/app/core/model/model';
   selector: '[appDataList]'
 })
 export class DataListDirective {
-  @Input('dataList') dataList: DataListOption[] | undefined;
+  @Input('optionList') optionList: DataListOption[] | undefined;
 
   @HostListener('input', ['$event'])
   onInput(event: Event) {
     const inputElement = event.target as HTMLInputElement;
-    const dataList = document.getElementById('dataList' + inputElement.id);
+    const dataList = document.getElementById(inputElement.id + 'Option');
 
     if (dataList) {
       const options = Array.from(dataList.getElementsByTagName('option')) as HTMLOptionElement[];
@@ -37,22 +37,22 @@ export class DataListDirective {
   }
 
   ngAfterViewInit() {
-    if (this.dataList) {
+    if (this.optionList) {
       this.createDataList();
     }
   }
 
   createDataList() {
     const inputElement = this.el.nativeElement;
-    const dataListId = 'dataList' + inputElement.id;
+    const dataListId = inputElement.id + 'Option';
 
     // Tạo datalist mới
     const dataList = document.createElement('datalist');
     dataList.id = dataListId;
 
-    if (this.dataList) {
+    if (this.optionList) {
 
-      this.dataList.forEach(item => {
+      this.optionList.forEach(item => {
         const option = document.createElement('option');
         option.value = item.value;
         option.setAttribute('data-key', item.key.toString());
@@ -66,8 +66,8 @@ export class DataListDirective {
 
   private updateInputValueFromKey() {
     const key = this.ngControl.control?.value; // Lấy giá trị key từ FormControl
-    if (this.dataList) {
-      const selectedItem = this.dataList.find(item => item.key === key);
+    if (this.optionList) {
+      const selectedItem = this.optionList.find(item => item.key === key);
       if (selectedItem) {
         const inputElement = this.el.nativeElement as HTMLInputElement;
         inputElement.value = selectedItem.value; // Hiển thị value trong input

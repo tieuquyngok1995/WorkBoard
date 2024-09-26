@@ -38,7 +38,8 @@ export class AuthService {
           this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
-          sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, data.userName);
+          this._userName = data.userName;
+          sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -56,7 +57,8 @@ export class AuthService {
           this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
-          sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, data.userName);
+          this._userName = data.userName;
+          sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
           return true;
         } else {
           this._auth = { isAuthenticated: false };

@@ -83,9 +83,10 @@ app.UseHttpsRedirection();
 // Apply the CORS policy
 app.UseCors("AllowSpecificOrigin");
 
-app.UseSerilogRequestLogging();
-
 app.UseMiddleware<LoggingMiddleware>();
+app.UseMiddleware<TokenValidationMiddleware>();
+
+app.UseSerilogRequestLogging();
 
 app.UseAuthentication();
 app.UseAuthorization();

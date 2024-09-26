@@ -10,9 +10,9 @@ CREATE PROCEDURE GetTask
 AS
 BEGIN
 
-	SET NOCOUNT ON;
+SET NOCOUNT ON;
 
-    DECLARE @roleID as smallint;
+DECLARE @roleID as smallint;
 SET @roleID = (select roleid from Users where UserID = @USERID);
 
 SELECT ModuleID
@@ -37,9 +37,12 @@ SELECT ModuleID
 			ON T.type = TT.ID
 		LEFT JOIN [dbo].[Users] U
 			ON T.Assignee = U.UserID
-			and U.UserID = @USERID
 	WHERE 
-		1 = CASE WHEN @roleID < 2 THEN 1
-		    ELSE CASE WHEN @roleID = 2 AND RoleID IS NOT NULL THEN 1 END
-			END
+		CASE WHEN @roleID < 2 THEN 1
+		ELSE CASE WHEN @roleID = 2 and T.Assignee = @USERID THEN 1 END
+		END = 1
+	ORDER BY 
+		TaskStatus ASC,
+		Priority ASC, 
+		Type ASC
 END

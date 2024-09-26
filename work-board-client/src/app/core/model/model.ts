@@ -24,22 +24,33 @@ export interface HomeModel {
   listTasks: TaskModel[];
 }
 
+export interface TaskStatusModel {
+  Waiting: TaskModel[];
+  InProgress: TaskModel[];
+  Pending: TaskModel[];
+  Completed: TaskModel[];
+}
+
 export interface TaskModel {
   moduleID: string;
   taskName: string | null;
-  taskType: number | null;
+  type: number;
+  typeName: string | null;
   dataTaskType: DataListOption[] | null;
   numRedmine: string | null;
-  assignee: number | null;
+  assignee: number;
+  assigneeName: string | null;
   dataAssignee: DataListOption[] | null;
-  priority: number | null;
+  priority: number;
   dataPriority: DataListOption[] | null;
   dateCreate: Date | null;
   workHour: number;
-  estimatedHour: number | null;
+  estimatedHour: number;
   progress: number;
   dateDelivery: Date | null;
   note: string | null;
+  taskStatus: number;
+  dataTaskStatus: DataListOption[] | null;
 }
 
 export interface TaskDialog {
@@ -48,20 +59,20 @@ export interface TaskDialog {
   data?: TaskModel;
 }
 
-class CreateTaskModel implements TaskModel {
-  moduleID = '';
-  taskName = null;
-  taskType = null;
-  dataTaskType = null;
-  numRedmine = null;
-  assignee = null;
-  dataAssignee = null;
-  priority = null;
-  dataPriority = null;
-  dateCreate = null;
-  workHour = 0;
-  estimatedHour = null;
-  progress = 0;
-  dateDelivery = null;
-  note = null;
-}
+// class CreateTaskModel implements TaskModel {
+//   moduleID = '';
+//   taskName = null;
+//   taskType = null;
+//   dataTaskType = null;
+//   numRedmine = null;
+//   assignee = null;
+//   dataAssignee = null;
+//   priority = null;
+//   dataPriority = null;
+//   dateCreate = null;
+//   workHour = 0;
+//   estimatedHour = null;
+//   progress = 0;
+//   dateDelivery = null;
+//   note = null;
+// }

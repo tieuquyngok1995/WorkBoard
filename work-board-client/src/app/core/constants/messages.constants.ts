@@ -2,6 +2,8 @@ export const MESSAGES = {
   C001: 'Do you want to continue deleting this data?',
 
   A001: 'There is an invalid input field value. Please check again.',
+  A002: 'No edits made as there were no changes.',
+  A003: 'Edit task executed successfully.',
 
   E001: 'Login failed. Please check your login information.',
   E002: 'Registration failed. Please check your registration information.',
@@ -11,4 +13,5 @@ export const MESSAGES = {
   E006: 'The email address is invalid',
   E007: 'This field is invalid format',
   E008: 'Invalid input field',
+  E009: 'An error occurred during processing. Error details: '
 }

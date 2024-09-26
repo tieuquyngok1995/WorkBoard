@@ -21,5 +21,5 @@ export enum JobStatus {
     WAITING,
     PROGRESS,
     PENDING,
-    DONE
+    COMPLETED
 }

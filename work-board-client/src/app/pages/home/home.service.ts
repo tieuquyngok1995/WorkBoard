@@ -24,4 +24,11 @@ export class HomeService {
       catchError(() => of(false))
     );
   }
+
+  public updateTask(body?: TaskModel): Observable<boolean> {
+    return this.commonApiService.post(this.commonApiService.urlUpdateTask, body).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 }

@@ -39,7 +39,7 @@ export class TaskService {
     return this.fb.group({
       moduleID: [task?.moduleID || null, [Validators.required, Validators.maxLength(20)]],
       taskName: [task?.taskName || null, Validators.maxLength(100)],
-      taskType: [task?.taskType || null, Validators.required],
+      type: [task?.type || null, Validators.required],
       numRedmine: [task?.numRedmine || null, [Validators.pattern("^[0-9]*$"), Validators.max(9999999)]],
       assignee: [task?.assignee || null, Validators.required],
       priority: [task?.priority || null],

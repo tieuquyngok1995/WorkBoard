@@ -1,24 +1,3 @@
-<!-- <div class="row filter-container">
-  <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
-    <mat-card-content>
-      <div class="row">
-        <div class="col-3">
-          <mat-form-field>
-            <mat-select formControlName="assignee" placeholder="Choose User" multiple>
-              <mat-option #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)"
-                [value]="0">All</mat-option>
-              <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
-                {{assignee.displayName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
-
-      </div>
-    </mat-card-content>
-  </mat-card>
-</div> -->
 <div class="row full-height justify-content-center">
   <div class="col-3 col-task-container">
     <div class="col-task-header">
@@ -38,10 +17,10 @@
     </div>
 
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #newTaskList="cdkDropList" [cdkDropListData]="initTask"
-        [cdkDropListConnectedTo]="[inProgressList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="row" *ngFor="let task of initTask" cdkDrag>
-          <div class="card" (dblclick)="editTaskDialog(task.moduleID)"
+      <div class="col-task-list" cdkDropList #dataWaiting="cdkDropList" [cdkDropListData]="dataColWaiting"
+        [cdkDropListConnectedTo]="[dataProgress, dataPending, dataCompleted]" (cdkDropListDropped)="drop($event)">
+        <div class="row" *ngFor="let task of dataColWaiting" cdkDrag>
+          <div class="card" (dblclick)="editTaskDialog(Status.WAITING, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
             <div class="table">
               <div class="row row-text">
@@ -72,21 +51,21 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.CODING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.TESTING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.REVIEW">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.FIXBUG">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{ getNameAssignee(task.assignee) }} </h4>
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assigneeName }} </h4>
                 </div>
                 <div class="fixed-width-date">
                   <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
@@ -116,10 +95,10 @@
     </div>
 
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #inProgressList="cdkDropList" [cdkDropListData]="inProgress"
-        [cdkDropListConnectedTo]="[newTaskList, pendingList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="row" *ngFor="let task of inProgress" cdkDrag>
-          <div class="card" (dblclick)="editTaskDialog(task.moduleID)"
+      <div class="col-task-list" cdkDropList #dataProgress="cdkDropList" [cdkDropListData]="dataColProgress"
+        [cdkDropListConnectedTo]="[dataWaiting, dataPending, dataCompleted]" (cdkDropListDropped)="drop($event)">
+        <div class="row" *ngFor="let task of dataColProgress" cdkDrag>
+          <div class="card" (dblclick)="editTaskDialog(Status.PROGRESS, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
             <div class="table">
               <div class="row row-text">
@@ -152,21 +131,21 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.CODING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.TESTING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.REVIEW">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.FIXBUG">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assigneeName }} </h4>
                 </div>
                 <div class="fixed-width-date">
                   <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
@@ -196,10 +175,10 @@
     </div>
 
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #pendingList="cdkDropList" [cdkDropListData]="pending"
-        [cdkDropListConnectedTo]="[newTaskList, inProgressList, completedList]" (cdkDropListDropped)="drop($event)">
-        <div class="row" *ngFor="let task of pending" cdkDrag>
-          <div class="card" (dblclick)="editTaskDialog(task.moduleID)"
+      <div class="col-task-list" cdkDropList #dataPending="cdkDropList" [cdkDropListData]="dataColPending"
+        [cdkDropListConnectedTo]="[dataWaiting, dataProgress, dataCompleted]" (cdkDropListDropped)="drop($event)">
+        <div class="row" *ngFor="let task of dataColPending" cdkDrag>
+          <div class="card" (dblclick)="editTaskDialog(Status.PENDING, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
             <div class="table">
               <div class="row row-text">
@@ -230,21 +209,21 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.CODING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.TESTING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.REVIEW">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.FIXBUG">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assigneeName }} </h4>
                 </div>
                 <div class="fixed-width-date">
                   <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
@@ -274,11 +253,10 @@
     </div>
 
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #completedList="cdkDropList" [cdkDropListData]="completed"
-        [cdkDropListConnectedTo]="[newTaskList, inProgressList, pendingList]" (cdkDropListDropped)="drop($event)">
-        <div class="row" *ngFor="let task of completed" cdkDrag>
-          <div class="card" (dblclick)="editTaskDialog(task.moduleID)"
-            [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
+      <div class="col-task-list" cdkDropList #dataCompleted="cdkDropList" [cdkDropListData]="dataColCompleted"
+        (cdkDropListDropped)="drop($event)">
+        <div class="row" *ngFor="let task of dataColCompleted">
+          <div class="card no-select" (dblclick)="editTaskDialog(Status.COMPLETED, task.moduleID)">
             <div class="table">
               <div class="row row-text">
                 <div class="fixed-module-id">
@@ -304,21 +282,21 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.CODING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
                     <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.TESTING">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
                     <i class="bi bi-bug"></i>&nbsp;Testing
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.REVIEW">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
                     <i class="bi bi-eye"></i>&nbsp;Review
                   </h4>
-                  <h4 class="task-type" *ngIf="task.taskType == TaskType.FIXBUG">
+                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
                     <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
-                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assignee }} </h4>
+                  <h4><i class="bi bi-person"></i>&nbsp;{{ task.assigneeName }} </h4>
                 </div>
                 <div class="fixed-width-date">
                   <h4><i class="bi bi-calendar2-event"></i>&nbsp;{{ task.dateDelivery | date:'dd/MM/yyyy' }}</h4>
@@ -335,3 +313,24 @@
     </div>
   </div>
 </div>
+<!-- <div class="row filter-container">
+  <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
+    <mat-card-content>
+      <div class="row">
+        <div class="col-3">
+          <mat-form-field>
+            <mat-select formControlName="assignee" placeholder="Choose User" multiple>
+              <mat-option #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)"
+                [value]="0">All</mat-option>
+              <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
+                {{assignee.displayName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
+
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div> -->

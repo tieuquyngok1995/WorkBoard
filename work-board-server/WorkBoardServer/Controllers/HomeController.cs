@@ -20,19 +20,20 @@ namespace WorkBoardServer.Controllers
         {
             string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            HomeModel model = new HomeModel();
-
-            model.listTasks = _service.GetTaskModels(userId);
-            if (model.listTasks.Count == 0)
+            if (userId is null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError);
+                return NotFound();
             }
+
+            HomeModel model = new HomeModel();
+            model.listTasks = _service.GetTaskModels(userId);
 
             model.taskDialog = new TaskModel()
             {
                 DataTaskType = _service.GetDataTaskType(),
                 DataAssignee = _service.GetDataAssignee(),
-                DataPriority = _service.GetDataPriority()
+                DataPriority = _service.GetDataPriority(),
+                DataTaskStatus = _service.GetTaskStatus()
             };
 
             return Ok(model);

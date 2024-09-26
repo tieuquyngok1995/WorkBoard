@@ -31,6 +31,12 @@ namespace WorkBoardServer.Services
                 GlobalConstants.PGetPriority).AsList();
         }
 
+        public List<DataListOption> GetTaskStatus()
+        {
+            return _databaseService.ExecuteQuery<DataListOption>(
+                GlobalConstants.PGetTaskStatus).AsList();
+        }
+
         public List<TaskModel> GetTaskModels(string? userID)
         {
             return _databaseService.ExecuteQuery<TaskModel>(

@@ -31,5 +31,24 @@ namespace WorkBoardServer.Controllers
 
             return Ok(model);
         }
+
+
+        [HttpPost]
+        public IActionResult UpdateTask(TaskModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            bool result = _service.Update(model);
+
+            if (!result)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+
+            return Ok(model);
+        }
     }
 }

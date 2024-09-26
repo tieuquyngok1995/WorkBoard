@@ -45,5 +45,7 @@ namespace WorkBoardServer.Models
         public string? Note { get; set; }
 
         public short? TaskStatus { get; set; }
+
+        public List<DataListOption>? DataTaskStatus { get; set; }
     }
 }

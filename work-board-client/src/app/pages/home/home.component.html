@@ -15,10 +15,9 @@
       </div>
       <div class="header-footer"></div>
     </div>
-
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #dataWaiting="cdkDropList" [cdkDropListData]="dataColWaiting"
-        [cdkDropListConnectedTo]="[dataProgress, dataPending, dataCompleted]" (cdkDropListDropped)="onDrop($event)">
+      <div id="waiting" class="col-task-list" cdkDropList #dataWaiting="cdkDropList" [cdkDropListData]="dataColWaiting"
+        [cdkDropListConnectedTo]="[dataProgress, dataPending]" (cdkDropListDropped)="onDrop($event)">
         <div class="row" *ngFor="let task of dataColWaiting" cdkDrag [cdkDragData]="task">
           <div class="card" (dblclick)="editTaskDialog(Status.WAITING, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
@@ -93,10 +92,10 @@
       </div>
       <div class="header-footer"></div>
     </div>
-
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #dataProgress="cdkDropList" [cdkDropListData]="dataColProgress"
-        [cdkDropListConnectedTo]="[dataWaiting, dataPending, dataCompleted]" (cdkDropListDropped)="onDrop($event)">
+      <div id="progress" class="col-task-list" cdkDropList #dataProgress="cdkDropList"
+        [cdkDropListData]="dataColProgress" [cdkDropListConnectedTo]="[dataPending, dataCompleted]"
+        (cdkDropListDropped)="onDrop($event)">
         <div class="row" *ngFor="let task of dataColProgress" cdkDrag [cdkDragData]="task">
           <div class="card" (dblclick)="editTaskDialog(Status.PROGRESS, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
@@ -173,10 +172,9 @@
       </div>
       <div class="header-footer"></div>
     </div>
-
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #dataPending="cdkDropList" [cdkDropListData]="dataColPending"
-        [cdkDropListConnectedTo]="[dataWaiting, dataProgress, dataCompleted]" (cdkDropListDropped)="onDrop($event)">
+      <div id="pending" class="col-task-list" cdkDropList #dataPending="cdkDropList" [cdkDropListData]="dataColPending"
+        [cdkDropListConnectedTo]="[dataProgress, dataCompleted]" (cdkDropListDropped)="onDrop($event)">
         <div class="row" *ngFor="let task of dataColPending" cdkDrag [cdkDragData]="task">
           <div class="card" (dblclick)="editTaskDialog(Status.PENDING, task.moduleID)"
             [ngClass]="{ 'priority-high': task.priority == TaskPriority.HIGH, 'priority-medium': task.priority == TaskPriority.MEDIUM }">
@@ -251,10 +249,9 @@
       </div>
       <div class="header-footer"></div>
     </div>
-
     <div class="col-task">
-      <div class="col-task-list" cdkDropList #dataCompleted="cdkDropList" [cdkDropListData]="dataColCompleted"
-        (cdkDropListDropped)="onDrop($event, Status.COMPLETED)">
+      <div id="completed" class="col-task-list" cdkDropList #dataCompleted="cdkDropList"
+        [cdkDropListData]="dataColCompleted" (cdkDropListDropped)="onDrop($event, Status.COMPLETED)">
         <div class="row" *ngFor="let task of dataColCompleted">
           <div class="card no-select" (dblclick)="editTaskDialog(Status.COMPLETED, task.moduleID)">
             <div class="table">

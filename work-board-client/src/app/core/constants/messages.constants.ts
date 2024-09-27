@@ -18,4 +18,5 @@ export const MESSAGES = {
   E010: 'Task edit failed. Please check the information.',
   E011: 'No corresponding data available.',
   E012: 'Task delete failed. Please check the information.',
+  E013: 'Failed to update the task progress. Please check the information.',
 }

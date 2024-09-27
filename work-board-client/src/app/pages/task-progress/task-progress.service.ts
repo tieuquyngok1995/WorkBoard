@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { TaskModel } from '../../core/model/model';
 
 @Injectable({
@@ -18,11 +17,7 @@ export class TaskProgressService {
 
   get taskProgressForm(): FormGroup { return this.form = this.createFormGroup() }
 
-  get workHour() { return this.form.get('workHour') }
-
   get progress() { return this.form.get('progress') }
-
-  get note() { return this.form.get('note') }
 
   /**
    * Reset form

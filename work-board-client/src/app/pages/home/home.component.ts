@@ -127,13 +127,13 @@ export class HomeComponent implements OnInit {
           dataTaskType: this.dataDialog.dataTaskType
         }
       } as TaskDialog,
-    }).closed.subscribe((result: any) => {
-      if (result) {
-        if (result.isDelete) {
+    }).closed.subscribe((dialogResult: any) => {
+      if (dialogResult) {
+        if (dialogResult.isDelete) {
           this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
         } else {
           // Handle edit and update task 
-          this.handleEditTask(mode, moduleID, data, result.data)
+          this.handleEditTask(mode, moduleID, data, dialogResult.data)
         }
       }
     });
@@ -208,9 +208,18 @@ export class HomeComponent implements OnInit {
       disableClose: true,
       minWidth: this.sizeDialog,
       data: { data } as TaskDialog,
-    }).closed.subscribe((result: any) => {
-      if (result) {
-        this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...result.data } : obj);
+    }).closed.subscribe((dialogResult: any) => {
+      if (dialogResult) {
+        data = dialogResult.data;
+        if (data) {
+          this.homeService.updateTaskProgress(moduleID, data.workHour, data.progress, data.note ?? '').subscribe(result => {
+            if (result) {
+              this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...dialogResult.data } : obj);
+            } else {
+              this.confirmDialogService.openDialog(this.messageService.getMessage('E013'));
+            }
+          });
+        }
       }
     });
   }
@@ -230,11 +239,11 @@ export class HomeComponent implements OnInit {
    * @param event 
    */
   public onDrop(event: CdkDragDrop<any[]>, mode?: JobStatus) {
+    const taskModel = event.item.data as TaskModel;
+
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
     } else if (mode === JobStatus.COMPLETED) {
-      const taskModel = event.item.data as TaskModel;
-
       if (taskModel.progress !== 100) {
         this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
         return;
@@ -247,12 +256,22 @@ export class HomeComponent implements OnInit {
         );
       }
     } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex,
-      );
+      const id = event.container.id;
+      let taskStatus;
+      if (id === 'progress') taskStatus = JobStatus.PROGRESS;
+      else if (id === 'pending') taskStatus = JobStatus.PENDING;
+      else taskStatus = JobStatus.COMPLETED;
+
+      this.homeService.updateTaskStatus(taskModel.moduleID, taskStatus).subscribe(result => {
+        if (result) {
+          transferArrayItem(
+            event.previousContainer.data,
+            event.container.data,
+            event.previousIndex,
+            event.currentIndex,
+          );
+        }
+      })
     }
   }
 

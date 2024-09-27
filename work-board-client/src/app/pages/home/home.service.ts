@@ -1,6 +1,5 @@
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of } from "rxjs";
-
 import { HomeModel, TaskModel } from "../../core/model/model";
 import { CommonApiService } from "../../core/services/common-api.service";
 
@@ -27,6 +26,20 @@ export class HomeService {
 
   public updateTask(body?: TaskModel): Observable<boolean> {
     return this.commonApiService.post(this.commonApiService.urlUpdateTask, body).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  public updateTaskStatus(moduleID: string, taskStatus: number): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlUpdateTaskStatus, { moduleID, taskStatus }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
+
+  public updateTaskProgress(moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlUpdateTaskProgress, { moduleID, workHour, progress, note }).pipe(
       map(() => true),
       catchError(() => of(false))
     );

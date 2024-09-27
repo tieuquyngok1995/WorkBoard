@@ -1,20 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { UserModel } from '../../core/model/model';
 import { AuthService } from '../../core/services/auth.service';
 import { MessageService } from '../../shared/service/message.service';
-import { CommonApiService } from '../../core/services/common-api.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-
 import { LoginService } from './login.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
-  providers: [CommonApiService]
+  styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
   public signInForm: FormGroup;

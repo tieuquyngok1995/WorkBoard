@@ -14,6 +14,8 @@ export class CommonApiService {
   public urlGetIndex = 'Home/GetIndex';
   public urlCreateTask = 'Task/CreateTask';
   public urlUpdateTask = 'Task/UpdateTask';
+  public urlUpdateTaskStatus = 'Task/UpdateTaskStatus';
+  public urlUpdateTaskProgress = 'Task/UpdateTaskProgress';
   public urlDeleteTask = 'Task/DeleteTask';
 
   private apiUrl = 'https://localhost:7047/api/';

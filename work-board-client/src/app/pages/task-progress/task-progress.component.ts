@@ -2,10 +2,9 @@ import { FormGroup } from '@angular/forms';
 import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
-import { TaskDialog } from '../../core/model/model';
+import { TaskDialog, TaskModel } from '../../core/model/model';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-
 import { TaskProgressService } from './task-progress.service';
 
 @Component({
@@ -36,17 +35,9 @@ export class TaskProgressComponent implements OnInit {
     this.taskProgressForm = taskProgressService.taskProgressForm;
   }
 
-  //#region Input validation check and processing
-  get workHourControl() {
-    return this.taskProgressService.workHour;
-  }
   get progressControl() {
     return this.taskProgressService.progress;
   }
-  get noteControl() {
-    return this.taskProgressService.note;
-  }
-  //#endregion
 
   /**
    * On init dialog.
@@ -61,9 +52,11 @@ export class TaskProgressComponent implements OnInit {
     });
 
     if (this.dialog.data) {
-      this.workHourControl?.setValue(this.dialog.data.workHour === 0 ? null : this.dialog.data.workHour);
-      this.progressControl?.setValue(this.dialog.data.progress === 0 ? null : this.dialog.data.progress);
-      this.noteControl?.setValue(this.dialog.data.note);
+      this.taskProgressForm.patchValue({
+        workHour: this.dialog.data.workHour === 0 ? null : this.dialog.data.workHour,
+        progress: this.dialog.data.progress === 0 ? null : this.dialog.data.workHour,
+        note: this.dialog.data.note
+      });
     }
   }
 
@@ -76,8 +69,8 @@ export class TaskProgressComponent implements OnInit {
       return;
     }
 
-    const data = { ... this.dialog.data, ...  this.taskProgressForm.value }
-    this.dialogRef.close({ data: data });
+    const dataForm: TaskModel = this.taskProgressForm.value;
+    this.dialogRef.close({ data: dataForm });
   }
 
   /**

@@ -65,6 +65,56 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
+        public IActionResult UpdateTaskStatus(string moduleID, short taskStatus)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                bool result = _service.UpdateTaskStatus(moduleID, taskStatus);
+
+                if (!result)
+                {
+                    return BadRequest("Failed to update data.");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult UpdateTaskProgress(string moduleID, int workHour, int progress, string? note)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                bool result = _service.UpdateProgress(moduleID, workHour, progress, note);
+
+                if (!result)
+                {
+                    return BadRequest("Failed to update data.");
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpGet]
         public IActionResult DeleteTask(string moduleID)
         {
             try

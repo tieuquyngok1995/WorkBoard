@@ -9,8 +9,7 @@ CREATE PROCEDURE UpdateTask
     @data TaskType READONLY
 AS
 BEGIN
-    UPDATE T
-    SET 
+    UPDATE T SET 
         T.TaskName = TD.TaskName,
 		T.Type = TD.Type,
         T.NumRedmine = TD.NumRedmine,

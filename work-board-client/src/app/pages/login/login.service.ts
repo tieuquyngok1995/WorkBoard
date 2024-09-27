@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { UserModel } from '../../core/model/model';
 
 @Injectable({
@@ -41,9 +40,9 @@ export class LoginService {
   }
   private createFormGroupSignUp(user?: UserModel): FormGroup {
     return this.fb.group({
-      email: [user?.email || null, [Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
-      userName: [user?.userName || null, Validators.required],
-      password: [user?.password || null, Validators.required]
+      email: [user?.email || '', [Validators.pattern("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$")]],
+      userName: [user?.userName || '', Validators.required],
+      password: [user?.password || '', Validators.required]
     });
   }
 }

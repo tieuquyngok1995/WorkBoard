@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 
 import { UserModel } from '../../core/model/model';
 import { AuthService } from '../../core/services/auth.service';
@@ -17,7 +17,6 @@ import { LoginService } from './login.service';
   providers: [CommonApiService]
 })
 export class LoginComponent implements OnInit {
-
   public signInForm: FormGroup;
   public signUpForm: FormGroup;
 

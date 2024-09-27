@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, CdkDragEnd, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { TaskDialog, TaskModel } from '../../core/model/model';
 import { ProgramMode, TaskType, TaskPriority, JobStatus } from '../../core/enum/enums';
@@ -229,9 +229,23 @@ export class HomeComponent implements OnInit {
    * Drag-and-drop event between columns.
    * @param event 
    */
-  public drop(event: CdkDragDrop<any[]>) {
+  public onDrop(event: CdkDragDrop<any[]>, mode?: JobStatus) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
+    } else if (mode === JobStatus.COMPLETED) {
+      const taskModel = event.item.data as TaskModel;
+
+      if (taskModel.progress !== 100) {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
+        return;
+      } else {
+        transferArrayItem(
+          event.previousContainer.data,
+          event.container.data,
+          event.previousIndex,
+          0,
+        );
+      }
     } else {
       transferArrayItem(
         event.previousContainer.data,

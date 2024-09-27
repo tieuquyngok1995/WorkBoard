@@ -35,8 +35,8 @@ export class LoginService {
    */
   private createFormGroupSignIn(user?: UserModel): FormGroup {
     return this.fb.group({
-      userName: [user?.userName || null, Validators.required],
-      password: [user?.password || null, Validators.required]
+      userName: [user?.userName || '', Validators.required],
+      password: [user?.password || '', Validators.required]
     });
   }
   private createFormGroupSignUp(user?: UserModel): FormGroup {

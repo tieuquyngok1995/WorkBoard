@@ -2,13 +2,14 @@ import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of } from "rxjs";
 import { HomeModel, TaskModel } from "../../core/model/model";
 import { CommonApiService } from "../../core/services/common-api.service";
+import { WebsocketService } from "../../core/services/web-socket.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
 
-  constructor(private commonApiService: CommonApiService) { }
+  constructor(private commonApiService: CommonApiService, private websocketService: WebsocketService) { }
 
   public getInit(): Observable<HomeModel | null> {
     return this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex).pipe(
@@ -31,11 +32,9 @@ export class HomeService {
     );
   }
 
-  public updateTaskStatus(moduleID: string, taskStatus: number): Observable<boolean> {
-    return this.commonApiService.get(this.commonApiService.urlUpdateTaskStatus, { moduleID, taskStatus }).pipe(
-      map(() => true),
-      catchError(() => of(false))
-    );
+  public updateTaskStatus(ModuleID: string, TaskStatus: number): void {
+    const body = JSON.stringify({ ModuleID, TaskStatus });
+    this.websocketService.sendData(body);
   }
 
   public updateTaskProgress(moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {

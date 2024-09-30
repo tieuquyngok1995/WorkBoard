@@ -61,10 +61,7 @@ export class HomeComponent implements OnInit {
         this.dataColProgress = dataTask.InProgress;
         this.dataColPending = dataTask.Pending;
         this.dataColCompleted = dataTask.Completed;
-
-        console.log(this.dataColWaiting)
       }
-      console.log(data)
     })
   }
 
@@ -248,6 +245,7 @@ export class HomeComponent implements OnInit {
         this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
         return;
       } else {
+        this.homeService.updateTaskStatus(taskModel.moduleID, JobStatus.COMPLETED);
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -262,16 +260,13 @@ export class HomeComponent implements OnInit {
       else if (id === 'pending') taskStatus = JobStatus.PENDING;
       else taskStatus = JobStatus.COMPLETED;
 
-      this.homeService.updateTaskStatus(taskModel.moduleID, taskStatus).subscribe(result => {
-        if (result) {
-          transferArrayItem(
-            event.previousContainer.data,
-            event.container.data,
-            event.previousIndex,
-            event.currentIndex,
-          );
-        }
-      })
+      this.homeService.updateTaskStatus(taskModel.moduleID, taskStatus);
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex,
+      );
     }
   }
 

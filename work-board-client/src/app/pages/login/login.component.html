@@ -9,7 +9,7 @@
         <div class="card-3d-wrapper">
           <div class="card-front">
             <div class="center-wrap">
-              <form [formGroup]="signInForm">
+              <form [formGroup]="signInForm" (ngSubmit)="signIn()">
                 <h2 class="pb-1">Sign In</h2>
                 <div class="input-container ic1">
                   <input id="userNameIn" class="input" type="text" formControlName="userName" placeholder=" "
@@ -23,7 +23,7 @@
                   <div class="cut cut-short2"></div>
                   <label for="passwordIn" class="placeholder">Password</label>
                 </div>
-                <button type="button" class="btn btn-outline-info mt-4" (click)="signIn()">Submit</button>
+                <button type="submit" class="btn btn-outline-info mt-4" (click)="signIn()">Submit</button>
                 <p class="mb-0 mt-4 text-center"><a href="#0" class="link">Forgot your password?</a></p>
               </form>
             </div>
@@ -32,7 +32,7 @@
             <div class="center-wrap">
               <div class="section text-center">
                 <h2 class="pb-1">Sign Up</h2>
-                <form [formGroup]="signUpForm">
+                <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
                   <div class="input-container ic1">
                     <input id="email" class="input" type="text" formControlName="email" placeholder=" "
                       appInputDirective />
@@ -51,7 +51,7 @@
                     <div class="cut cut-short3"></div>
                     <label for="password" class="placeholder">Password</label>
                   </div>
-                  <button type="button" class="btn btn-outline-info mt-4" (click)="signUp()">Submit</button>
+                  <button type="submit" class="btn btn-outline-info mt-4" (click)="signUp()">Submit</button>
                 </form>
               </div>
             </div>

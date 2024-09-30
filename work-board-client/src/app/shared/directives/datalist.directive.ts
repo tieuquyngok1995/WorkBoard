@@ -1,11 +1,11 @@
 import { NgControl } from '@angular/forms';
-import { Directive, ElementRef, HostListener, Input } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { DataListOption } from '../../core/model/model';
 
 @Directive({
   selector: '[appDataList]'
 })
-export class DataListDirective {
+export class DataListDirective implements OnInit, AfterViewInit {
   // Set data list option
   @Input('optionList') optionList: DataListOption[] | undefined;
 
@@ -79,7 +79,6 @@ export class DataListDirective {
       const selectedOption = options.find(option => option.value === inputElement.value);
       if (selectedOption && this.ngControl.control) {
         const key = selectedOption.getAttribute('data-key') || '';
-        // Set value
         this.ngControl.control.setValue(Number(key));
         inputElement.value = selectedOption.value;
       }
@@ -91,12 +90,10 @@ export class DataListDirective {
    */
   private updateValueFromKey() {
     const key = this.ngControl.control?.value;
-    if (this.optionList) {
-      const selectedItem = this.optionList.find(item => item.key === key);
-      if (selectedItem) {
-        const inputElement = this.el.nativeElement as HTMLInputElement;
-        inputElement.value = selectedItem.value;
-      }
+    const selectedItem = this.optionList?.find(item => item.key === key);
+    if (selectedItem) {
+      const inputElement = this.el.nativeElement as HTMLInputElement;
+      inputElement.value = selectedItem.value;
     }
   }
 }

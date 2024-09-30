@@ -1,6 +1,5 @@
 ﻿using Microsoft.Data.SqlClient;
 using System.Data;
-using System.Threading.Tasks;
 using WorkBoardServer.Common;
 using WorkBoardServer.Models;
 
@@ -103,18 +102,20 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        public bool UpdateTaskStatus(string moduleID, short taskStatus)
+        public async Task UpdateTaskStatus(string moduleID, short? taskStatus)
         {
             try
             {
-                _databaseService.ExecuteQuery<bool>(GlobalConstants.PUpdateTaskStatus, new
+                await _databaseService.ExecuteQueryAsync<bool>(GlobalConstants.PUpdateTaskStatus, new
                 {
                     @moduleID = moduleID,
                     @taskStatus = taskStatus
                 });
             }
-            catch { return false; }
-            return true;
+            catch
+            {
+                throw;
+            }
         }
 
         public bool UpdateProgress(string moduleID, int workHour, int progress, string note)

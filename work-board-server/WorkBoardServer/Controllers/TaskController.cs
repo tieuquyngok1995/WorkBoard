@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.WebSockets;
+using System.Text;
+using System.Text.Json;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
 
@@ -65,27 +68,39 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult UpdateTaskStatus(string moduleID, short taskStatus)
+        public async Task UpdateTaskStatus()
         {
-            try
+            WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
+
+            var buffer = new byte[1024 * 4];
+
+            while (webSocket.State == WebSocketState.Open)
             {
-                if (!ModelState.IsValid)
+                var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                var body = Encoding.UTF8.GetString(buffer, 0, result.Count);
+
+                if (string.IsNullOrWhiteSpace(body))
                 {
-                    return BadRequest(ModelState);
+                    var errorBytes = Encoding.UTF8.GetBytes("Received empty message");
+                    await webSocket.SendAsync(new ArraySegment<byte>(errorBytes, 0, errorBytes.Length),
+                                              WebSocketMessageType.Text, true, CancellationToken.None);
+                    continue;
                 }
 
-                bool result = _service.UpdateTaskStatus(moduleID, taskStatus);
+                var receivedData = JsonSerializer.Deserialize<TaskModel>(body);
 
-                if (!result)
+                if (receivedData == null)
                 {
-                    return BadRequest("Failed to update data.");
+                    var errorBytes = Encoding.UTF8.GetBytes("Invalid data format");
+                    await webSocket.SendAsync(new ArraySegment<byte>(errorBytes, 0, errorBytes.Length),
+                                              WebSocketMessageType.Text, true, CancellationToken.None);
+                    continue;
                 }
 
-                return Ok();
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { Error = ex.Message });
+                string moduleID = receivedData.ModuleID;
+                short? taskStatus = receivedData.TaskStatus;
+
+                await _service.UpdateTaskStatus(moduleID, taskStatus);
             }
         }
 

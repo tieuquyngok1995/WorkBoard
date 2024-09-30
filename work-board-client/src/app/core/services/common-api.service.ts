@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
@@ -18,9 +18,7 @@ export class CommonApiService {
   public urlUpdateTaskProgress = 'Task/UpdateTaskProgress';
   public urlDeleteTask = 'Task/DeleteTask';
 
-  private apiUrl = 'https://localhost:7047/api/';
-
-  constructor(private http: HttpClient, private cookieService: CookieService) { }
+  constructor(@Inject('API_URL') private apiUrl: string, private http: HttpClient, private cookieService: CookieService) { }
 
   // Method to make GET request
   get<T>(url: string, params?: { [key: string]: any }): Observable<T> {

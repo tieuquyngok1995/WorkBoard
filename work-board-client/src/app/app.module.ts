@@ -25,6 +25,8 @@ import { TaskComponent } from './pages/task/task.component';
 import { TaskProgressComponent } from './pages/task-progress/task-progress.component';
 import { ErrorComponent } from './pages/error/login.component';
 
+const API_URL = 'https://localhost:7047/api/';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -50,6 +52,7 @@ import { ErrorComponent } from './pages/error/login.component';
     MaterialModule,
   ],
   providers: [
+    { provide: 'API_URL', useValue: API_URL },
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
     { provide: DateAdapter, useClass: CustomDateAdapter },
     { provide: HTTP_INTERCEPTORS, useClass: HandleApiInterceptor, multi: true }

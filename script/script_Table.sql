@@ -58,7 +58,8 @@ create table Task (
 	TaskStatus smallint not null,
 	UserUpdate varchar(25),
 	DateUpdate date,
-	FlgDelete smallint
+	FlgDelete smallint,
+	DateDelete date,
 	FOREIGN KEY (Type) REFERENCES dbo.TaskType(ID) ,
 	FOREIGN KEY (Assignee) REFERENCES dbo.Users(UserID) ,
 	FOREIGN KEY (Priority) REFERENCES dbo.Priority(ID) ,
@@ -69,7 +70,13 @@ INSERT INTO Roles (RoleName)
 VALUES ('Admin'), ('Leader'), ('User') ;
 
 INSERT INTO Users
-VALUES ('admin@gmail.com', 'admin', '1', 1) ;
+VALUES ('admin@fujinet.net', 'admin', '1', 0) ;
+
+INSERT INTO Users
+VALUES ('leader@fujinet.net', 'leader', '1', 1) ;
+
+INSERT INTO Users
+VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) ;
 
 INSERT INTO TaskType (Name)
 VALUES ('Coding'), ('Review'), ('Testing'), ('FixBug');

@@ -1,3 +1,5 @@
+use WorkBoard;
+
 IF OBJECT_ID('dbo.UpdateTaskProgress', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.UpdateTaskProgress;
@@ -16,5 +18,7 @@ BEGIN
 		[WorkHour] = @workHour
        ,[Progress] = @progress
        ,[Note] = @note
-	FROM [dbo].[Task] WHERE ModuleID = @moduleID
+	FROM [dbo].[Task] WHERE 
+		ModuleID = @moduleID AND 
+		FlgDelete = 0
 END

@@ -1,4 +1,6 @@
-﻿IF OBJECT_ID('dbo.SignUp', 'P') IS NOT NULL
+﻿use WorkBoard;
+
+IF OBJECT_ID('dbo.SignUp', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.SignUp;
 END

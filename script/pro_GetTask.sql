@@ -1,3 +1,5 @@
+use WorkBoard;
+
 IF OBJECT_ID('dbo.GetTask', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.GetTask;
@@ -40,7 +42,8 @@ SELECT ModuleID
 	WHERE 
 		CASE WHEN @roleID < 2 THEN 1
 		ELSE CASE WHEN @roleID = 2 and T.Assignee = @USERID THEN 1 END
-		END = 1
+		END = 1 AND 
+		FlgDelete = 0
 	ORDER BY 
 		TaskStatus ASC,
 		Priority ASC, 

@@ -1,3 +1,5 @@
+use WorkBoard;
+
 IF OBJECT_ID('dbo.UpdateTask', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.UpdateTask;
@@ -22,5 +24,6 @@ BEGIN
     FROM 
         [dbo].[Task] T
     INNER JOIN 
-        @data TD ON T.ModuleID = TD.ModuleID; 
+        @data TD ON T.ModuleID = TD.ModuleID
+	WHERE FlgDelete = 0
 END

@@ -1,3 +1,5 @@
+use WorkBoard;
+
 IF OBJECT_ID('dbo.GetAssignee', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.GetAssignee;

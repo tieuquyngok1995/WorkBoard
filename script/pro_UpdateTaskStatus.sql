@@ -1,3 +1,5 @@
+use WorkBoard;
+
 IF OBJECT_ID('dbo.UpdateTaskStatus', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.UpdateTaskStatus;
@@ -10,6 +12,9 @@ CREATE PROCEDURE UpdateTaskStatus
 	@taskStatus smallint
 AS
 BEGIN
-	UPDATE [dbo].[Task] SET [TaskStatus] = @taskStatus
-	FROM [dbo].[Task] WHERE ModuleID = @moduleID
+	UPDATE [dbo].[Task] SET 
+		[TaskStatus] = @taskStatus
+	FROM [dbo].[Task] WHERE 
+		ModuleID = @moduleID AND 
+		FlgDelete = 0
 END

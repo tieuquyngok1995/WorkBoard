@@ -1,3 +1,5 @@
+use WorkBoard;
+
 DROP TYPE IF EXISTS TaskType;
 
 CREATE TYPE TaskType AS TABLE

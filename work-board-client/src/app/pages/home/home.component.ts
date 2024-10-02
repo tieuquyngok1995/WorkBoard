@@ -11,6 +11,7 @@ import { MessageService } from 'src/app/shared/service/message.service';
 import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
 import { HomeService } from './home.service';
 import { UtilsService } from 'src/app/core/services/utils.service';
+import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-home',
@@ -42,7 +43,7 @@ export class HomeComponent implements OnInit {
     private homeService: HomeService,
     private messageService: MessageService,
     private confirmDialogService: DialogMessageService,
-    private readonly utilsService: UtilsService) {
+    private readonly utilsService: UtilsService, private dataService: DataService) {
 
     this.dataColWaiting = [];
     this.dataColProgress = [];
@@ -63,6 +64,10 @@ export class HomeComponent implements OnInit {
         this.dataColCompleted = dataTask.Completed;
       }
     })
+    this.dataService.currentData.subscribe(data => {
+
+      console.log('Data received from header:', data);
+    });
   }
 
   /**

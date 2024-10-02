@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../core/services/auth.service';
-import { DataListOption } from 'src/app/core/model/model';
 import { FormControl, FormGroup } from '@angular/forms';
+
+import { AuthService } from '../../core/services/auth.service';
+import { DataListOption, SearchModel } from '../../core/model/model';
+import { HeaderService } from './header.service';
+import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-header',
@@ -9,7 +12,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+
   public searchControl: FormControl;
+  public datePickerForm: FormGroup;
 
   public isInputOpen: boolean;
   public isShowItem: boolean;
@@ -22,36 +27,42 @@ export class HeaderComponent implements OnInit {
    * A constructor initializes a class's objects upon creation.
    * @param authService 
    */
-  constructor(private authService: AuthService) {
+  constructor(private headerService: HeaderService, private authService: AuthService, private dataService: DataService) {
     this.searchControl = new FormControl('');
+    this.datePickerForm = headerService.datePickerForm;
 
     this.isInputOpen = false;
     this.isShowItem = false;
     this.userName = '';
     this.selectedOption = 'Search by';
     this.selectedKeyOption = 0;
-    this.dataListFilter = [
-      { key: 1, value: 'Module ID' },
-      { key: 2, value: 'Task Name' },
-      { key: 3, value: 'Date Delivey' },
-    ]
+    this.dataListFilter = this.createDataListFilter()
   }
-  today = new Date();
-  month = this.today.getMonth();
-  year = this.today.getFullYear();
 
-  readonly campaignOne = new FormGroup({
-    start: new FormControl(new Date(this.year, this.month, 13)),
-    end: new FormControl(new Date(this.year, this.month, 16)),
-  });
-  readonly campaignTwo = new FormGroup({
-    start: new FormControl(new Date(this.year, this.month, 15)),
-    end: new FormControl(new Date(this.year, this.month, 19)),
-  });
   /**
    * On init dialog.
    */
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    // Event check change value input search
+    this.searchControl.valueChanges.subscribe(value => {
+      if (!value) return;
+
+      this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
+    });
+
+    // Event check change value date picker end
+    this.headerService.dateEnd?.valueChanges.subscribe(value => {
+      if (!value) return;
+
+      const dataToSend: SearchModel = {
+        searchMode: this.selectedKeyOption,
+        searchDateStart: this.headerService.dateStart?.value,
+        searchDateEnd: value
+      }
+      this.dataService.sendData(dataToSend);
+    })
+
+    // Set user name login in
     this.userName = this.authService.userName;
   }
 
@@ -59,13 +70,22 @@ export class HeaderComponent implements OnInit {
    * Get value select option.
    * @param option 
    */
-  selectOption(option?: DataListOption) {
+  public selectOption(option?: DataListOption): void {
     if (option) {
       this.selectedKeyOption = option.key;
       this.selectedOption = option.value;
+
+      if (this.selectedKeyOption === 3) {
+        this.dataService.sendData({
+          searchMode: this.selectedKeyOption,
+          searchDateStart: this.headerService.dateStart?.value,
+          searchDateEnd: this.headerService.dateEnd?.value
+        });
+      }
     } else {
       this.selectedKeyOption = 0;
       this.selectedOption = 'All';
+      this.dataService.sendData({ searchMode: this.selectedKeyOption });
     }
     this.searchControl.setValue('');
   }
@@ -73,7 +93,7 @@ export class HeaderComponent implements OnInit {
   /**
    * Open search bar.
    */
-  openSearch() {
+  public openSearch(): void {
     this.isInputOpen = true;
     setTimeout(() => {
       this.isShowItem = true
@@ -83,27 +103,29 @@ export class HeaderComponent implements OnInit {
   /**
    * Close search bar.
    */
-  closeSearch() {
+  public closeSearch(): void {
     this.isInputOpen = false;
     this.isShowItem = false
+
+    this.dataService.sendData(null);
   }
 
   /**
    * Event log out.
    */
-  logOut(): void {
+  public logOut(): void {
     this.authService.logOut();
   }
 
-
   /**
-   * Filter date, allows to select days from Monday to Friday.
-   * @param d date input
-   * @returns boolean filter date
+   * Create data list filter.
+   * @returns 
    */
-  public dateFilter(d: Date | null): boolean {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  };
+  private createDataListFilter(): DataListOption[] {
+    return [
+      { key: 1, value: 'Module ID' },
+      { key: 2, value: 'Task Name' },
+      { key: 3, value: 'Date Delivey' },
+    ]
+  }
 }

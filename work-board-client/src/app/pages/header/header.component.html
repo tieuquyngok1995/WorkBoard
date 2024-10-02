@@ -7,7 +7,7 @@
     </span>
     <div class="dropdown" *ngIf="isShowItem">
       <div class="dropdown-toggle selectedOption" id="dropdownMenuButton" data-toggle="dropdown">
-        <span> {{selectedOption}}</span>
+        <span> {{ selectedOption }}</span>
       </div>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" *ngFor="let data of dataListFilter" (click)="selectOption(data)">{{ data.value }}</a>
@@ -19,13 +19,12 @@
       <input type="text" [formControl]="searchControl">
     </div>
     <div class="input-date" *ngIf="selectedKeyOption == 3 && isShowItem">
-      <mat-date-range-input class="input-range-date" [formGroup]="campaignOne" [rangePicker]="campaignOnePicker"
-        [comparisonStart]="campaignTwo.value.start" [comparisonEnd]="campaignTwo.value.end">
-        <input matStartDate placeholder="Start date" formControlName="start">
-        <input class="input-end" matEndDate placeholder="End date" formControlName="end">
+      <mat-date-range-input class="input-range-date" [formGroup]="datePickerForm" [rangePicker]="dateRangePickerForm">
+        <input matStartDate placeholder="Start date" formControlName="dateStart">
+        <input class="input-end" matEndDate placeholder="End date" formControlName="dateEnd">
       </mat-date-range-input>
-      <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
-      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+      <mat-datepicker-toggle matIconSuffix [for]="dateRangePickerForm"></mat-datepicker-toggle>
+      <mat-date-range-picker #dateRangePickerForm></mat-date-range-picker>
     </div>
 
     <span class="close-icon">

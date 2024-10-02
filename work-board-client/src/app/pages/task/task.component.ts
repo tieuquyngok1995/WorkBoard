@@ -70,17 +70,6 @@ export class TaskComponent implements OnInit {
   }
 
   /**
-   * Filter date, allows to select days from Monday to Friday.
-   * @param d date input
-   * @returns boolean filter date
-   */
-  public dateFilter(d: Date | null): boolean {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 6;
-  };
-
-  /**
    * Event click Save data.
    */
   public save(): void {

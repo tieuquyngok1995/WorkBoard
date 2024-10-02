@@ -19,6 +19,12 @@ export interface UserModel {
   token: string;
 }
 
+export interface SearchModel {
+  searchMode: number;
+  searchValue?: string | null;
+  searchDateStart?: Date | null;
+  searchDateEnd?: Date | null;
+}
 export interface HomeModel {
   taskDialog: TaskModel;
   listTasks: TaskModel[];
@@ -58,21 +64,3 @@ export interface TaskDialog {
   isDelete?: boolean;
   data?: TaskModel;
 }
-
-// class CreateTaskModel implements TaskModel {
-//   moduleID = '';
-//   taskName = null;
-//   taskType = null;
-//   dataTaskType = null;
-//   numRedmine = null;
-//   assignee = null;
-//   dataAssignee = null;
-//   priority = null;
-//   dataPriority = null;
-//   dateCreate = null;
-//   workHour = 0;
-//   estimatedHour = null;
-//   progress = 0;
-//   dateDelivery = null;
-//   note = null;
-// }

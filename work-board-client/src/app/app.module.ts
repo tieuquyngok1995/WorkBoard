@@ -7,8 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DialogModule } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 
-import { DateAdapter, MAT_DATE_LOCALE } from '@angular/material/core';
 import { CustomDateAdapter, MaterialModule } from './app-material.module';
+import { MatInputModule } from '@angular/material/input';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { DateAdapter, MAT_DATE_LOCALE, MatNativeDateModule } from '@angular/material/core';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -17,6 +19,7 @@ import { SharedModule } from './shared/module/shared.module';
 import { ConfirmDialogComponent } from './shared/dialog-message/dialog-message.component';
 import { DataListDirective } from './shared/directives/datalist.directive';
 import { InputDirective } from './shared/directives/input-validation.directive';
+import { DatepickerFilterDirective } from './shared/directives/datepicker-filter.directive';
 
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
@@ -33,6 +36,7 @@ const API_URL = 'https://localhost:7047/api/';
     ConfirmDialogComponent,
     DataListDirective,
     InputDirective,
+    DatepickerFilterDirective,
     HomeComponent,
     HeaderComponent,
     ErrorComponent,
@@ -42,14 +46,17 @@ const API_URL = 'https://localhost:7047/api/';
   ],
   imports: [
     BrowserModule,
-    BrowserAnimationsModule,
-    HttpClientModule,
-    ReactiveFormsModule,
     DialogModule,
-    DragDropModule,
-    AppRoutingModule,
     SharedModule,
+    DragDropModule,
     MaterialModule,
+    MatInputModule,
+    HttpClientModule,
+    AppRoutingModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
   ],
   providers: [
     { provide: 'API_URL', useValue: API_URL },

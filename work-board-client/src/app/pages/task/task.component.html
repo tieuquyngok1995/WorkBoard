@@ -43,7 +43,7 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="dateCreate" class="input" type="text" matInput [matDatepickerFilter]="dateFilter" [readonly]="true"
+    <input id="dateCreate" class="input" type="text" matInput appDatepickerFilter [readonly]="true"
       [matDatepicker]="dateCreate" formControlName="dateCreate" placeholder=" " appInputDirective
       [appInputReadonly]="isRead" />
     <mat-datepicker-toggle matIconSuffix [for]="dateCreate" class="date-picker"
@@ -61,7 +61,7 @@
   </div>
 
   <div class="input-container ic2">
-    <input id="dateDelivery" class="input" type="text" matInput [matDatepickerFilter]="dateFilter" [readonly]="true"
+    <input id="dateDelivery" class="input" type="text" matInput appDatepickerFilter [readonly]="true"
       [matDatepicker]="dateDelivery" formControlName="dateDelivery" placeholder=" " appInputDirective
       [appInputReadonly]="isRead" />
     <mat-datepicker-toggle matIconSuffix [for]="dateDelivery" class="date-picker"

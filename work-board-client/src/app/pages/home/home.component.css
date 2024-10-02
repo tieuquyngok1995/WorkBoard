@@ -1,3 +1,8 @@
+.full-page {
+  position: relative;
+  z-index: 1;
+}
+
 /* ============ Column Task ============ */
 .col-task-container {
   width: 100%;

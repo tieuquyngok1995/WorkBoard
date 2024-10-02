@@ -1,6 +1,37 @@
 <nav>
   <div class="logo"><img src="../../../assets/images/logo.png" width="36" height="36"></div>
   <div class="logo-title"><a href="/">Work Board</a></div>
+  <div class="search-bar" [class.open]="isInputOpen">
+    <span class="search" (click)="openSearch()">
+      <i class="bi bi-search"></i>
+    </span>
+    <div class="dropdown" *ngIf="isShowItem">
+      <div class="dropdown-toggle selectedOption" id="dropdownMenuButton" data-toggle="dropdown">
+        <span> {{selectedOption}}</span>
+      </div>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <a class="dropdown-item" *ngFor="let data of dataListFilter" (click)="selectOption(data)">{{ data.value }}</a>
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" (click)="selectOption()">All</a>
+      </div>
+    </div>
+    <div class="input-search" *ngIf="selectedKeyOption != 3 && isShowItem">
+      <input type="text" [formControl]="searchControl">
+    </div>
+    <div class="input-date" *ngIf="selectedKeyOption == 3 && isShowItem">
+      <mat-date-range-input class="input-range-date" [formGroup]="campaignOne" [rangePicker]="campaignOnePicker"
+        [comparisonStart]="campaignTwo.value.start" [comparisonEnd]="campaignTwo.value.end">
+        <input matStartDate placeholder="Start date" formControlName="start">
+        <input class="input-end" matEndDate placeholder="End date" formControlName="end">
+      </mat-date-range-input>
+      <mat-datepicker-toggle matIconSuffix [for]="campaignOnePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #campaignOnePicker></mat-date-range-picker>
+    </div>
+
+    <span class="close-icon">
+      <i class="bi bi-x-lg" (click)="closeSearch()"></i>
+    </span>
+  </div>
   <ul class="list">
     <li><i class="mr-2 input-icon bi bi-person"></i><span>{{ userName }}</span></li>
     <li><a><i class="bi bi-bell-fill"></i></a></li>

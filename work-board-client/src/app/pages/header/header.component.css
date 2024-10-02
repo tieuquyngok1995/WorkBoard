@@ -1,29 +1,25 @@
 nav {
-  position: fixed;
+  position: relative;
+  z-index: 999;
   top: 0;
   left: 0;
   width: 100%;
   height: 50px;
   display: flex;
   color: white;
-  font-size: 16px;
+  font-size: 18px;
   align-items: center;
+  justify-content: center;
   transition: 0.3s ease-out;
   backdrop-filter: blur(8px) brightness(1.2);
   -webkit-backdrop-filter: blur(8px) brightness(1.2);
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  mask-image: linear-gradient(black 70%, transparent);
-  -webkit-mask-image: linear-gradient(black 70%, transparent);
 
   @media (min-width: 640px) {
     padding: 30px 50px;
   }
 }
 
-nav.is-hidden {
-  transform: translateY(-100%);
-}
-
+/* ============ Logo ============ */
 img {
   object-fit: cover;
 }
@@ -60,12 +56,149 @@ a {
 
 span {
   cursor: default;
-  font-size: 18px;
 }
 
+/* ============ Search ============ */
+
+.search-bar {
+  width: 100%;
+  height: 36px;
+  max-width: 60px;
+  display: flex;
+  position: relative;
+  padding-right: 15px;
+  margin-left: auto !important;
+  justify-content: flex-start;
+  align-items: center;
+  transition: all 0.5s ease-in-out;
+}
+
+.search-bar.open {
+  padding: 4px 0;
+  max-width: 22vw;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 100px;
+}
+
+.search-bar .search {
+  display: flex;
+  height: 100%;
+  margin: 2px 0 0 34px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.search-bar.open .search {
+  margin: 2px 0 0 12px;
+  border-radius: 6px 0 0 6px;
+}
+
+.search-bar .dropdown {
+  left: 8px;
+  width: auto;
+  height: 100%;
+  padding-right: 6px;
+  z-index: 99;
+  opacity: 0;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  border-right: 2px solid #fff;
+  transition: all 0.5s ease-in-out;
+}
+
+.search-bar.open .dropdown {
+  display: flex;
+  opacity: 1;
+}
+
+.search-bar .dropdown .selectedOption span {
+  width: 90px;
+  height: 100%;
+  font-size: 15px;
+  display: inline-block;
+}
+
+.search-bar .dropdown .dropdown-toggle {
+  left: 20px;
+}
+
+.search-bar .dropdown .dropdown-item {
+  font-size: 15px;
+  text-decoration: none;
+}
+
+.search-bar .dropdown .dropdown-item:hover {
+  background-color: #dafffb;
+}
+
+.search-bar .input-search input {
+  width: 260px;
+  height: auto;
+  padding: 0 16px;
+  border: none;
+  outline: none;
+  color: #fff !important;
+  font-size: 15px;
+  background-color: transparent;
+  transition: all 0.5s ease-in-out;
+}
+
+.search-bar .input-date {
+  width: 200px;
+  margin-left: 16px;
+}
+
+.search-bar.open .input-date {
+  display: flex;
+  align-items: center;
+}
+
+.search-bar .input-date input {
+  font-size: 15px;
+  width: 90px;
+}
+
+.search-bar .input-date .mat-mdc-button-ripple {
+  color: #fff;
+}
+
+.search-bar .input-date .mat-date-range-input-separator {
+  color: #fff !important;
+}
+
+.search-bar .input-date .input-end {
+  padding: 4px 0;
+  margin-left: 4px;
+}
+
+.search-bar .close-icon {
+  top: 50%;
+  position: absolute;
+  right: 8px;
+  transform: translateY(-50%);
+  transition: all 0.5s ease-in-out;
+  cursor: pointer;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.search-bar.open .close-icon {
+  transform: translateY(-50%) rotate(180deg);
+  pointer-events: auto;
+  opacity: 1;
+}
+
+/* ============ List item ============ */
 .list {
+  padding: 0;
+  margin: 0;
+  width: auto;
+
+  align-items: center;
+  height: inherit;
   list-style-type: none;
-  margin-left: auto;
   display: none;
 
   @media (min-width: 640px) {
@@ -86,5 +219,59 @@ span {
     cursor: pointer;
     color: #d9ebba;
     transform: scale(1.25);
+  }
+}
+
+::ng-deep .mat-mdc-icon-button svg {
+  height: 18px !important;
+}
+
+::ng-deep .mat-datepicker-toggle button {
+  margin-top: 4px;
+  margin-left: -8px;
+  color: #fff;
+}
+
+::ng-deep .mat-date-range-input-separator {
+  color: #fff !important;
+}
+
+::ng-deep .mat-date-range-input-wrapper {
+  width: 100px !important;
+  max-width: 100px !important;
+  overflow: visible;
+}
+
+::ng-deep .mat-mdc-icon-button {
+  --mat-mdc-button-persistent-ripple-color: transparent !important;
+}
+
+@media (min-width: 1699px) and (max-width: 1890px) {
+  .search-bar .input-search input {
+    max-width: 210px;
+  }
+}
+
+@media (min-width: 1600px) and (max-width: 1699px) {
+  .search-bar .input-search input {
+    max-width: 190px;
+  }
+}
+
+@media (min-width: 1440px) and (max-width: 1599px) {
+  .search-bar .input-search input {
+    max-width: 155px;
+  }
+}
+
+@media (min-width: 1280px) and (max-width: 1439px) {
+  .search-bar .input-search input {
+    max-width: 120px;
+  }
+}
+
+@media (max-width: 1279px) {
+  .search-bar .input-search input {
+    max-width: 75px;
   }
 }

@@ -10,11 +10,17 @@ GO
 CREATE PROCEDURE UpdateTaskStatus
 	@id int,
     @moduleID nvarchar(25),
-	@taskStatus smallint
+	@taskStatus smallint,
+	@workHour decimal(5, 2),
+	@progress smallint,
+	@dateStartWork datetime
 AS
 BEGIN
 	UPDATE [dbo].[Task] SET 
-		[TaskStatus] = @taskStatus
+		[TaskStatus] = @taskStatus,
+		[WorkHour] = @workHour,
+		[Progress] = @progress,
+		[DateStartWork] = @dateStartWork
 	FROM [dbo].[Task] WHERE 
 		ID = @id AND
 		ModuleID = @moduleID AND 

@@ -101,13 +101,18 @@ namespace WorkBoardServer.Controllers
                 int id = receivedData.ID;
                 string moduleID = receivedData.ModuleID;
                 short? taskStatus = receivedData.TaskStatus;
+                decimal? workHour = receivedData.WorkHour;
+                int? progress = receivedData.Progress;
 
-                await _service.UpdateTaskStatus(id, moduleID, taskStatus);
+                DateTime? utcDateTime = receivedData.DateStartWork;
+                DateTime? dateStartWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
+
+                await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateStartWork);
             }
         }
 
         [HttpGet]
-        public IActionResult UpdateTaskProgress(int id, string moduleID, int workHour, int progress, string? note)
+        public IActionResult UpdateTaskProgress(int id, string moduleID, decimal workHour, int progress, string? note)
         {
             try
             {

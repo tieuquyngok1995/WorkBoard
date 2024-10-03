@@ -29,6 +29,7 @@ SELECT
       ,T.Priority
       ,T.DateCreate
       ,T.WorkHour
+	  ,T.DateStartWork
       ,T.EstimatedHour
       ,T.Progress
       ,T.DateDelivery

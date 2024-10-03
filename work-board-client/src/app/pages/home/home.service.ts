@@ -32,8 +32,8 @@ export class HomeService {
     );
   }
 
-  public updateTaskStatus(ID: number, ModuleID: string, TaskStatus: number): void {
-    const body = JSON.stringify({ ID, ModuleID, TaskStatus });
+  public updateTaskStatus(TaskStatus: number, ID: number, ModuleID: string, WorkHour: number, Progress: number, DateStartWork: Date | null): void {
+    const body = JSON.stringify({ ID, ModuleID, TaskStatus, WorkHour, Progress, DateStartWork });
     this.websocketService.sendData(body);
   }
 

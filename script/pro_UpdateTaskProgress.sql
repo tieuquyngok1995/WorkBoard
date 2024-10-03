@@ -10,7 +10,7 @@ GO
 CREATE PROCEDURE UpdateTaskProgress
 	@id int,
     @moduleID nvarchar(25),
-	@workHour smallint,
+	@workHour decimal(5, 2),
 	@progress smallint,
 	@note nvarchar(max)
 AS

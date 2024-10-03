@@ -253,7 +253,7 @@ export class HomeComponent implements OnInit {
         this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
         return;
       } else {
-        this.homeService.updateTaskStatus(taskModel.id, taskModel.moduleID, JobStatus.COMPLETED);
+        this.homeService.updateTaskStatus(JobStatus.COMPLETED, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, null);
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -263,12 +263,40 @@ export class HomeComponent implements OnInit {
       }
     } else {
       const id = event.container.id;
-      let taskStatus;
-      if (id === 'progress') taskStatus = JobStatus.PROGRESS;
-      else if (id === 'pending') taskStatus = JobStatus.PENDING;
-      else taskStatus = JobStatus.COMPLETED;
+      let taskStatus, startDate, workHour, progress;
+      if (id === 'progress') {
+        taskStatus = JobStatus.PROGRESS;
 
-      this.homeService.updateTaskStatus(taskModel.id, taskModel.moduleID, taskStatus);
+        taskModel.dateStartWork = new Date();
+
+        // startDate = new Date()
+        // const task = event.previousContainer.data.find(obj => obj.id === taskModel.id);
+        // if (task) {
+        //   workHour = task.workHour;
+        //   progress = task.progress;
+        //   task.dateStartWork = startDate;
+        // }
+      } else {
+        taskStatus = JobStatus.PENDING;
+
+        taskModel.workHour += this.calculateHours(taskModel.dateStartWork);
+        taskModel.progress = this.calculateProgress(taskModel.workHour, taskModel.estimatedHour);
+        taskModel.dateStartWork = null;
+
+        // const task = event.previousContainer.data.find(obj => obj.id === taskModel.id)
+        // if (task) {
+        //   workHour = task.workHour + this.calculateHours(task.dateStartWork);
+        //   progress = this.calculateProgress(workHour, task.estimatedHour);
+        //   task.workHour = workHour;
+        //   task.dateStartWork = null;
+        //   task.progress = progress;
+        // }
+      }
+
+      const index = event.previousContainer.data.findIndex(obj => obj.id === taskModel.id);
+      if (index !== -1) event.previousContainer.data[index] = { ...event.previousContainer.data[index], ...taskModel };
+
+      this.homeService.updateTaskStatus(taskStatus, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, taskModel.dateStartWork);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
@@ -278,47 +306,37 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  // private subscriptionFunction() {
-  //   this.filterForm.controls['assignee'].valueChanges.subscribe(valueFilter => {
-  //     this.newTask = this.initTask.filter(element => {
-  //       if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
-  //         return true;
-  //       return false;
-  //     });
+  /**
+   * Calcualte time work.
+   * @param dateToCompare 
+   * @returns 
+   */
+  private calculateHours(dateToCompare: Date | null): number {
+    if (!dateToCompare) return 0;
 
-  //     this.inProgress = this.initInProgress.filter(element => {
-  //       if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
-  //         return true;
-  //       return false;
-  //     });
-  //   })
-  // }
+    if (typeof dateToCompare === 'string') dateToCompare = new Date(dateToCompare);
 
-  // toggleAllSelection(event: any) {
-  //   if (event._selected) {
-  //     this.filterForm.controls['assignee'].patchValue([...this.allAssignees.map(element => element.value)])
-  //     event._selected = true;
-  //   } else {
-  //     this.filterForm.controls['assignee'].setValue([]);
-  //   }
-  // }
+    const now = new Date();
+    const diffInMs = now.getTime() - dateToCompare.getTime();
 
-  // applyFilter() {
-  //   let valueFilter = this.filterForm.controls['assignee'].value ?? [];
-  //   this.newTask = this.initTask.filter(element => {
-  //     if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
-  //       return true;
-  //     return false;
-  //   });
+    let diffInHours = diffInMs / (1000 * 60 * 60);
 
-  //   this.inProgress = this.initInProgress.filter(element => {
-  //     if (Array.isArray(valueFilter) && (valueFilter.includes(element.assignee)))
-  //       return true;
-  //     return false;
-  //   });
-  // }
+    return Math.round(diffInHours * 100) / 100;
+  }
 
+  /**
+   * Calcualte progress work.
+   * @param workedHours 
+   * @param estimatedHour 
+   * @returns 
+   */
+  private calculateProgress(workedHours: number, estimatedHour: number): number {
+    if (workedHours >= estimatedHour) {
+      return 99;
+    }
 
+    const progress = (workedHours / estimatedHour) * 100;
 
-
+    return Math.min(Math.round(progress), 99);
+  }
 }

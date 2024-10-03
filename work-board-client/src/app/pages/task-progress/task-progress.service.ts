@@ -32,7 +32,7 @@ export class TaskProgressService {
    */
   private createFormGroup(taskProgress?: TaskModel): FormGroup {
     return this.fb.group({
-      workHour: [taskProgress?.workHour || null, Validators.required],
+      workHour: [taskProgress?.workHour || null, [Validators.required, Validators.pattern("^(0|[1-9][0-9]{0,2}(\.[0-9]{1,2})?|999(\.9{1,2})?)$")]],
       progress: [taskProgress?.progress || null, Validators.required],
       note: [taskProgress?.note || null],
     });

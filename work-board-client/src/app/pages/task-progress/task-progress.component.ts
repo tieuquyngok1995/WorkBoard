@@ -70,6 +70,7 @@ export class TaskProgressComponent implements OnInit {
     }
 
     const dataForm: TaskModel = this.taskProgressForm.value;
+    dataForm.workHour = parseFloat(dataForm.workHour.toString());
     this.dialogRef.close({ data: dataForm });
   }
 

@@ -34,7 +34,9 @@ namespace WorkBoardServer.Models
         [Required(ErrorMessage = "Date Create is required.")]
         public DateTime? DateCreate { get; set; }
 
-        public int? WorkHour { get; set; }
+        public decimal? WorkHour { get; set; }
+
+        public DateTime? DateStartWork { get; set; }
 
         [Required(ErrorMessage = "Estimated Hour is required.")]
         public short? EstimatedHour { get; set; }

@@ -8,7 +8,8 @@ END
 GO
 
 CREATE PROCEDURE CreateTask
-    @data TaskType READONLY
+    @data TaskType READONLY,
+	@newID int OUTPUT
 AS
 BEGIN
     INSERT INTO Task (
@@ -46,4 +47,6 @@ BEGIN
 		, null
 		,0
     FROM @data
+
+	SET @newID = SCOPE_IDENTITY()
 END

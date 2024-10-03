@@ -24,6 +24,8 @@ BEGIN
     FROM 
         [dbo].[Task] T
     INNER JOIN 
-        @data TD ON T.ModuleID = TD.ModuleID
+        @data TD ON 
+			T.ID = TD.ID AND
+			T.ModuleID = TD.ModuleID
 	WHERE FlgDelete = 0
 END

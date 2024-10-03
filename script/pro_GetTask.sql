@@ -17,23 +17,25 @@ SET NOCOUNT ON;
 DECLARE @roleID as smallint;
 SET @roleID = (select roleid from Users where UserID = @USERID);
 
-SELECT ModuleID
-      ,TaskName
-	  ,type as Type
+SELECT 
+	   T.ID
+	  ,T.ModuleID
+      ,T.TaskName
+	  ,T.type as Type
       ,TT.Name as TypeName
-      ,NumRedmine
-	  ,Assignee
+      ,T.NumRedmine
+	  ,T.Assignee
       ,U.UserName as AssigneeName
-      ,Priority
-      ,DateCreate
-      ,WorkHour
-      ,EstimatedHour
-      ,Progress
-      ,DateDelivery
-      ,Note
-      ,TaskStatus
-      ,UserUpdate
-      ,DateUpdate
+      ,T.Priority
+      ,T.DateCreate
+      ,T.WorkHour
+      ,T.EstimatedHour
+      ,T.Progress
+      ,T.DateDelivery
+      ,T.Note
+      ,T.TaskStatus
+      ,T.UserUpdate
+      ,T.DateUpdate
 	FROM [dbo].[Task] T
 		LEFT JOIN [dbo].[TaskType] TT
 			ON T.type = TT.ID

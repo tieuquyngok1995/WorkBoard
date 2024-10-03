@@ -8,6 +8,7 @@ END
 GO
 
 CREATE PROCEDURE UpdateTaskProgress
+	@id int,
     @moduleID nvarchar(25),
 	@workHour smallint,
 	@progress smallint,
@@ -19,6 +20,7 @@ BEGIN
        ,[Progress] = @progress
        ,[Note] = @note
 	FROM [dbo].[Task] WHERE 
+		ID = @id AND
 		ModuleID = @moduleID AND 
 		FlgDelete = 0
 END

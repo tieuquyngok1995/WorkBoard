@@ -1,0 +1,30 @@
+INSERT INTO Task (
+    ModuleID,
+    TaskName,
+    Type,
+    NumRedmine,
+    Assignee,
+    Priority,
+    DateCreate,
+    WorkHour,
+    EstimatedHour,
+    Progress,
+    DateDelivery,
+    Note,
+    TaskStatus,
+    UserUpdate,
+    DateUpdate,
+    FlgDelete,
+    DateDelete
+)
+VALUES 
+    ('MOD001', 'Task 1', 1, 12345, 0, 0, GETDATE(), 8, 10, 50, DATEADD(DAY, 7, GETDATE()), 'Note for Task 1', 0, 'User01', GETDATE(), 0, NULL),
+    ('MOD002', 'Task 2', 2, 12346, 1, 2, GETDATE(), 6, 12, 30, DATEADD(DAY, 10, GETDATE()), 'Note for Task 2', 2, 'User02', GETDATE(), 0, NULL),
+    ('MOD003', 'Task 3', 1, 12347, 2, 1, GETDATE(), 7, 8, 60, DATEADD(DAY, 5, GETDATE()), 'Note for Task 3', 1, 'User03', GETDATE(), 0, NULL),
+    ('MOD004', 'Task 4', 3, 12348, 2, 1, GETDATE(), 5, 15, 40, DATEADD(DAY, 12, GETDATE()), 'Note for Task 4', 0, 'User04', GETDATE(), 0, NULL),
+    ('MOD005', 'Task 5', 2, 12349, 1, 0, GETDATE(), 9, 9, 20, DATEADD(DAY, 20, GETDATE()), 'Note for Task 5', 0, 'User05', GETDATE(), 0, NULL),
+    ('MOD006', 'Task 6', 1, 12350, 2, 1, GETDATE(), 8, 10, 70, DATEADD(DAY, 8, GETDATE()), 'Note for Task 6', 1, 'User06', GETDATE(), 0, NULL),
+    ('MOD007', 'Task 7', 2, 12351, 1, 2, GETDATE(), 6, 12, 80, DATEADD(DAY, 15, GETDATE()), 'Note for Task 7', 0, 'User07', GETDATE(), 0, NULL),
+    ('MOD008', 'Task 8', 3, 12352, 0, 1, GETDATE(), 7, 11, 90, DATEADD(DAY, 25, GETDATE()), 'Note for Task 8', 0, 'User08', GETDATE(), 0, NULL),
+    ('MOD009', 'Task 9', 1, 12353, 2, 1, GETDATE(), 10, 8, 30, DATEADD(DAY, 9, GETDATE()), 'Note for Task 9', 1, 'User09', GETDATE(), 0, NULL),
+    ('MOD010', 'Task 10', 2, 12354,1, 0, GETDATE(), 5, 14, 40, DATEADD(DAY, 6, GETDATE()), 'Note for Task 10', 0, 'User10', GETDATE(), 0, NULL);

@@ -4,6 +4,7 @@ DROP TYPE IF EXISTS TaskType;
 
 CREATE TYPE TaskType AS TABLE
 (
+	ID int,
 	ModuleID nvarchar(25),
 	TaskName nvarchar(100),
 	Type smallint not null,

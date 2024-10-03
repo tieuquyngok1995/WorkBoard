@@ -43,7 +43,8 @@ CREATE TABLE TaskStatuses (
 );
 
 create table Task (
-	ModuleID nvarchar(25) primary key,
+    ID int PRIMARY KEY IDENTITY(0,1),
+	ModuleID nvarchar(25),
 	TaskName nvarchar(100),
 	Type smallint not null,
 	NumRedmine int,

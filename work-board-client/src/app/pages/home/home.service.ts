@@ -18,10 +18,10 @@ export class HomeService {
     );
   }
 
-  public createTask(body: TaskModel): Observable<boolean> {
-    return this.commonApiService.post(this.commonApiService.urlCreateTask, body).pipe(
-      map(() => true),
-      catchError(() => of(false))
+  public createTask(body: TaskModel): Observable<TaskModel | null> {
+    return this.commonApiService.post<TaskModel>(this.commonApiService.urlCreateTask, body).pipe(
+      map((result) => result),
+      catchError(() => of(null))
     );
   }
 
@@ -32,20 +32,20 @@ export class HomeService {
     );
   }
 
-  public updateTaskStatus(ModuleID: string, TaskStatus: number): void {
-    const body = JSON.stringify({ ModuleID, TaskStatus });
+  public updateTaskStatus(ID: number, ModuleID: string, TaskStatus: number): void {
+    const body = JSON.stringify({ ID, ModuleID, TaskStatus });
     this.websocketService.sendData(body);
   }
 
-  public updateTaskProgress(moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {
-    return this.commonApiService.get(this.commonApiService.urlUpdateTaskProgress, { moduleID, workHour, progress, note }).pipe(
+  public updateTaskProgress(ID: number, moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlUpdateTaskProgress, { ID, moduleID, workHour, progress, note }).pipe(
       map(() => true),
       catchError(() => of(false))
     );
   }
 
-  public delete(moduleID: string): Observable<boolean> {
-    return this.commonApiService.get(this.commonApiService.urlDeleteTask, { moduleID }).pipe(
+  public delete(ID: number, moduleID: string): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlDeleteTask, { ID, moduleID }).pipe(
       map(() => true),
       catchError(() => of(false))
     );

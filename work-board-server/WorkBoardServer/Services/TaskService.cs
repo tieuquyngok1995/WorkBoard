@@ -14,11 +14,12 @@ namespace WorkBoardServer.Services
             _databaseService = databaseService;
         }
 
-        public bool Create(TaskModel model)
+        public int Create(TaskModel model)
         {
             try
             {
                 DataTable taskTable = new DataTable();
+                taskTable.Columns.Add("ID", typeof(int));                    // int
                 taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
                 taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
                 taskTable.Columns.Add("Type", typeof(short));                // smallint not null
@@ -31,6 +32,7 @@ namespace WorkBoardServer.Services
                 taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
                 taskTable.Rows.Add(
+                    model.ID,
                     model.ModuleID,
                     model.TaskName,
                     model.Type,
@@ -42,20 +44,19 @@ namespace WorkBoardServer.Services
                     model.DateDelivery,
                     model.Note);
 
-                _databaseService.ExecuteNonQuery(
-                    GlobalConstants.PCreateTask, new SqlParameter
-                    {
-                        ParameterName = "@data",
-                        SqlDbType = SqlDbType.Structured,
-                        TypeName = "TaskType",
-                        Value = taskTable
-                    });
+                return _databaseService.ExecuteNonQueryGetID(
+                      GlobalConstants.PCreateTask, "@newID", new SqlParameter
+                      {
+                          ParameterName = "@data",
+                          SqlDbType = SqlDbType.Structured,
+                          TypeName = "TaskType",
+                          Value = taskTable
+                      });
             }
             catch
             {
-                return false;
+                return -1;
             }
-            return true;
         }
 
         public bool Update(TaskModel model)
@@ -63,6 +64,7 @@ namespace WorkBoardServer.Services
             try
             {
                 DataTable taskTable = new DataTable();
+                taskTable.Columns.Add("ID", typeof(int));                    // int
                 taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
                 taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
                 taskTable.Columns.Add("Type", typeof(short));                // smallint not null
@@ -75,6 +77,7 @@ namespace WorkBoardServer.Services
                 taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
                 taskTable.Rows.Add(
+                    model.ID,
                     model.ModuleID,
                     model.TaskName,
                     model.Type,
@@ -102,12 +105,13 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        public async Task UpdateTaskStatus(string moduleID, short? taskStatus)
+        public async Task UpdateTaskStatus(int id, string moduleID, short? taskStatus)
         {
             try
             {
                 await _databaseService.ExecuteQueryAsync<bool>(GlobalConstants.PUpdateTaskStatus, new
                 {
+                    @id = id,
                     @moduleID = moduleID,
                     @taskStatus = taskStatus
                 });
@@ -118,12 +122,13 @@ namespace WorkBoardServer.Services
             }
         }
 
-        public bool UpdateProgress(string moduleID, int workHour, int progress, string note)
+        public bool UpdateProgress(int id, string moduleID, int workHour, int progress, string note)
         {
             try
             {
                 _databaseService.ExecuteQuery<bool>(GlobalConstants.PUpdateTaskProgress, new
                 {
+                    @id = id,
                     @moduleID = moduleID,
                     @workHour = workHour,
                     @progress = progress,
@@ -134,12 +139,13 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        public bool Delete(string moduleID)
+        public bool Delete(int id, string moduleID)
         {
             try
             {
                 _databaseService.ExecuteQuery<bool>(GlobalConstants.PDeleteTask, new
                 {
+                    @id = id,
                     @moduleID = moduleID
                 });
             }

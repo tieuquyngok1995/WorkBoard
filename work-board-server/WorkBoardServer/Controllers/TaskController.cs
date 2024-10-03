@@ -27,13 +27,14 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                bool result = _service.Create(model);
+                int newID = _service.Create(model);
 
-                if (!result)
+                if (newID == -1)
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
+                model.ID = newID;
                 return Ok(model);
             }
             catch (Exception ex)
@@ -97,15 +98,16 @@ namespace WorkBoardServer.Controllers
                     continue;
                 }
 
+                int id = receivedData.ID;
                 string moduleID = receivedData.ModuleID;
                 short? taskStatus = receivedData.TaskStatus;
 
-                await _service.UpdateTaskStatus(moduleID, taskStatus);
+                await _service.UpdateTaskStatus(id, moduleID, taskStatus);
             }
         }
 
         [HttpGet]
-        public IActionResult UpdateTaskProgress(string moduleID, int workHour, int progress, string? note)
+        public IActionResult UpdateTaskProgress(int id, string moduleID, int workHour, int progress, string? note)
         {
             try
             {
@@ -114,7 +116,7 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                bool result = _service.UpdateProgress(moduleID, workHour, progress, note);
+                bool result = _service.UpdateProgress(id, moduleID, workHour, progress, note);
 
                 if (!result)
                 {
@@ -130,11 +132,11 @@ namespace WorkBoardServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult DeleteTask(string moduleID)
+        public IActionResult DeleteTask(int id, string moduleID)
         {
             try
             {
-                bool result = _service.Delete(moduleID);
+                bool result = _service.Delete(id, moduleID);
 
                 if (!result)
                 {

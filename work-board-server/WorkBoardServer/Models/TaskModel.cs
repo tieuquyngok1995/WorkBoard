@@ -4,6 +4,8 @@ namespace WorkBoardServer.Models
 {
     public class TaskModel
     {
+        public int ID { get; set; }
+
         [Required(ErrorMessage = "Module ID is required.")]
         public string? ModuleID { get; set; }
 

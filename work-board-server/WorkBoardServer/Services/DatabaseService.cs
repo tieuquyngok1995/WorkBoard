@@ -58,11 +58,11 @@ namespace WorkBoardServer.Services
             }
         }
 
-        public async Task ExecuteNonQueryAsync(string storedProcedureName, object parameters = null, int? timeout = null)
+        public int ExecuteNonQueryGetID(string storedProcedureName, string output, object parameters = null, int? timeout = null)
         {
             using (SqlConnection connection = CreateConnection())
             {
-                await connection.OpenAsync();
+                connection.Open();
 
                 using (var command = new SqlCommand(storedProcedureName, connection))
                 {
@@ -78,9 +78,19 @@ namespace WorkBoardServer.Services
                         command.CommandTimeout = timeout.Value;
                     }
 
-                    var result = await command.ExecuteNonQueryAsync();
+                    var outputParameter = new SqlParameter(output, SqlDbType.Int)
+                    {
+                        Direction = ParameterDirection.Output
+                    };
+                    command.Parameters.Add(outputParameter);
 
-                    if (result < 0) throw new Exception("No rows were affected.");
+                    command.ExecuteNonQuery();
+
+                    int newId = (int)outputParameter.Value;
+
+                    if (newId < 0) throw new Exception("No rows were affected.");
+
+                    return newId;
                 }
             }
         }

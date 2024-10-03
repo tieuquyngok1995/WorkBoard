@@ -54,7 +54,7 @@ export class TaskProgressComponent implements OnInit {
     if (this.dialog.data) {
       this.taskProgressForm.patchValue({
         workHour: this.dialog.data.workHour === 0 ? null : this.dialog.data.workHour,
-        progress: this.dialog.data.progress === 0 ? null : this.dialog.data.workHour,
+        progress: this.dialog.data.progress === 0 ? null : this.dialog.data.progress,
         note: this.dialog.data.note
       });
     }

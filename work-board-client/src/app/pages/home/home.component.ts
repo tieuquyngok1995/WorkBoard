@@ -1,6 +1,6 @@
 import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
-import { CdkDragDrop, CdkDragEnd, CdkDragStart, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
+import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 import { TaskDialog, TaskModel } from '../../core/model/model';
 import { ProgramMode, TaskType, TaskPriority, JobStatus } from '../../core/enum/enums';
@@ -84,9 +84,9 @@ export class HomeComponent implements OnInit {
       } as TaskDialog,
     }).closed.subscribe((dialogResult: any) => {
       if (dialogResult) {
-        this.homeService.createTask(dialogResult.data).subscribe(result => {
-          if (result) {
-            this.dataColWaiting = [dialogResult.data, ...this.dataColWaiting];
+        this.homeService.createTask(dialogResult.data).subscribe(data => {
+          if (data) {
+            this.dataColWaiting = [data, ...this.dataColWaiting];
           } else {
             this.confirmDialogService.openDialog(this.messageService.getMessage('E003'));
           }
@@ -97,18 +97,19 @@ export class HomeComponent implements OnInit {
 
   /**
    * Edit the task with the value of the module ID.
-   * @param moduleID 
+   * @param mode
+   * @param id 
    */
-  editTaskDialog(mode: JobStatus, moduleID: string) {
+  editTaskDialog(mode: JobStatus, id: number) {
     let data: TaskModel | undefined;
     if (mode === JobStatus.WAITING) {
-      data = this.dataColWaiting.find(obj => obj.moduleID === moduleID);
+      data = this.dataColWaiting.find(obj => obj.id === id);
     } else if (mode === JobStatus.PROGRESS) {
-      data = this.dataColProgress.find(obj => obj.moduleID === moduleID);
+      data = this.dataColProgress.find(obj => obj.id === id);
     } else if (mode === JobStatus.PENDING) {
-      data = this.dataColPending.find(obj => obj.moduleID === moduleID);
+      data = this.dataColPending.find(obj => obj.id === id);
     } else {
-      data = this.dataColCompleted.find(obj => obj.moduleID === moduleID);
+      data = this.dataColCompleted.find(obj => obj.id === id);
     }
 
     if (!data) {
@@ -132,10 +133,10 @@ export class HomeComponent implements OnInit {
     }).closed.subscribe((dialogResult: any) => {
       if (dialogResult) {
         if (dialogResult.isDelete) {
-          this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
+          this.dataColWaiting = this.dataColWaiting.filter(obj => obj.id !== id);
         } else {
           // Handle edit and update task 
-          this.handleEditTask(mode, moduleID, data, dialogResult.data)
+          this.handleEditTask(mode, id, data, dialogResult.data)
         }
       }
     });
@@ -144,12 +145,12 @@ export class HomeComponent implements OnInit {
   /**
    * Handle edit task.
    * @param mode 
-   * @param moduleID 
+   * @param id 
    * @param task 
    * @param taskEdit 
    * @returns 
    */
-  private handleEditTask(mode: JobStatus, moduleID: string, task?: TaskModel, taskEdit?: TaskModel) {
+  private handleEditTask(mode: JobStatus, id: number, task?: TaskModel, taskEdit?: TaskModel) {
     if (this.utilsService.objCompare(task, taskEdit)) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A002'));
       return;
@@ -159,14 +160,14 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.homeService.updateTask(taskEdit).subscribe(result => {
+    this.homeService.updateTask({ ...task, ...taskEdit } as TaskModel).subscribe(result => {
       if (result) {
         if (mode === JobStatus.WAITING) {
-          this.dataColWaiting = this.dataColWaiting.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+          this.dataColWaiting = this.dataColWaiting.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
         } else if (mode === JobStatus.PROGRESS) {
-          this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+          this.dataColProgress = this.dataColProgress.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
         } else if (mode === JobStatus.PENDING) {
-          this.dataColPending = this.dataColPending.map(obj => obj.moduleID === moduleID ? { ...obj, ...taskEdit } : obj);
+          this.dataColPending = this.dataColPending.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
         }
       } else {
         this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
@@ -177,13 +178,14 @@ export class HomeComponent implements OnInit {
   /**
    * Delete the task based on the module ID.
    * @param mode 
+   * @param id
    * @param moduleID 
    */
-  public deleteTask(mode: JobStatus, moduleID: string): void {
+  public deleteTask(mode: JobStatus, id: number, moduleID: string): void {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C001'), true).subscribe(result => {
       if (!result) return;
 
-      this.homeService.delete(moduleID).subscribe(result => {
+      this.homeService.delete(id, moduleID).subscribe(result => {
         if (result) {
           if (mode === JobStatus.WAITING) {
             this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
@@ -201,10 +203,11 @@ export class HomeComponent implements OnInit {
 
   /**
    * Edit task progress with the value of the module ID.
+   * @param id 
    * @param moduleID 
    */
-  public editTaskProgressDialog(moduleID: string): void {
-    let data = this.dataColProgress.find(obj => obj.moduleID === moduleID);
+  public editTaskProgressDialog(id: number, moduleID: string): void {
+    let data = this.dataColProgress.find(obj => obj.id === id);
 
     this.dialog.open(TaskProgressComponent, {
       disableClose: true,
@@ -214,7 +217,7 @@ export class HomeComponent implements OnInit {
       if (dialogResult) {
         data = dialogResult.data;
         if (data) {
-          this.homeService.updateTaskProgress(moduleID, data.workHour, data.progress, data.note ?? '').subscribe(result => {
+          this.homeService.updateTaskProgress(id, moduleID, data.workHour, data.progress, data.note ?? '').subscribe(result => {
             if (result) {
               this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...dialogResult.data } : obj);
             } else {
@@ -250,7 +253,7 @@ export class HomeComponent implements OnInit {
         this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
         return;
       } else {
-        this.homeService.updateTaskStatus(taskModel.moduleID, JobStatus.COMPLETED);
+        this.homeService.updateTaskStatus(taskModel.id, taskModel.moduleID, JobStatus.COMPLETED);
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -265,7 +268,7 @@ export class HomeComponent implements OnInit {
       else if (id === 'pending') taskStatus = JobStatus.PENDING;
       else taskStatus = JobStatus.COMPLETED;
 
-      this.homeService.updateTaskStatus(taskModel.moduleID, taskStatus);
+      this.homeService.updateTaskStatus(taskModel.id, taskModel.moduleID, taskStatus);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,

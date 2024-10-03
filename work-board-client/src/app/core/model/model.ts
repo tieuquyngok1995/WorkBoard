@@ -38,6 +38,7 @@ export interface TaskStatusModel {
 }
 
 export interface TaskModel {
+  id: number;
   moduleID: string;
   taskName: string | null;
   type: number;

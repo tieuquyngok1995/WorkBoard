@@ -39,11 +39,11 @@ export class HomeComponent implements OnInit {
    * @param formBuilder 
    */
   constructor(
-    private dialog: Dialog,
-    private homeService: HomeService,
-    private messageService: MessageService,
-    private confirmDialogService: DialogMessageService,
-    private readonly utilsService: UtilsService, private dataService: DataService) {
+    private readonly dialog: Dialog,
+    private readonly homeService: HomeService,
+    private readonly messageService: MessageService,
+    private readonly confirmDialogService: DialogMessageService,
+    private readonly utilsService: UtilsService, private readonly dataService: DataService) {
 
     this.dataColWaiting = [];
     this.dataColProgress = [];
@@ -263,34 +263,17 @@ export class HomeComponent implements OnInit {
       }
     } else {
       const id = event.container.id;
-      let taskStatus, startDate, workHour, progress;
+      let taskStatus;
       if (id === 'progress') {
         taskStatus = JobStatus.PROGRESS;
 
         taskModel.dateStartWork = new Date();
-
-        // startDate = new Date()
-        // const task = event.previousContainer.data.find(obj => obj.id === taskModel.id);
-        // if (task) {
-        //   workHour = task.workHour;
-        //   progress = task.progress;
-        //   task.dateStartWork = startDate;
-        // }
       } else {
         taskStatus = JobStatus.PENDING;
 
-        taskModel.workHour += this.calculateHours(taskModel.dateStartWork);
+        taskModel.workHour += this.calculateWorkingHours(taskModel.dateStartWork);
         taskModel.progress = this.calculateProgress(taskModel.workHour, taskModel.estimatedHour);
         taskModel.dateStartWork = null;
-
-        // const task = event.previousContainer.data.find(obj => obj.id === taskModel.id)
-        // if (task) {
-        //   workHour = task.workHour + this.calculateHours(task.dateStartWork);
-        //   progress = this.calculateProgress(workHour, task.estimatedHour);
-        //   task.workHour = workHour;
-        //   task.dateStartWork = null;
-        //   task.progress = progress;
-        // }
       }
 
       const index = event.previousContainer.data.findIndex(obj => obj.id === taskModel.id);
@@ -307,21 +290,48 @@ export class HomeComponent implements OnInit {
   }
 
   /**
-   * Calcualte time work.
-   * @param dateToCompare 
+   * Caculate working hours.
+   * @param startDate 
    * @returns 
    */
-  private calculateHours(dateToCompare: Date | null): number {
-    if (!dateToCompare) return 0;
+  private calculateWorkingHours(startDate: Date | null): number {
+    if (!startDate) return 0;
 
-    if (typeof dateToCompare === 'string') dateToCompare = new Date(dateToCompare);
+    if (typeof startDate === 'string') startDate = new Date(startDate);
 
-    const now = new Date();
-    const diffInMs = now.getTime() - dateToCompare.getTime();
+    const endDate = new Date();
+    const workDayHours = 8,
+      morningStart = 8, morningEnd = 12,
+      afternoonStart = 13.25, afternoonEnd = 17.25;
 
-    let diffInHours = diffInMs / (1000 * 60 * 60);
+    const adjustTime = (date: Date, isStart: boolean) => {
+      const hours = date.getHours() + date.getMinutes() / 60;
+      if (isStart && hours >= afternoonEnd) date.setHours(morningStart, 0, 0, 0);
+      if (!isStart && hours > afternoonEnd) date.setHours(afternoonEnd, 15, 0, 0);
+      if (isStart && hours < morningStart) date.setHours(morningStart, 0, 0, 0);
+      if (!isStart && hours < morningStart) date.setHours(morningStart, 0, 0, 0);
+    };
 
-    return Math.round(diffInHours * 100) / 100;
+    const workingHoursInDay = (date: Date) => {
+      const hours = date.getHours() + date.getMinutes() / 60;
+      if (hours < morningStart || hours >= afternoonEnd) return 0;
+      if (hours <= morningEnd) return Math.min(hours - morningStart, morningEnd - morningStart);
+      return morningEnd - morningStart + Math.min(hours - afternoonStart, afternoonEnd - afternoonStart);
+    };
+
+    adjustTime(startDate, true);
+    adjustTime(endDate, false);
+
+    if (startDate.toDateString() === endDate.toDateString()) {
+      return Math.ceil((workingHoursInDay(endDate) - workingHoursInDay(startDate)) * 20) / 20;
+    }
+
+    const firstDayHours = workDayHours - workingHoursInDay(startDate);
+    const lastDayHours = workingHoursInDay(endDate);
+    const fullDaysBetween = (endDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24) - 1;
+    const middleHours = fullDaysBetween * workDayHours;
+
+    return Math.ceil((firstDayHours + middleHours + lastDayHours) * 20) / 20;
   }
 
   /**

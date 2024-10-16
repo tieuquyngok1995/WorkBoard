@@ -23,3 +23,9 @@ export enum JobStatus {
     PENDING,
     COMPLETED
 }
+
+export enum Search {
+    MODULE_ID,
+    TASK_NAME,
+    DATE_DELIVERY
+}

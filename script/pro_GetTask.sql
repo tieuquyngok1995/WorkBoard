@@ -32,6 +32,7 @@ SELECT
 	  ,T.DateStartWork
       ,T.EstimatedHour
       ,T.Progress
+	  ,T.DateStartWork
       ,T.DateDelivery
       ,T.Note
       ,T.TaskStatus

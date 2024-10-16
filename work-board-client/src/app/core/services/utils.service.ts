@@ -8,7 +8,16 @@ export class UtilsService {
 
   constructor() { }
 
-  public getListTask(listStatus: DataListOption[], listTask: TaskModel[]) {
+  public static isNullOrEmpty(str: string | null | undefined): boolean {
+    return !str || str.trim() === '';
+  }
+
+  public static isDateInRange(currentDate: Date | null, startDate: Date | null | undefined, endDate: Date | null | undefined): boolean {
+    if (!currentDate || !startDate || !endDate) return false;
+    return new Date(currentDate) >= startDate && new Date(currentDate) <= endDate;
+  }
+
+  public static getListTask(listStatus: DataListOption[], listTask: TaskModel[]) {
     return listTask.reduce((acc, task) => {
       // Get name status
       const statusName = listStatus.find(status => status.key === task.taskStatus)?.value;
@@ -20,20 +29,19 @@ export class UtilsService {
 
       // Check and create arr
       if (statusName && acc[statusName as keyof TaskStatusModel]) {
-        // Thêm task vào mảng tương ứng với statusName nếu tồn tại
         acc[statusName as keyof TaskStatusModel].push(task);
       }
 
       return acc;
     }, {
-      Waiting: [],
-      InProgress: [],
-      Pending: [],
-      Completed: []
+      waiting: [],
+      progress: [],
+      pending: [],
+      completed: []
     } as TaskStatusModel);
   }
 
-  public objCompare(obj1: any, obj2: any): boolean {
+  public static objCompare(obj1: any, obj2: any): boolean {
     if (obj1 === obj2) {
       return true;
     }

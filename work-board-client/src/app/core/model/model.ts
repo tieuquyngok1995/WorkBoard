@@ -31,10 +31,10 @@ export interface HomeModel {
 }
 
 export interface TaskStatusModel {
-  Waiting: TaskModel[];
-  InProgress: TaskModel[];
-  Pending: TaskModel[];
-  Completed: TaskModel[];
+  waiting: TaskModel[];
+  progress: TaskModel[];
+  pending: TaskModel[];
+  completed: TaskModel[];
 }
 
 export interface TaskModel {

@@ -2,8 +2,8 @@ import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
-import { TaskDialog, TaskModel } from '../../core/model/model';
-import { ProgramMode, TaskType, TaskPriority, JobStatus } from '../../core/enum/enums';
+import { TaskDialog, TaskModel, TaskStatusModel } from '../../core/model/model';
+import { ProgramMode, TaskType, TaskPriority, JobStatus, Search } from '../../core/enum/enums';
 
 import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
 
   private readonly sizeDialog = '300px';
 
+  private dataModel!: TaskStatusModel;
+
   private dataDialog!: TaskModel;
 
   /**
@@ -40,10 +42,10 @@ export class HomeComponent implements OnInit {
    */
   constructor(
     private readonly dialog: Dialog,
+    private readonly dataService: DataService,
     private readonly homeService: HomeService,
     private readonly messageService: MessageService,
-    private readonly confirmDialogService: DialogMessageService,
-    private readonly utilsService: UtilsService, private readonly dataService: DataService) {
+    private readonly confirmDialogService: DialogMessageService) {
 
     this.dataColWaiting = [];
     this.dataColProgress = [];
@@ -56,17 +58,47 @@ export class HomeComponent implements OnInit {
       if (data) {
         this.dataDialog = data.taskDialog;
 
-        const dataTask = this.utilsService.getListTask(data.taskDialog.dataTaskStatus ?? [], data.listTasks);
+        this.dataModel = UtilsService.getListTask(data.taskDialog.dataTaskStatus ?? [], data.listTasks);
+        this.dataModel.progress = this.dataModel.progress.map(obj => {
+          if (obj.dateStartWork) {
+            obj.workHour += this.calculateWorkingHours(obj.dateStartWork);
+            obj.dateStartWork = new Date();
+          }
+          return obj;
+        });
 
-        this.dataColWaiting = dataTask.Waiting;
-        this.dataColProgress = dataTask.InProgress;
-        this.dataColPending = dataTask.Pending;
-        this.dataColCompleted = dataTask.Completed;
+        this.dataColWaiting = this.dataModel.waiting;
+        this.dataColProgress = this.dataModel.progress;
+        this.dataColPending = this.dataModel.pending;
+        this.dataColCompleted = this.dataModel.completed;
       }
     })
-    this.dataService.currentData.subscribe(data => {
 
-      console.log('Data received from header:', data);
+    this.dataService.currentData.subscribe(data => {
+      if (!data) {
+        if (!this.dataModel) return;
+        this.dataColWaiting = this.dataModel.waiting;
+        this.dataColProgress = this.dataModel.progress;
+        this.dataColPending = this.dataModel.pending;
+        this.dataColCompleted = this.dataModel.completed;
+      } else {
+        if (data.searchMode === Search.MODULE_ID) {
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
+          this.dataColProgress = this.dataModel.progress.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
+          this.dataColPending = this.dataModel.pending.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
+        } else if (data.searchMode === Search.TASK_NAME) {
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
+          this.dataColProgress = this.dataModel.progress.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
+          this.dataColPending = this.dataModel.pending.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
+        } else if (data.searchMode === Search.DATE_DELIVERY) {
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
+          this.dataColProgress = this.dataModel.progress.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
+          this.dataColPending = this.dataModel.pending.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
+        }
+      }
     });
   }
 
@@ -151,7 +183,7 @@ export class HomeComponent implements OnInit {
    * @returns 
    */
   private handleEditTask(mode: JobStatus, id: number, task?: TaskModel, taskEdit?: TaskModel) {
-    if (this.utilsService.objCompare(task, taskEdit)) {
+    if (UtilsService.objCompare(task, taskEdit)) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A002'));
       return;
     }
@@ -316,7 +348,7 @@ export class HomeComponent implements OnInit {
       const hours = date.getHours() + date.getMinutes() / 60;
       if (hours < morningStart || hours >= afternoonEnd) return 0;
       if (hours <= morningEnd) return Math.min(hours - morningStart, morningEnd - morningStart);
-      return morningEnd - morningStart + Math.min(hours - afternoonStart, afternoonEnd - afternoonStart);
+      return Math.ceil((morningEnd - morningStart + Math.min(hours - afternoonStart, afternoonEnd - afternoonStart)) * 20) / 20;
     };
 
     adjustTime(startDate, true);

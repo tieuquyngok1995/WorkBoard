@@ -87,5 +87,5 @@ INSERT INTO Priority (Name)
 VALUES ('High'), ('Medium'), ('Low');
 
 INSERT INTO TaskStatuses (Name)
-VALUES ('Waiting'), ('InProgress'), ('Pending'), ('Completed');
+VALUES ('waiting'), ('progress'), ('pending'), ('completed');
 

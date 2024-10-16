@@ -11,14 +11,12 @@
       </div>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" *ngFor="let data of dataListFilter" (click)="selectOption(data)">{{ data.value }}</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="selectOption()">All</a>
       </div>
     </div>
-    <div class="input-search" *ngIf="selectedKeyOption != 3 && isShowItem">
+    <div class="input-search" *ngIf="selectedKeyOption != SearchMode.DATE_DELIVERY && isShowItem">
       <input type="text" [formControl]="searchControl">
     </div>
-    <div class="input-date" *ngIf="selectedKeyOption == 3 && isShowItem">
+    <div class="input-date" *ngIf="selectedKeyOption == SearchMode.DATE_DELIVERY && isShowItem">
       <mat-date-range-input class="input-range-date" [formGroup]="datePickerForm" [rangePicker]="dateRangePickerForm">
         <input matStartDate placeholder="Start date" formControlName="dateStart">
         <input class="input-end" matEndDate placeholder="End date" formControlName="dateEnd">

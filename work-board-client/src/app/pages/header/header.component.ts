@@ -5,6 +5,8 @@ import { AuthService } from '../../core/services/auth.service';
 import { DataListOption, SearchModel } from '../../core/model/model';
 import { HeaderService } from './header.service';
 import { DataService } from 'src/app/shared/service/data.service';
+import { Search } from 'src/app/core/enum/enums';
+import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +15,7 @@ import { DataService } from 'src/app/shared/service/data.service';
 })
 export class HeaderComponent implements OnInit {
 
+  public readonly SearchMode = Search;
   public searchControl: FormControl;
   public datePickerForm: FormGroup;
 
@@ -35,7 +38,7 @@ export class HeaderComponent implements OnInit {
     this.isShowItem = false;
     this.userName = '';
     this.selectedOption = 'Search by';
-    this.selectedKeyOption = 0;
+    this.selectedKeyOption = -1;
     this.dataListFilter = this.createDataListFilter()
   }
 
@@ -44,7 +47,7 @@ export class HeaderComponent implements OnInit {
    */
   public ngOnInit(): void {
     // Event check change value input search
-    this.searchControl.valueChanges.subscribe(value => {
+    this.searchControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
       if (!value) return;
 
       this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
@@ -75,17 +78,13 @@ export class HeaderComponent implements OnInit {
       this.selectedKeyOption = option.key;
       this.selectedOption = option.value;
 
-      if (this.selectedKeyOption === 3) {
+      if (this.selectedKeyOption === Search.DATE_DELIVERY) {
         this.dataService.sendData({
           searchMode: this.selectedKeyOption,
           searchDateStart: this.headerService.dateStart?.value,
           searchDateEnd: this.headerService.dateEnd?.value
         });
       }
-    } else {
-      this.selectedKeyOption = 0;
-      this.selectedOption = 'All';
-      this.dataService.sendData({ searchMode: this.selectedKeyOption });
     }
     this.searchControl.setValue('');
   }
@@ -123,9 +122,9 @@ export class HeaderComponent implements OnInit {
    */
   private createDataListFilter(): DataListOption[] {
     return [
-      { key: 1, value: 'Module ID' },
-      { key: 2, value: 'Task Name' },
-      { key: 3, value: 'Date Delivey' },
+      { key: Search.MODULE_ID, value: 'Module ID' },
+      { key: Search.TASK_NAME, value: 'Task Name' },
+      { key: Search.DATE_DELIVERY, value: 'Date Delivery' },
     ]
   }
 }

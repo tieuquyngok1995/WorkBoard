@@ -105,7 +105,7 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        public async Task UpdateTaskStatus(int id, string moduleID, short? taskStatus, decimal? workHour, int? progress, DateTime? dateStartWork)
+        public async Task UpdateTaskStatus(int id, string moduleID, short? taskStatus, decimal? workHour, int? progress, DateTime? dateWork)
         {
             try
             {
@@ -116,7 +116,7 @@ namespace WorkBoardServer.Services
                     @taskStatus = taskStatus,
                     @workHour = workHour,
                     @progress = progress,
-                    @dateStartWork = dateStartWork
+                    @dateWork = dateWork
                 });
             }
             catch

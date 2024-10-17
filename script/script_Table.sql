@@ -51,12 +51,14 @@ create table Task (
 	Assignee smallint not null, 
 	Priority smallint,
 	DateCreate datetime not null,
-	WorkHour decimal(5, 2),
-	DateStartWork datetime,
 	EstimatedHour smallint not null,
-	Progress smallint,
 	DateDelivery date not null,
 	Note nvarchar(max),
+	DateWork datetime,
+	WorkHour decimal(5, 2),
+	Progress smallint,
+	DateWorkStart datetime,
+	DateWorkEnd datetime,
 	TaskStatus smallint not null,
 	UserUpdate varchar(25),
 	DateUpdate datetime,
@@ -81,7 +83,7 @@ INSERT INTO Users
 VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) ;
 
 INSERT INTO TaskType (Name)
-VALUES ('Coding'), ('Review'), ('Testing'), ('FixBug');
+VALUES ('Coding'), ('Review Coding'), ('Fix Bug Coding'), ('Create Testcases'), ('Review Testcases'), ('Fix Bug Testcase'), ('Testing'), ('Review Testing'), ('Fix Bug Testing');
 
 INSERT INTO Priority (Name)
 VALUES ('High'), ('Medium'), ('Low');

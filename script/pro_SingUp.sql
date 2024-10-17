@@ -8,7 +8,7 @@ END
 GO
 
 CREATE PROCEDURE SignUp
-	@Email NVARCHAR(50),
+	@Email NVARCHAR(100),
     @UserName NVARCHAR(50),
     @Password NVARCHAR(50)
 AS
@@ -18,7 +18,7 @@ BEGIN
         SELECT 1 
         FROM Users 
         WHERE UserName = @UserName 
-        AND Password = @Password
+        AND Email = @Email
     )
     BEGIN
         -- register user

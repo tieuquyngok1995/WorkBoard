@@ -13,14 +13,22 @@ CREATE PROCEDURE UpdateTaskStatus
 	@taskStatus smallint,
 	@workHour decimal(5, 2),
 	@progress smallint,
-	@dateStartWork datetime
+	@dateWork datetime
 AS
 BEGIN
 	UPDATE [dbo].[Task] SET 
 		[TaskStatus] = @taskStatus,
 		[WorkHour] = @workHour,
 		[Progress] = @progress,
-		[DateStartWork] = @dateStartWork
+		[DateWork] = @dateWork,
+		[DateWorkStart] = CASE WHEN @taskStatus = 1 AND DateWorkStart IS NULL 
+							THEN @dateWork 
+							ELSE DateWorkStart 
+                          END,
+		[DateWorkEnd] = CASE WHEN @taskStatus = 3
+							THEN @dateWork 
+							ELSE DateWorkEnd 
+                          END
 	FROM [dbo].[Task] WHERE 
 		ID = @id AND
 		ModuleID = @moduleID AND 

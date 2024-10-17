@@ -28,16 +28,13 @@ SELECT
       ,U.UserName as AssigneeName
       ,T.Priority
       ,T.DateCreate
-      ,T.WorkHour
-	  ,T.DateStartWork
       ,T.EstimatedHour
-      ,T.Progress
-	  ,T.DateStartWork
       ,T.DateDelivery
       ,T.Note
+	  ,T.DateWork
+      ,T.WorkHour
+      ,T.Progress
       ,T.TaskStatus
-      ,T.UserUpdate
-      ,T.DateUpdate
 	FROM [dbo].[Task] T
 		LEFT JOIN [dbo].[TaskType] TT
 			ON T.type = TT.ID

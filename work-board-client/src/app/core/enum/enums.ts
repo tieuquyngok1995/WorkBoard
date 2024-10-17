@@ -12,9 +12,14 @@ export enum TaskPriority {
 
 export enum TaskType {
     CODING,
+    REVIEW_CODING,
+    FIXBUG_CODING,
+    CREATE_TESTCASES,
+    REVIEW_TESTCASES,
+    FIXBUG_TESTCASES,
     TESTING,
-    REVIEW,
-    FIXBUG
+    REVIEW_TESTING,
+    FIXBUG_TESTING
 }
 
 export enum JobStatus {

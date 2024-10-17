@@ -24,6 +24,9 @@ export class HomeComponent implements OnInit {
   public readonly TaskType = TaskType;
   public readonly TaskPriority = TaskPriority;
 
+  public taskIcon!: string;
+  public taskName!: string;
+
   public dataColWaiting: TaskModel[];
   public dataColProgress: TaskModel[];
   public dataColPending: TaskModel[];
@@ -34,6 +37,8 @@ export class HomeComponent implements OnInit {
   private dataModel!: TaskStatusModel;
 
   private dataDialog!: TaskModel;
+
+  private taskTypeMapping: { [key: number]: { icon: string; name: string } };
 
   /**
    * A constructor initializes a class's objects upon creation.
@@ -51,6 +56,8 @@ export class HomeComponent implements OnInit {
     this.dataColProgress = [];
     this.dataColPending = [];
     this.dataColCompleted = [];
+
+    this.taskTypeMapping = this.createTaskTypeMapping();
   }
 
   public ngOnInit(): void {
@@ -60,9 +67,9 @@ export class HomeComponent implements OnInit {
 
         this.dataModel = UtilsService.getListTask(data.taskDialog.dataTaskStatus ?? [], data.listTasks);
         this.dataModel.progress = this.dataModel.progress.map(obj => {
-          if (obj.dateStartWork) {
-            obj.workHour += this.calculateWorkingHours(obj.dateStartWork);
-            obj.dateStartWork = new Date();
+          if (obj.dateWork) {
+            obj.workHour += this.calculateWorkingHours(obj.dateWork);
+            obj.dateWork = new Date();
           }
           return obj;
         });
@@ -100,6 +107,10 @@ export class HomeComponent implements OnInit {
         }
       }
     });
+  }
+
+  public getTasktype(taskType: number): { icon: string, name: string } {
+    return this.taskTypeMapping[taskType];
   }
 
   /**
@@ -277,6 +288,7 @@ export class HomeComponent implements OnInit {
    */
   public onDrop(event: CdkDragDrop<any[]>, mode?: JobStatus) {
     const taskModel = event.item.data as TaskModel;
+    const today = new Date();
 
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -285,7 +297,7 @@ export class HomeComponent implements OnInit {
         this.confirmDialogService.openDialog(this.messageService.getMessage('A004'));
         return;
       } else {
-        this.homeService.updateTaskStatus(JobStatus.COMPLETED, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, null);
+        this.homeService.updateTaskStatus(JobStatus.COMPLETED, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, today);
         transferArrayItem(
           event.previousContainer.data,
           event.container.data,
@@ -299,25 +311,39 @@ export class HomeComponent implements OnInit {
       if (id === 'progress') {
         taskStatus = JobStatus.PROGRESS;
 
-        taskModel.dateStartWork = new Date();
+        taskModel.dateWork = new Date();
       } else {
         taskStatus = JobStatus.PENDING;
 
-        taskModel.workHour += this.calculateWorkingHours(taskModel.dateStartWork);
+        taskModel.workHour += this.calculateWorkingHours(taskModel.dateWork);
         taskModel.progress = this.calculateProgress(taskModel.workHour, taskModel.estimatedHour);
-        taskModel.dateStartWork = null;
+        taskModel.dateWork = null;
       }
 
       const index = event.previousContainer.data.findIndex(obj => obj.id === taskModel.id);
       if (index !== -1) event.previousContainer.data[index] = { ...event.previousContainer.data[index], ...taskModel };
 
-      this.homeService.updateTaskStatus(taskStatus, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, taskModel.dateStartWork);
+      this.homeService.updateTaskStatus(taskStatus, taskModel.id, taskModel.moduleID, taskModel.workHour, taskModel.progress, taskModel.dateWork);
       transferArrayItem(
         event.previousContainer.data,
         event.container.data,
         event.previousIndex,
         event.currentIndex,
       );
+    }
+  }
+
+  private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {
+    return {
+      0: { icon: 'bi bi-file-earmark-code', name: 'Coding' },
+      1: { icon: 'bi bi-file-earmark-code', name: 'Review' },
+      2: { icon: 'bi bi-file-earmark-code', name: 'Fix Bug' },
+      3: { icon: 'bi bi-file-earmark-bar-graph', name: 'Testcase' },
+      4: { icon: 'bi bi-file-earmark-bar-graph', name: 'Review' },
+      5: { icon: 'bi bi-file-earmark-bar-graph', name: 'Fix Bug' },
+      6: { icon: 'bi bi-file-earmark-medical', name: 'Testing' },
+      7: { icon: 'bi bi-file-earmark-medical', name: 'Review' },
+      8: { icon: 'bi bi-file-earmark-medical', name: 'Fix Bug' }
     }
   }
 

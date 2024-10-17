@@ -17,6 +17,11 @@ namespace WorkBoardServer.Controllers
             _service = taskService;
         }
 
+        /// <summary>
+        /// Create new task
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult CreateTask(TaskModel model)
         {
@@ -43,6 +48,11 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Update info task
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult UpdateTask(TaskModel model)
         {
@@ -68,6 +78,10 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Update column progress
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task UpdateTaskStatus()
         {
@@ -104,13 +118,22 @@ namespace WorkBoardServer.Controllers
                 decimal? workHour = receivedData.WorkHour;
                 int? progress = receivedData.Progress;
 
-                DateTime? utcDateTime = receivedData.DateStartWork;
-                DateTime? dateStartWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
+                DateTime? utcDateTime = receivedData.DateWork;
+                DateTime? dateWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
 
-                await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateStartWork);
+                await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateWork);
             }
         }
 
+        /// <summary>
+        /// Update task progress
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="moduleID"></param>
+        /// <param name="workHour"></param>
+        /// <param name="progress"></param>
+        /// <param name="note"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult UpdateTaskProgress(int id, string moduleID, decimal workHour, int progress, string? note)
         {
@@ -136,6 +159,12 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete task
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="moduleID"></param>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult DeleteTask(int id, string moduleID)
         {

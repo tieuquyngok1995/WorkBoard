@@ -30,6 +30,7 @@ export class UtilsService {
       // Check and create arr
       if (statusName && acc[statusName as keyof TaskStatusModel]) {
         acc[statusName as keyof TaskStatusModel].push(task);
+        acc[statusName as keyof TaskStatusModel].sort((a, b) => a.priority - b.priority);
       }
 
       return acc;

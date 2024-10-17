@@ -35,7 +35,7 @@ export class HandleApiInterceptor implements HttpInterceptor {
    */
   public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     this.loadingService.show();
-    const minTime$ = of(null).pipe(delay(1000));
+    const minTime$ = of(null).pipe(delay(500));
 
     return minTime$.pipe(
       mergeMap(() =>
@@ -47,6 +47,9 @@ export class HandleApiInterceptor implements HttpInterceptor {
             } else if (error.status === 401) {
               this.authService.logOut();
               return throwError(() => error.ok);
+            } else if (error.status === 406) {
+              this.confirmDialogService.openDialog(this.messageService.getMessage('E014'));
+              return EMPTY;
             } else if (error.status === 404) {
               this.router.navigate(['/404']);
               return EMPTY;

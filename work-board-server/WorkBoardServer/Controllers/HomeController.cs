@@ -16,6 +16,10 @@ namespace WorkBoardServer.Controllers
             _service = service;
         }
 
+        /// <summary>
+        /// Get data init page
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult GetIndex()
         {
@@ -47,6 +51,10 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Create file wbs
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult DownloadFile()
         {
@@ -56,7 +64,7 @@ namespace WorkBoardServer.Controllers
             // Thêm dữ liệu
             worksheet.Cells[1, 1].Value = "Hello";
             worksheet.Cells[1, 2].Value = "World";
-
+            worksheet.Cells["A2:C2"].Merge = true;
             // Đặt định dạng tên file
             var fileName = "example.xlsx";
 

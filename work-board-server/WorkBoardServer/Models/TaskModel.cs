@@ -34,19 +34,19 @@ namespace WorkBoardServer.Models
         [Required(ErrorMessage = "Date Create is required.")]
         public DateTime? DateCreate { get; set; }
 
-        public decimal? WorkHour { get; set; }
-
-        public DateTime? DateStartWork { get; set; }
-
         [Required(ErrorMessage = "Estimated Hour is required.")]
         public short? EstimatedHour { get; set; }
-
-        public int? Progress { get; set; }
 
         [Required(ErrorMessage = "Date Delivery is required.")]
         public DateTime? DateDelivery { get; set; }
 
         public string? Note { get; set; }
+
+        public DateTime? DateWork { get; set; }
+
+        public decimal? WorkHour { get; set; }
+
+        public int? Progress { get; set; }
 
         public short? TaskStatus { get; set; }
 

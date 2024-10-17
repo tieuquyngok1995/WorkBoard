@@ -50,17 +50,8 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
-                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
-                    <i class="bi bi-bug"></i>&nbsp;Testing
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
-                    <i class="bi bi-eye"></i>&nbsp;Review
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
-                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  <h4 class="task-type">
+                    <i [ngClass]="getTasktype(task.type).icon"></i>&nbsp;{{ getTasktype(task.type).name }}
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
@@ -130,17 +121,8 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
-                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
-                    <i class="bi bi-bug"></i>&nbsp;Testing
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
-                    <i class="bi bi-eye"></i>&nbsp;Review
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
-                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  <h4 class="task-type">
+                    <i [ngClass]="getTasktype(task.type).icon"></i>&nbsp;{{ getTasktype(task.type).name }}
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
@@ -207,17 +189,8 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
-                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
-                    <i class="bi bi-bug"></i>&nbsp;Testing
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
-                    <i class="bi bi-eye"></i>&nbsp;Review
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
-                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  <h4 class="task-type">
+                    <i [ngClass]="getTasktype(task.type).icon"></i>&nbsp;{{ getTasktype(task.type).name }}
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">
@@ -279,17 +252,8 @@
               </div>
               <div class="row row-text table-footer">
                 <div class="fixed-width-type">
-                  <h4 class="task-type" *ngIf="task.type == TaskType.CODING">
-                    <i class="bi bi-file-earmark-code"></i>&nbsp;Coding
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.TESTING">
-                    <i class="bi bi-bug"></i>&nbsp;Testing
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.REVIEW">
-                    <i class="bi bi-eye"></i>&nbsp;Review
-                  </h4>
-                  <h4 class="task-type" *ngIf="task.type == TaskType.FIXBUG">
-                    <i class="bi bi-file-earmark-check"></i>&nbsp;Fixbug
+                  <h4 class="task-type">
+                    <i [ngClass]="getTasktype(task.type).icon"></i>&nbsp;{{ getTasktype(task.type).name }}
                   </h4>
                 </div>
                 <div class="fixed-width-assignee">

@@ -57,7 +57,7 @@ namespace WorkBoardServer.Controllers
 
                 if (model.UserName == null)
                 {
-                    return Unauthorized();
+                    return StatusCode(406);
                 }
 
                 model.Token = _jwtTokenService.GenerateToken(model);

@@ -51,12 +51,12 @@ export interface TaskModel {
   priority: number;
   dataPriority: DataListOption[] | null;
   dateCreate: Date | null;
-  workHour: number;
-  dateStartWork: Date | null;
   estimatedHour: number;
-  progress: number;
   dateDelivery: Date | null;
   note: string | null;
+  dateWork: Date | null;
+  workHour: number;
+  progress: number;
   taskStatus: number;
   dataTaskStatus: DataListOption[] | null;
 }

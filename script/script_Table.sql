@@ -60,8 +60,6 @@ create table Task (
 	DateWorkStart datetime,
 	DateWorkEnd datetime,
 	TaskStatus smallint not null,
-	UserUpdate varchar(25),
-	DateUpdate datetime,
 	FlgDelete smallint,
 	DateDelete datetime,
 	FOREIGN KEY (Type) REFERENCES dbo.TaskType(ID) ,
@@ -75,9 +73,6 @@ VALUES ('Admin'), ('Leader'), ('User') ;
 
 INSERT INTO Users
 VALUES ('admin@fujinet.net', 'admin', '1', 0) ;
-
-INSERT INTO Users
-VALUES ('leader@fujinet.net', 'leader', '1', 1) ;
 
 INSERT INTO Users
 VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) ;

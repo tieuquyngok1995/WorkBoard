@@ -13,7 +13,8 @@ CREATE PROCEDURE DeleteTask
 AS
 BEGIN
     UPDATE [dbo].[Task] SET 
-		[FlgDelete] = 1
+		[FlgDelete] = 1,
+		[DateDelete] = GETDATE()
 	FROM [dbo].[Task] WHERE 
 		ID = @id AND
 		ModuleID = @moduleID AND 

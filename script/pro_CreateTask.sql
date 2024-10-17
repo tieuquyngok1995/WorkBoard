@@ -26,8 +26,6 @@ BEGIN
         ,DateDelivery
         ,Note
 		,TaskStatus
-        ,UserUpdate
-        ,DateUpdate
 		,FlgDelete)
 	SELECT 
 		 ModuleID
@@ -43,8 +41,6 @@ BEGIN
 		,DateDelivery
 		,Note
 		,0
-		, null
-		, null
 		,0
     FROM @data
 

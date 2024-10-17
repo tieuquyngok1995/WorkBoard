@@ -7,6 +7,7 @@ import { HeaderService } from './header.service';
 import { DataService } from 'src/app/shared/service/data.service';
 import { Search } from 'src/app/core/enum/enums';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
+import { DownloadService } from 'src/app/core/services/download.service';
 
 @Component({
   selector: 'app-header',
@@ -30,7 +31,7 @@ export class HeaderComponent implements OnInit {
    * A constructor initializes a class's objects upon creation.
    * @param authService 
    */
-  constructor(private headerService: HeaderService, private authService: AuthService, private dataService: DataService) {
+  constructor(private headerService: HeaderService, private authService: AuthService, private dataService: DataService, private downloadService: DownloadService) {
     this.searchControl = new FormControl('');
     this.datePickerForm = headerService.datePickerForm;
 
@@ -107,6 +108,10 @@ export class HeaderComponent implements OnInit {
     this.isShowItem = false
 
     this.dataService.sendData(null);
+  }
+
+  public dowload(): void {
+    this.downloadService.downloadExcel();
   }
 
   /**

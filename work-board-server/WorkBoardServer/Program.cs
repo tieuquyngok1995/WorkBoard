@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using OfficeOpenXml;
 using Serilog;
 using System.Net.WebSockets;
 using System.Reflection;
@@ -15,6 +16,9 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 // Find class Service
 var appServices = assembly.GetTypes().Where(x => x.Name.EndsWith("Service")).ToArray();
+
+// LicenseContext EPPlus
+ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
 foreach (var service in appServices)
 {

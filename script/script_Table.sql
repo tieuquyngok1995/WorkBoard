@@ -20,7 +20,8 @@ CREATE TABLE Roles (
 
 CREATE TABLE TaskType (
     ID smallint PRIMARY KEY IDENTITY(0,1),
-    Name NVARCHAR(50) NOT NULL
+    Name NVARCHAR(50) NOT NULL,
+    NameJP NVARCHAR(50) NOT NULL
 );
 
 create table Users (
@@ -75,10 +76,15 @@ INSERT INTO Users
 VALUES ('admin@fujinet.net', 'admin', '1', 0) ;
 
 INSERT INTO Users
-VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) ;
+VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) 
+      ,('hieu-mth@fujinet.net', 'hieu-mth', '1', 2) 
+      ,('thinh-nt@fujinet.net', 'thinh-nt', '1', 2) 
+      ,('duy-tranb@fujinet.net', 'duy-tranb', '1', 2) 
 
-INSERT INTO TaskType (Name)
-VALUES ('Coding'), ('Review Coding'), ('Fix Bug Coding'), ('Create Testcases'), ('Review Testcases'), ('Fix Bug Testcase'), ('Testing'), ('Review Testing'), ('Fix Bug Testing');
+INSERT INTO TaskType (Name, NameJP)
+VALUES ('Coding', N'コーディング'), ('Review Coding', N'コーディングのレビュー'), ('Fix Bug Coding', N'コーディングのレビュー結果対応')
+     , ('Create Testcases', N'テストケースの作成'), ('Review Testcases', N'テストケースのレビュー'), ('Fix Bug Testcase', N'テストケースのレビュー指摘対応')
+	 , ('Testing', N'単体テスト'), ('Review Testing', N'単体テスト結果のレビュー'), ('Fix Bug Testing', N'単体テスト結果の不具合対応ト');
 
 INSERT INTO Priority (Name)
 VALUES ('High'), ('Medium'), ('Low');

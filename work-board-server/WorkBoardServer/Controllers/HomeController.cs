@@ -58,23 +58,49 @@ namespace WorkBoardServer.Controllers
         [HttpGet]
         public IActionResult DownloadFile()
         {
-            var package = new ExcelPackage();
-            var worksheet = package.Workbook.Worksheets.Add("Sheet1");
+            // Get data using to WBS
+            List<TaskModel> listData = _service.GetDataWBS();
 
-            // Thêm dữ liệu
-            worksheet.Cells[1, 1].Value = "Hello";
-            worksheet.Cells[1, 2].Value = "World";
-            worksheet.Cells["A2:C2"].Merge = true;
-            // Đặt định dạng tên file
-            var fileName = "example.xlsx";
+            // Get dictionary type key and name jp
+            Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
 
-            // Chuyển đổi thành byte array
+            // Create work sheets excel 
+            ExcelPackage package = new ExcelPackage();
+            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_Phase3");
+
+            int startIndex = 0, i = 2;
+            string moduleId = string.Empty;
+            foreach (TaskModel item in listData)
+            {
+                item.TypeName = dicType[item.Type.Value];
+
+                // Create row file excel
+                _service.CreateFileWBS(worksheet, i, item);
+
+                if (item.ModuleID != moduleId)
+                {
+                    if (moduleId != null && startIndex != i - 1)
+                    {
+                        worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                    }
+                    startIndex = i;
+                }
+                moduleId = item.ModuleID;
+                i++;
+            }
+
+            if (startIndex != i - 1)
+            {
+                worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+            }
+
+            // Save file to stream
             var fileStream = new MemoryStream();
             package.SaveAs(fileStream);
             fileStream.Position = 0;
 
-            // Trả về file cho client
-            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", fileName);
+            // Return file wbs to client
+            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
     }
 }

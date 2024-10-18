@@ -1,32 +1,46 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { MessageService } from 'src/app/shared/service/message.service';
+import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DownloadService {
 
-  constructor(@Inject('API_URL') private apiUrl: string, private http: HttpClient) { }
+  constructor(
+    @Inject('API_URL') private apiUrl: string,
+    private http: HttpClient,
+    private messageService: MessageService,
+    private confirmDialogService: DialogMessageService) { }
 
   downloadExcel(): void {
-    this.http.get(this.apiUrl + 'Home/DownloadFile', { responseType: 'blob' }).subscribe((blob) => {
-      // Tạo URL từ blob
-      const url = window.URL.createObjectURL(blob);
+    this.http.get(this.apiUrl + 'Home/DownloadFile', { responseType: 'blob', observe: 'response' }).subscribe(response => {
+      const now = new Date();
+      let fileName = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}_WBS.xlsx`;
 
-      // Tạo tên file với ngày tháng
-      const fileName = `file.xlsx`; // Tên file sẽ là "data_YYYY-MM-DD.xlsx"
+      // Check response.body 
+      const blob = response.body;
+      if (blob) {
+        // Create URL blob
+        const url = window.URL.createObjectURL(blob);
 
-      // Tạo thẻ <a> tạm thời để tải file
-      const anchor: HTMLAnchorElement = document.createElement('a');
-      anchor.href = url;
-      anchor.download = fileName;
+        // Create anchor tag for download
+        const anchor: HTMLAnchorElement = document.createElement('a');
+        anchor.href = url;
+        anchor.download = fileName;
 
-      // Kích hoạt sự kiện click
-      const clickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
-      anchor.dispatchEvent(clickEvent);
+        // Trigger the download
+        const clickEvent = new MouseEvent("click", { bubbles: true, cancelable: true });
+        anchor.dispatchEvent(clickEvent);
 
-      // Giải phóng URL
-      window.URL.revokeObjectURL(url); // Giải phóng URL
+        // Clean up the URL object
+        window.URL.revokeObjectURL(url);
+      } else {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E015'));
+      }
+    }, (error) => {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('E009') + error.message);
     });
   }
 }

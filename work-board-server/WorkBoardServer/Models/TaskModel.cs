@@ -48,6 +48,10 @@ namespace WorkBoardServer.Models
 
         public int? Progress { get; set; }
 
+        public DateTime? DateWorkStart { get; set; }
+
+        public DateTime? DateWorkEnd { get; set; }
+
         public short? TaskStatus { get; set; }
 
         public List<DataListOption>? DataTaskStatus { get; set; }

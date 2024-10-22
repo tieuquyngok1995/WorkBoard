@@ -52,7 +52,7 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? ""))
     };
 });
 
@@ -110,7 +110,7 @@ app.Map("/ws", async (context) =>
     }
 });
 
-async Task Echo(HttpContext context, WebSocket webSocket)
+static async Task Echo(HttpContext context, WebSocket webSocket)
 {
     var buffer = new byte[1024 * 4];
     WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);

@@ -2,8 +2,8 @@
 {
     public class HomeModel
     {
-        public TaskModel taskDialog { get; set; }
+        public required TaskModel TaskDialog { get; set; }
 
-        public List<TaskModel> listTasks { get; set; }
+        public required List<TaskModel> ListTasks { get; set; }
     }
 }

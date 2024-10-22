@@ -2,8 +2,8 @@
 {
     public class DataListOption
     {
-        public short key { get; set; }
+        public short Key { get; set; }
 
-        public string value { get; set; }
+        public required string Value { get; set; }
     }
 }

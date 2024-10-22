@@ -10,7 +10,7 @@ namespace WorkBoardServer.Services
 
         public DatabaseService(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
         }
 
         public SqlConnection CreateConnection()
@@ -18,81 +18,69 @@ namespace WorkBoardServer.Services
             return new SqlConnection(_connectionString);
         }
 
-        public IEnumerable<T> ExecuteQuery<T>(string storedProcedureName, object parameters = null)
+        public IEnumerable<T> ExecuteQuery<T>(string storedProcedureName, object? parameters = null)
         {
-            using (var connection = CreateConnection())
-            {
-                return connection.Query<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
-            }
+            using var connection = CreateConnection();
+            return connection.Query<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
         }
-        public async Task<IEnumerable<T>> ExecuteQueryAsync<T>(string storedProcedureName, object parameters = null)
+        public async Task<IEnumerable<T>> ExecuteQueryAsync<T>(string storedProcedureName, object? parameters = null)
         {
-            using (var connection = CreateConnection())
-            {
-                return await connection.QueryAsync<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
-            }
+            using var connection = CreateConnection();
+            return await connection.QueryAsync<T>(storedProcedureName, parameters, commandType: CommandType.StoredProcedure);
         }
 
 
-        public int ExecuteNonQuery(string storedProcedureName, object parameters = null, int? timeout = null)
+        public int ExecuteNonQuery(string storedProcedureName, object? parameters = null, int? timeout = null)
         {
-            using (SqlConnection connection = CreateConnection())
+            using SqlConnection connection = CreateConnection();
+            using var command = new SqlCommand(storedProcedureName, connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            if (parameters is not null)
             {
-                using (var command = new SqlCommand(storedProcedureName, connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    if (parameters is not null)
-                    {
-                        command.Parameters.AddRange(new[] { parameters });
-                    }
-
-                    if (timeout.HasValue)
-                    {
-                        command.CommandTimeout = timeout.Value;
-                    }
-
-                    connection.Open();
-                    return command.ExecuteNonQuery();
-                }
+                command.Parameters.AddRange(new[] { parameters });
             }
+
+            if (timeout.HasValue)
+            {
+                command.CommandTimeout = timeout.Value;
+            }
+
+            connection.Open();
+            return command.ExecuteNonQuery();
         }
 
-        public int ExecuteNonQueryGetID(string storedProcedureName, string output, object parameters = null, int? timeout = null)
+        public int ExecuteNonQueryGetID(string storedProcedureName, string output, object? parameters = null, int? timeout = null)
         {
-            using (SqlConnection connection = CreateConnection())
+            using SqlConnection connection = CreateConnection();
+            connection.Open();
+
+            using var command = new SqlCommand(storedProcedureName, connection);
+            command.CommandType = CommandType.StoredProcedure;
+
+            if (parameters is not null)
             {
-                connection.Open();
-
-                using (var command = new SqlCommand(storedProcedureName, connection))
-                {
-                    command.CommandType = CommandType.StoredProcedure;
-
-                    if (parameters is not null)
-                    {
-                        command.Parameters.AddRange(new[] { parameters });
-                    }
-
-                    if (timeout.HasValue)
-                    {
-                        command.CommandTimeout = timeout.Value;
-                    }
-
-                    var outputParameter = new SqlParameter(output, SqlDbType.Int)
-                    {
-                        Direction = ParameterDirection.Output
-                    };
-                    command.Parameters.Add(outputParameter);
-
-                    command.ExecuteNonQuery();
-
-                    int newId = (int)outputParameter.Value;
-
-                    if (newId < 0) throw new Exception("No rows were affected.");
-
-                    return newId;
-                }
+                command.Parameters.AddRange(new[] { parameters });
             }
+
+            if (timeout.HasValue)
+            {
+                command.CommandTimeout = timeout.Value;
+            }
+
+            var outputParameter = new SqlParameter(output, SqlDbType.Int)
+            {
+                Direction = ParameterDirection.Output
+            };
+            command.Parameters.Add(outputParameter);
+
+            command.ExecuteNonQuery();
+
+            int newId = (int)outputParameter.Value;
+
+            if (newId < 0) throw new Exception("No rows were affected.");
+
+            return newId;
         }
     }
 }

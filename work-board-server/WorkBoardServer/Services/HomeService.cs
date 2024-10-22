@@ -22,7 +22,7 @@ namespace WorkBoardServer.Services
         public Dictionary<short, string> GetDataTaskTypeJP()
         {
             return _databaseService.ExecuteQuery<DataListOption>(
-                GlobalConstants.PGetTaskTypeJP).ToDictionary(item => item.key, item => item.value);
+                GlobalConstants.PGetTaskTypeJP).ToDictionary(item => item.Key, item => item.Value);
         }
 
         public List<DataListOption> GetDataAssignee()
@@ -46,7 +46,7 @@ namespace WorkBoardServer.Services
         public List<TaskModel> GetTaskModels(string? userID)
         {
             return _databaseService.ExecuteQuery<TaskModel>(
-                GlobalConstants.PGetTask, new { @UserID = userID }).AsList();
+                GlobalConstants.PGetTask, new { userID }).AsList();
         }
 
         public List<TaskModel> GetDataWBS()

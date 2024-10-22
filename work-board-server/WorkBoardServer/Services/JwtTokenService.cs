@@ -20,13 +20,13 @@ namespace WorkBoardServer.Services
             // Create claims 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, user.UserID.ToString()),
+            new Claim(JwtRegisteredClaimNames.Sub, user.UserID.ToString() ?? ""),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Name, user.UserName),
-            new Claim(ClaimTypes.Role, user.RoleID.ToString())
+            new Claim(ClaimTypes.Name, user.UserName ?? ""),
+            new Claim(ClaimTypes.Role, user.RoleID.ToString()?? "")
             };
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? ""));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             // Get key in setting

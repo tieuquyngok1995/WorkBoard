@@ -18,7 +18,7 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                DataTable taskTable = new DataTable();
+                DataTable taskTable = new();
                 taskTable.Columns.Add("ID", typeof(int));                    // int
                 taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
                 taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
@@ -38,7 +38,7 @@ namespace WorkBoardServer.Services
                     model.Type,
                     model.NumRedmine,
                     model.Assignee,
-                    model.Priority.HasValue ? model.Priority.Value : 2,
+                    model.Priority ?? 2,
                     model.DateCreate,
                     model.EstimatedHour,
                     model.DateDelivery,
@@ -63,7 +63,7 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                DataTable taskTable = new DataTable();
+                DataTable taskTable = new();
                 taskTable.Columns.Add("ID", typeof(int));                    // int
                 taskTable.Columns.Add("ModuleID", typeof(string));           // nvarchar(25)
                 taskTable.Columns.Add("TaskName", typeof(string));           // nvarchar(100)
@@ -83,7 +83,7 @@ namespace WorkBoardServer.Services
                     model.Type,
                     model.NumRedmine,
                     model.Assignee,
-                    model.Priority.HasValue ? model.Priority.Value : 2,
+                    model.Priority ?? 2,
                     model.DateCreate,
                     model.EstimatedHour,
                     model.DateDelivery,
@@ -111,12 +111,12 @@ namespace WorkBoardServer.Services
             {
                 await _databaseService.ExecuteQueryAsync<bool>(GlobalConstants.PUpdateTaskStatus, new
                 {
-                    @id = id,
-                    @moduleID = moduleID,
-                    @taskStatus = taskStatus,
-                    @workHour = workHour,
-                    @progress = progress,
-                    @dateWork = dateWork
+                    id,
+                    moduleID,
+                    taskStatus,
+                    workHour,
+                    progress,
+                    dateWork
                 });
             }
             catch
@@ -131,11 +131,11 @@ namespace WorkBoardServer.Services
             {
                 _databaseService.ExecuteQuery<bool>(GlobalConstants.PUpdateTaskProgress, new
                 {
-                    @id = id,
-                    @moduleID = moduleID,
-                    @workHour = workHour,
-                    @progress = progress,
-                    @note = note
+                    id,
+                    moduleID,
+                    workHour,
+                    progress,
+                    note
                 });
             }
             catch { return false; }
@@ -148,8 +148,8 @@ namespace WorkBoardServer.Services
             {
                 _databaseService.ExecuteQuery<bool>(GlobalConstants.PDeleteTask, new
                 {
-                    @id = id,
-                    @moduleID = moduleID
+                    id,
+                    moduleID
                 });
             }
             catch { return false; }

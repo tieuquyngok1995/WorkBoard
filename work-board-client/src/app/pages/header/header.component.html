@@ -31,17 +31,22 @@
   </div>
   <ul class="list">
     <li><i class="mr-2 input-icon bi bi-person"></i><span>{{ userName }}</span></li>
-    <li><a><i class="bi bi-bell-fill"></i></a></li>
     <li>
-      <a class="dropdown-toggle" data-toggle="dropdown">
-        <i class="bi bi-gear-fill"></i>
-      </a>
+      <a class="bi bi-bell-fill"></a>
+      <div *ngIf="numNotification > 0" class="notification-box">
+        <span class="notification-count">{{ numNotification }}</span>
+      </div>
+    </li>
+    <li>
+      <a class="bi bi-gear-fill dropdown-toggle" data-toggle="dropdown"> </a>
       <div class="dropdown-menu setting">
         <a class="dropdown-item">Setting User</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="dowloadFileWBS()">Export File WBS</a>
       </div>
     </li>
-    <li><a (click)="logOut()"><i class="bi bi-box-arrow-right"></i></a></li>
+    <li>
+      <a class="bi bi-box-arrow-right" (click)="logOut()"></a>
+    </li>
   </ul>
 </nav>

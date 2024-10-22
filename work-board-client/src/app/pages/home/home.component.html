@@ -10,7 +10,9 @@
           <div class="col-10">
             <h3>Waiting</h3>
           </div>
-          <div class="col-auto icon-setting"><a (click)="addTaskDialog()"><i class=" bi bi-gear-fill"></i></a></div>
+          <div *ngIf="!isRead" class="col-auto icon-setting">
+            <a (click)="addTaskDialog()"><i class=" bi bi-gear-fill"></i></a>
+          </div>
         </div>
       </div>
       <div class="header-footer"></div>
@@ -27,7 +29,7 @@
                   <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action"></div>
-                <div class="fixed-action">
+                <div *ngIf="!isRead" class="fixed-action">
                   <a (click)="deleteTask(Status.WAITING, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
@@ -98,7 +100,7 @@
                 <div class="fixed-action">
                   <a (click)="editTaskProgressDialog(task.id, task.moduleID)"><i class="bi bi-pencil-square"></i></a>
                 </div>
-                <div class="fixed-action">
+                <div *ngIf="!isRead" class="fixed-action">
                   <a (click)="deleteTask(Status.PROGRESS, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
@@ -166,7 +168,7 @@
                   <h4><i class="bi bi-journal-bookmark-fill"></i>&nbsp;{{ task.moduleID }}</h4>
                 </div>
                 <div class="fixed-action"></div>
-                <div class="fixed-action">
+                <div *ngIf="!isRead" class="fixed-action">
                   <a (click)="deleteTask(Status.PENDING, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
                 </div>
               </div>

@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-
-import { AuthService } from '../../core/services/auth.service';
-import { DataListOption, SearchModel } from '../../core/model/model';
-import { HeaderService } from './header.service';
-import { DataService } from 'src/app/shared/service/data.service';
-import { Search } from 'src/app/core/enum/enums';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
-import { DownloadService } from 'src/app/core/services/download.service';
+
+import { Search } from '../../core/enum/enums';
+import { AuthService } from '../../core/services/auth.service';
+import { DataService } from '../../shared/service/data.service';
+import { DownloadService } from '../../core/services/download.service';
+import { DataListOption, SearchModel } from '../../core/model/model';
+
+import { HeaderService } from './header.service';
 
 @Component({
   selector: 'app-header',
@@ -24,6 +25,7 @@ export class HeaderComponent implements OnInit {
   public isShowItem: boolean;
   public userName: string;
   public selectedOption: string;
+  public numNotification: number;
   public selectedKeyOption: number;
   public dataListFilter: DataListOption[];
 
@@ -39,6 +41,7 @@ export class HeaderComponent implements OnInit {
     this.isShowItem = false;
     this.userName = '';
     this.selectedOption = 'Search by';
+    this.numNotification = -1;
     this.selectedKeyOption = -1;
     this.dataListFilter = this.createDataListFilter()
   }

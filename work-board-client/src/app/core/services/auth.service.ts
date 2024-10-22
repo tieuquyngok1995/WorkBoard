@@ -13,6 +13,7 @@ import { AuthModel, UserModel } from '../model/model';
 export class AuthService {
 
   private _userName!: string;
+  private _role!: number;
   private _auth: AuthModel = { isAuthenticated: false };
 
   constructor(private router: Router, private cookieService: CookieService, private commonApiService: CommonApiService) { }
@@ -30,6 +31,11 @@ export class AuthService {
     return this._userName;
   }
 
+  get roleID(): number {
+    if (!this._role) this._role = +(sessionStorage.getItem(GLOBAL.ROLE_ID_TOKEN) ?? -1);
+    return this._role;
+  }
+
   public signIn(model: UserModel): Observable<boolean> {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
       map(data => {
@@ -38,8 +44,12 @@ export class AuthService {
           this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
+
           this._userName = data.userName;
           sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
+
+          this._role = data.roleID;
+          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._role.toString());
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -57,8 +67,12 @@ export class AuthService {
           this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
+
           this._userName = data.userName;
           sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
+
+          this._role = data.roleID;
+          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._role.toString());
           return true;
         } else {
           this._auth = { isAuthenticated: false };

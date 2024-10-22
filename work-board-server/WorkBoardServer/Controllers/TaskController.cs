@@ -113,7 +113,7 @@ namespace WorkBoardServer.Controllers
                 }
 
                 int id = receivedData.ID;
-                string moduleID = receivedData.ModuleID;
+                string moduleID = receivedData.ModuleID ?? "";
                 short? taskStatus = receivedData.TaskStatus;
                 decimal? workHour = receivedData.WorkHour;
                 int? progress = receivedData.Progress;
@@ -144,7 +144,7 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                bool result = _service.UpdateProgress(id, moduleID, workHour, progress, note);
+                bool result = _service.UpdateProgress(id, moduleID, workHour, progress, note ?? "");
 
                 if (!result)
                 {

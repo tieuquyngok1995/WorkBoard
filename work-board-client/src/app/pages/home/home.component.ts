@@ -2,16 +2,17 @@ import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
+import { AuthService } from '../../core/services/auth.service';
+import { UtilsService } from '../../core/services/utils.service';
+import { DataService } from '../../shared/service/data.service';
+import { MessageService } from '../../shared/service/message.service';
+import { DialogMessageService } from '../../shared/service/dialog-message.service';
 import { TaskDialog, TaskModel, TaskStatusModel } from '../../core/model/model';
 import { ProgramMode, TaskType, TaskPriority, JobStatus, Search } from '../../core/enum/enums';
 
+import { HomeService } from './home.service';
 import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
-import { MessageService } from 'src/app/shared/service/message.service';
-import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
-import { HomeService } from './home.service';
-import { UtilsService } from 'src/app/core/services/utils.service';
-import { DataService } from 'src/app/shared/service/data.service';
 
 @Component({
   selector: 'app-home',
@@ -32,10 +33,11 @@ export class HomeComponent implements OnInit {
   public dataColPending: TaskModel[];
   public dataColCompleted: TaskModel[];
 
+  public isRead!: boolean;
+
   private readonly sizeDialog = '300px';
 
   private dataModel!: TaskStatusModel;
-
   private dataDialog!: TaskModel;
 
   private taskTypeMapping: { [key: number]: { icon: string; name: string } };
@@ -43,10 +45,15 @@ export class HomeComponent implements OnInit {
   /**
    * A constructor initializes a class's objects upon creation.
    * @param dialog 
-   * @param formBuilder 
+   * @param authService 
+   * @param dataService 
+   * @param homeService 
+   * @param messageService 
+   * @param confirmDialogService 
    */
   constructor(
     private readonly dialog: Dialog,
+    private readonly authService: AuthService,
     private readonly dataService: DataService,
     private readonly homeService: HomeService,
     private readonly messageService: MessageService,
@@ -61,6 +68,8 @@ export class HomeComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.isRead = this.authService.roleID === 2;
+
     this.homeService.getInit().subscribe(data => {
       if (data) {
         this.dataDialog = data.taskDialog;
@@ -144,6 +153,8 @@ export class HomeComponent implements OnInit {
    * @param id 
    */
   editTaskDialog(mode: JobStatus, id: number) {
+    if (this.isRead) return;
+
     let data: TaskModel | undefined;
     if (mode === JobStatus.WAITING) {
       data = this.dataColWaiting.find(obj => obj.id === id);

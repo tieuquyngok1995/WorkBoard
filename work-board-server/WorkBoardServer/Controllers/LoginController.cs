@@ -53,7 +53,7 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                UserModel model = _service.SignUp(body.Email, body.UserName, body.Password);
+                UserModel model = _service.SignUp(body.Email ?? "", body.UserName, body.Password);
 
                 if (model.UserName == null)
                 {

@@ -11,10 +11,7 @@ namespace WorkBoardServer.Controllers
     {
         private readonly HomeService _service;
 
-        public HomeController(HomeService service)
-        {
-            _service = service;
-        }
+        public HomeController(HomeService service) => _service = service;
 
         /// <summary>
         /// Get data init page
@@ -34,9 +31,9 @@ namespace WorkBoardServer.Controllers
 
                 HomeModel model = new()
                 {
-                    listTasks = _service.GetTaskModels(userId),
+                    ListTasks = _service.GetTaskModels(userId),
 
-                    taskDialog = new TaskModel()
+                    TaskDialog = new TaskModel()
                     {
                         DataTaskType = _service.GetDataTaskType(),
                         DataAssignee = _service.GetDataAssignee(),
@@ -74,7 +71,7 @@ namespace WorkBoardServer.Controllers
             string moduleId = string.Empty;
             foreach (TaskModel item in listData)
             {
-                item.TypeName = dicType[item.Type.Value];
+                if (item.Type.HasValue) item.TypeName = dicType[item.Type.Value];
 
                 // Create row file excel
                 _service.CreateFileWBS(worksheet, i, item);
@@ -87,7 +84,7 @@ namespace WorkBoardServer.Controllers
                     }
                     startIndex = i;
                 }
-                moduleId = item.ModuleID;
+                moduleId = item.ModuleID ?? "";
                 i++;
             }
 

@@ -37,10 +37,11 @@ img {
 
 .logo-title a {
   text-decoration: none;
+  transition: color 0.3s;
 }
 
 .logo-title a:hover {
-  color: #d9ebba;
+  color: #ffc774;
 }
 
 
@@ -87,6 +88,11 @@ span {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+  transition: color 0.3s;
+}
+
+.search-bar .search:hover {
+  color: #ffc774;
 }
 
 .search-bar.open .search {
@@ -210,16 +216,35 @@ span {
     margin-left: 20px;
   }
 
-  li a {
-    transition: transform 0.5s ease;
+  li a:not(.setting a) {
     display: inline-block;
+    transition: color 0.3s;
   }
 
-  li a:hover {
+  li a:not(.setting a):hover {
     cursor: pointer;
-    color: #d9ebba;
-    transform: scale(1.25);
+    color: #ffc774;
   }
+}
+
+.setting {
+  width: 120px;
+}
+
+.setting a {
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.setting a:hover {
+  background-color: rgb(168 198 229);
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+
+.dropdown-toggle::after {
+  display: none;
 }
 
 ::ng-deep .mat-mdc-icon-button svg {

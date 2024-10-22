@@ -31,5 +31,7 @@ SELECT [ModuleID]
 		ON T.type = TT.ID
 	LEFT JOIN [dbo].[Users] U
 		ON T.Assignee = U.UserID
+  WHERE dbo.fn_IsDateInRange(T.DateCreate) = 1 
+	AND dbo.fn_IsDateInRange(T.DateDelivery) = 1 
   ORDER BY ModuleID, Type;
 END

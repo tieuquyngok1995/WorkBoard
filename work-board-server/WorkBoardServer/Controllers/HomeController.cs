@@ -32,15 +32,17 @@ namespace WorkBoardServer.Controllers
                     return NotFound();
                 }
 
-                HomeModel model = new HomeModel();
-                model.listTasks = _service.GetTaskModels(userId);
-
-                model.taskDialog = new TaskModel()
+                HomeModel model = new()
                 {
-                    DataTaskType = _service.GetDataTaskType(),
-                    DataAssignee = _service.GetDataAssignee(),
-                    DataPriority = _service.GetDataPriority(),
-                    DataTaskStatus = _service.GetTaskStatus()
+                    listTasks = _service.GetTaskModels(userId),
+
+                    taskDialog = new TaskModel()
+                    {
+                        DataTaskType = _service.GetDataTaskType(),
+                        DataAssignee = _service.GetDataAssignee(),
+                        DataPriority = _service.GetDataPriority(),
+                        DataTaskStatus = _service.GetTaskStatus()
+                    }
                 };
 
                 return Ok(model);
@@ -65,7 +67,7 @@ namespace WorkBoardServer.Controllers
             Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
 
             // Create work sheets excel 
-            ExcelPackage package = new ExcelPackage();
+            ExcelPackage package = new();
             ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_Phase3");
 
             int startIndex = 0, i = 2;

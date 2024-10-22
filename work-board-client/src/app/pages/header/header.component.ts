@@ -110,7 +110,7 @@ export class HeaderComponent implements OnInit {
     this.dataService.sendData(null);
   }
 
-  public dowload(): void {
+  public dowloadFileWBS(): void {
     this.downloadService.downloadExcel();
   }
 

@@ -5,54 +5,43 @@ import { Subject } from 'rxjs';
   providedIn: 'root'
 })
 export class WebsocketService implements OnDestroy {
-  private socket: WebSocket | null = null;
-  private dataSubject = new Subject<string>();
+  private sockets: { [key: string]: WebSocket } = {};
+  private dataSubjects: { [key: string]: Subject<any> } = {};
 
-  private reconnectInterval = 5000;
-  private isManuallyClosed = false;
-  private isReadyToSend = false;
+  constructor(@Inject('API_URL') private apiUrl: string) { }
 
-  private urlUpdateTaskStatus = 'Task/UpdateTaskStatus';
+  public connect(url: string, apiName: string): void {
+    if (this.sockets[apiName]) {
+      return;
+    }
 
-  constructor(@Inject('API_URL') private apiUrl: string) {
-    this.connect();
-  }
+    this.sockets[apiName] = new WebSocket(this.apiUrl + url);
+    this.dataSubjects[apiName] = new Subject<any>();
 
-  private connect() {
-    this.socket = new WebSocket(this.apiUrl + this.urlUpdateTaskStatus);
-
-    this.socket.onmessage = (event) => {
-      this.dataSubject.next(event.data);
-    };
-
-    this.socket.onopen = () => {
-      this.isReadyToSend = true;
-    };
-
-    this.socket.onclose = () => {
-      this.isReadyToSend = false;
-      if (!this.isManuallyClosed) {
-        setTimeout(() => this.connect(), this.reconnectInterval);
-      }
+    this.sockets[apiName].onmessage = (event) => {
+      this.dataSubjects[apiName].next(event.data);
     };
   }
 
-  public sendData(message: string) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN && this.isReadyToSend) {
-      this.socket.send(message);
+  public sendData(apiName: string, message: string): void {
+    const socket = this.sockets[apiName];
+    if (socket && socket.readyState === WebSocket.OPEN) {
+      socket.send(message);
     }
   }
 
-  public closeConnection() {
-    this.isManuallyClosed = true;
-    if (this.socket) {
-      this.socket.close();
+  public getData(apiName: string): Subject<any> {
+    return this.dataSubjects[apiName];
+  }
+
+  public closeConnection(apiName: string): void {
+    if (this.sockets[apiName]) {
+      this.sockets[apiName].close();
+      delete this.sockets[apiName];
     }
   }
 
-  ngOnDestroy() {
-    if (this.socket) {
-      this.socket.close();
-    }
+  public ngOnDestroy(): void {
+    Object.keys(this.sockets).forEach((apiName) => this.closeConnection(apiName));
   }
 }

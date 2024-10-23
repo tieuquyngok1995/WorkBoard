@@ -19,11 +19,12 @@ export interface UserModel {
   token: string;
 }
 
-export interface SearchModel {
-  searchMode: number;
+export interface HeaderModel {
+  searchMode?: number;
   searchValue?: string | null;
   searchDateStart?: Date | null;
   searchDateEnd?: Date | null;
+  message?: string;
 }
 export interface HomeModel {
   taskDialog: TaskModel;
@@ -65,4 +66,9 @@ export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;
   data?: TaskModel;
+}
+
+export interface ToastModel {
+  isShow: boolean;
+  message: string;
 }

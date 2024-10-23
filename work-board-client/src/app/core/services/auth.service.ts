@@ -6,17 +6,24 @@ import { CookieService } from 'ngx-cookie-service';
 import { GLOBAL } from '../constants/global';
 import { CommonApiService } from './common-api.service';
 import { AuthModel, UserModel } from '../model/model';
+import { WebsocketService } from './web-socket.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
+  private _roleID!: number;
+  private _userID!: number;
   private _userName!: string;
-  private _role!: number;
   private _auth: AuthModel = { isAuthenticated: false };
 
-  constructor(private router: Router, private cookieService: CookieService, private commonApiService: CommonApiService) { }
+  constructor(
+    private readonly router: Router,
+    private readonly cookieService: CookieService,
+    private readonly commonApiService: CommonApiService,
+    private readonly websocketService: WebsocketService) {
+  }
 
   get auth(): AuthModel {
     const isLoggedIn = sessionStorage.getItem(GLOBAL.USER_NAME_TOKEN);
@@ -26,14 +33,20 @@ export class AuthService {
     return this._auth;
   }
 
+
+  get roleID(): number {
+    if (!this._roleID) this._roleID = Number(sessionStorage.getItem(GLOBAL.ROLE_ID_TOKEN));
+    return this._roleID;
+  }
+
+  get userID(): number {
+    if (!this._userID) this._userID = Number(sessionStorage.getItem(GLOBAL.USER_ID_TOKEN));
+    return this._userID;
+  }
+
   get userName(): string {
     if (!this._userName) this._userName = sessionStorage.getItem(GLOBAL.USER_NAME_TOKEN) ?? '';
     return this._userName;
-  }
-
-  get roleID(): number {
-    if (!this._role) this._role = +(sessionStorage.getItem(GLOBAL.ROLE_ID_TOKEN) ?? -1);
-    return this._role;
   }
 
   public signIn(model: UserModel): Observable<boolean> {
@@ -45,11 +58,15 @@ export class AuthService {
 
           this._auth = { isAuthenticated: true };
 
+          this._roleID = data.roleID;
+          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._roleID.toString());
+
+          this._userID = data.userID;
+          sessionStorage.setItem(GLOBAL.USER_ID_TOKEN, this._userID.toString());
+
           this._userName = data.userName;
           sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
 
-          this._role = data.roleID;
-          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._role.toString());
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -68,11 +85,15 @@ export class AuthService {
 
           this._auth = { isAuthenticated: true };
 
+          this._roleID = data.roleID;
+          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._roleID.toString());
+
+          this._userID = data.userID;
+          sessionStorage.setItem(GLOBAL.USER_ID_TOKEN, this._userID.toString());
+
           this._userName = data.userName;
           sessionStorage.setItem(GLOBAL.USER_NAME_TOKEN, this._userName);
 
-          this._role = data.roleID;
-          sessionStorage.setItem(GLOBAL.ROLE_ID_TOKEN, this._role.toString());
           return true;
         } else {
           this._auth = { isAuthenticated: false };
@@ -85,6 +106,8 @@ export class AuthService {
   public logOut(): void {
     sessionStorage.removeItem(GLOBAL.USER_NAME_TOKEN);
     this._auth = { isAuthenticated: false };
+
+    this.websocketService.closeConnection(this.commonApiService.wsConnect);
 
     this.router.navigate(['/login']);
   }

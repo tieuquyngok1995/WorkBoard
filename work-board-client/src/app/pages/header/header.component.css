@@ -257,8 +257,7 @@ span {
   transition: color 0.3s;
 }
 
-
-.dropdown-toggle::after {
+.setting-dropdown .dropdown-toggle::after {
   display: none;
 }
 

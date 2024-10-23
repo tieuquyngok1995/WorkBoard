@@ -12,11 +12,15 @@ export class CommonApiService {
   public urlSignIn = 'Login/SignIn';
   public urlSignUp = 'Login/SignUp';
   public urlGetIndex = 'Home/GetIndex';
+  public urlConnectWebSocket = 'Home/ConnectWebSocket';
   public urlCreateTask = 'Task/CreateTask';
   public urlUpdateTask = 'Task/UpdateTask';
   public urlUpdateTaskStatus = 'Task/UpdateTaskStatus';
   public urlUpdateTaskProgress = 'Task/UpdateTaskProgress';
   public urlDeleteTask = 'Task/DeleteTask';
+
+  public wsTask = 'wsTask';
+  public wsConnect = 'wsConnect';
 
   constructor(@Inject('API_URL') private apiUrl: string, private http: HttpClient, private cookieService: CookieService) { }
 

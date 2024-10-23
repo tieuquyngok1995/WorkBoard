@@ -53,7 +53,6 @@ namespace WorkBoardServer.Helpers
                 }
                 catch (Exception)
                 {
-                    // Token không hợp lệ
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     await context.Response.WriteAsync("Unauthorized");
                     return;

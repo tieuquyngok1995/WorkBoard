@@ -74,6 +74,8 @@ namespace WorkBoardServer.Controllers
         {
             try
             {
+                string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -85,6 +87,15 @@ namespace WorkBoardServer.Controllers
                 {
                     return BadRequest("Failed to update data.");
                 }
+
+                var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
+                if (socket == null || socket.State != WebSocketState.Open)
+                {
+                    return NotFound("WebSocket connection not found for the user.");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes($"The {userName} has edited the task with ID {model.ModuleID}, please confirm.");
+                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                 return Ok(model);
             }
@@ -187,16 +198,27 @@ namespace WorkBoardServer.Controllers
         /// <param name="moduleID"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult DeleteTask(int id, string moduleID)
+        public IActionResult DeleteTask(int id, string moduleID, short assignee)
         {
             try
             {
+                string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
+
                 bool result = _service.Delete(id, moduleID);
 
                 if (!result)
                 {
                     return BadRequest("Failed to update data.");
                 }
+
+                var socket = _webSocketManager.GetSocketByUserId(assignee.ToString() ?? "");
+                if (socket == null || socket.State != WebSocketState.Open)
+                {
+                    return NotFound("WebSocket connection not found for the user.");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes($"The {userName} has deleted the task with ID {moduleID}, please confirm.");
+                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                 return Ok();
             }

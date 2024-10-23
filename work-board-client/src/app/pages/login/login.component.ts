@@ -61,6 +61,8 @@ export class LoginComponent implements OnInit {
       } else {
         this.confirmDialogService.openDialog(this.messageService.getMessage('E001'));
       }
+    }, () => {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('E001'));
     });
   }
 
@@ -81,6 +83,8 @@ export class LoginComponent implements OnInit {
       } else {
         this.confirmDialogService.openDialog(this.messageService.getMessage('E002'));
       }
+    }, () => {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('E002'));
     });
   }
 }

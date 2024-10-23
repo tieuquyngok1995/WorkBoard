@@ -110,15 +110,15 @@ export class HomeComponent implements OnInit {
           this.dataToast.push({ isShow: true, message: data.message });
         }
         else if (data.searchMode === Search.MODULE_ID) {
-          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
-          this.dataColProgress = this.dataModel.progress.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
-          this.dataColPending = this.dataModel.pending.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
-          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.moduleID.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColProgress = this.dataModel.progress.filter(obj => obj.moduleID.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColPending = this.dataModel.pending.filter(obj => obj.moduleID.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.moduleID.toUpperCase().includes(data.searchValue ?? ''));
         } else if (data.searchMode === Search.TASK_NAME) {
-          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
-          this.dataColProgress = this.dataModel.progress.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
-          this.dataColPending = this.dataModel.pending.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
-          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.taskName && obj.taskName.includes(data.searchValue ?? ''));
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColProgress = this.dataModel.progress.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColPending = this.dataModel.pending.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
         } else if (data.searchMode === Search.DATE_DELIVERY) {
           this.dataColWaiting = this.dataModel.waiting.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
           this.dataColProgress = this.dataModel.progress.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
@@ -245,11 +245,11 @@ export class HomeComponent implements OnInit {
    * @param id
    * @param moduleID 
    */
-  public deleteTask(mode: JobStatus, id: number, moduleID: string): void {
+  public deleteTask(mode: JobStatus, id: number, moduleID: string, assignee: number): void {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C001'), true).subscribe(result => {
       if (!result) return;
 
-      this.homeService.delete(id, moduleID).subscribe(result => {
+      this.homeService.delete(id, moduleID, assignee).subscribe(result => {
         if (result) {
           if (mode === JobStatus.WAITING) {
             this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);

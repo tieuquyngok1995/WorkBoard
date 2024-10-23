@@ -56,8 +56,8 @@ export class HomeService {
     );
   }
 
-  public delete(ID: number, moduleID: string): Observable<boolean> {
-    return this.commonApiService.get(this.commonApiService.urlDeleteTask, { ID, moduleID }).pipe(
+  public delete(ID: number, moduleID: string, assignee: number): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlDeleteTask, { ID, moduleID, assignee }).pipe(
       map(() => true),
       catchError(() => of(false))
     );

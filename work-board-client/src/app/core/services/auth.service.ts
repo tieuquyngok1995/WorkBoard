@@ -1,4 +1,4 @@
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
@@ -72,7 +72,8 @@ export class AuthService {
           this._auth = { isAuthenticated: false };
           return false;
         }
-      })
+      },
+        catchError(() => { return of(false) }))
     );
   }
 
@@ -99,7 +100,8 @@ export class AuthService {
           this._auth = { isAuthenticated: false };
           return false;
         }
-      })
+      },
+        catchError(() => { return of(false) }))
     );
   }
 

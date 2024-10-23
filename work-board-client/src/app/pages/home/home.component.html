@@ -30,7 +30,8 @@
                 </div>
                 <div class="fixed-action"></div>
                 <div *ngIf="!isRead" class="fixed-action">
-                  <a (click)="deleteTask(Status.WAITING, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.WAITING, task.id, task.moduleID, task.assignee)"><i
+                      class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">
@@ -101,7 +102,8 @@
                   <a (click)="editTaskProgressDialog(task.id, task.moduleID)"><i class="bi bi-pencil-square"></i></a>
                 </div>
                 <div *ngIf="!isRead" class="fixed-action">
-                  <a (click)="deleteTask(Status.PROGRESS, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.PROGRESS, task.id, task.moduleID, task.assignee)"><i
+                      class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">
@@ -169,7 +171,8 @@
                 </div>
                 <div class="fixed-action"></div>
                 <div *ngIf="!isRead" class="fixed-action">
-                  <a (click)="deleteTask(Status.PENDING, task.id, task.moduleID)"><i class="bi bi-trash-fill"></i></a>
+                  <a (click)="deleteTask(Status.PENDING, task.id, task.moduleID, task.assignee)"><i
+                      class="bi bi-trash-fill"></i></a>
                 </div>
               </div>
               <div class="row row-text">

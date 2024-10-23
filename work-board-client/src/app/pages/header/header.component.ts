@@ -24,8 +24,11 @@ export class HeaderComponent implements OnInit {
   public isInputOpen: boolean;
   public isShowItem: boolean;
   public userName: string;
-  public selectedOption: string;
+
+  public isAdmin!: boolean;
   public numNotification: number;
+
+  public selectedOption: string;
   public selectedKeyOption: number;
   public dataListFilter: DataListOption[];
 
@@ -55,7 +58,7 @@ export class HeaderComponent implements OnInit {
    * On init dialog.
    */
   public ngOnInit(): void {
-
+    this.isAdmin = this.authService.roleID !== 2;
     this.headerService.connectWebSocket(this.authService.userID);
 
     // Event check change value input search
@@ -65,7 +68,7 @@ export class HeaderComponent implements OnInit {
       if (value === '') {
         this.dataService.sendData(null);
       } else {
-        this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
+        this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value.toUpperCase() });
       }
     });
 

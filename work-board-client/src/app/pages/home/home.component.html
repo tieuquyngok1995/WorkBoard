@@ -275,25 +275,20 @@
       </div>
     </div>
   </div>
-</div>
-<!-- <div class="row filter-container">
-  <mat-card [formGroup]="filterForm" class="col-12" style="background-color: #FFF;" appearance="outlined">
-    <mat-card-content>
-      <div class="row">
-        <div class="col-3">
-          <mat-form-field>
-            <mat-select formControlName="assignee" placeholder="Choose User" multiple>
-              <mat-option #allSelectedAssignee (click)="toggleAllSelection(allSelectedAssignee)"
-                [value]="0">All</mat-option>
-              <mat-option *ngFor="let assignee of allAssignees" [value]="assignee.value">
-                {{assignee.displayName}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <div class="col-3">{{this.filterForm.controls['assignee'].value}}</div>
 
+  <div class="toast-all">
+    <div class="toast" [ngClass]="{ 'show': toast.isShow, 'toast-hidden': !toast.isShow }"
+      *ngFor="let toast of dataToast; let row = index" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="toast-header">
+        <i class="bi bi-bell-fill rounded mr-2"></i>
+        <strong class="mr-auto">Notification</strong>
+        <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close" (click)="closeToast(row)">
+          <span aria-hidden="true">&times;</span>
+        </button>
       </div>
-    </mat-card-content>
-  </mat-card>
-</div> -->
+      <div class="toast-body">
+        {{ toast.message }}
+      </div>
+    </div>
+  </div>
+</div>

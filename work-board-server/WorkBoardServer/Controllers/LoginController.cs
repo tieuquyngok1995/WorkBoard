@@ -8,6 +8,7 @@ namespace WorkBoardServer.Controllers
     public class LoginController : ControllerBase
     {
         private readonly LoginService _service;
+
         private readonly JwtTokenService _jwtTokenService;
 
         public LoginController(LoginService service, JwtTokenService jwtTokenService)

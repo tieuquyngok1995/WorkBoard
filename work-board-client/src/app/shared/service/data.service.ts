@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { SearchModel } from '../../core/model/model';
+import { HeaderModel } from '../../core/model/model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DataService {
   // Subject listten change data
-  private dataSource$ = new BehaviorSubject<SearchModel | null>(null);
+  private dataSource$ = new BehaviorSubject<HeaderModel | null>(null);
   public currentData = this.dataSource$.asObservable();
 
   /**
@@ -19,7 +19,7 @@ export class DataService {
    * Send data 
    * @param data 
    */
-  public sendData(data: SearchModel | null) {
+  public sendData(data: HeaderModel | null) {
     this.dataSource$.next(data);
   }
 }

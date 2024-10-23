@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using OfficeOpenXml;
 using Serilog;
-using System.Net.WebSockets;
 using System.Reflection;
 using System.Text;
 using WorkBoardServer.Helpers;
@@ -24,6 +23,10 @@ foreach (var service in appServices)
 {
     builder.Services.AddScoped(service);
 }
+
+builder.Services.AddSingleton<ICustomWebSocketManager, CustomWebSocketManager>();
+builder.Services.AddHttpContextAccessor();
+
 // Configure CORS
 builder.Services.AddCors(options =>
 {
@@ -96,38 +99,5 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.Map("/ws", async (context) =>
-{
-    if (context.WebSockets.IsWebSocketRequest)
-    {
-        using WebSocket webSocket = await context.WebSockets.AcceptWebSocketAsync();
-        await Echo(context, webSocket);
-    }
-    else
-    {
-        context.Response.StatusCode = 400;
-    }
-});
-
-static async Task Echo(HttpContext context, WebSocket webSocket)
-{
-    var buffer = new byte[1024 * 4];
-    WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-
-    while (!result.CloseStatus.HasValue)
-    {
-        var message = Encoding.UTF8.GetString(buffer, 0, result.Count);
-
-        Console.WriteLine($"Received: {message}");
-
-        var serverMsg = Encoding.UTF8.GetBytes("Server received: " + message);
-        await webSocket.SendAsync(new ArraySegment<byte>(serverMsg, 0, serverMsg.Length), result.MessageType, result.EndOfMessage, CancellationToken.None);
-
-        result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-    }
-
-    await webSocket.CloseAsync(result.CloseStatus.Value, result.CloseStatusDescription, CancellationToken.None);
-}
 
 app.Run();

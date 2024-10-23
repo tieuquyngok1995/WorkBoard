@@ -7,7 +7,7 @@ import { UtilsService } from '../../core/services/utils.service';
 import { DataService } from '../../shared/service/data.service';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-import { TaskDialog, TaskModel, TaskStatusModel } from '../../core/model/model';
+import { TaskDialog, TaskModel, TaskStatusModel, ToastModel } from '../../core/model/model';
 import { ProgramMode, TaskType, TaskPriority, JobStatus, Search } from '../../core/enum/enums';
 
 import { HomeService } from './home.service';
@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   public dataColProgress: TaskModel[];
   public dataColPending: TaskModel[];
   public dataColCompleted: TaskModel[];
+  public dataToast: ToastModel[];
 
   public isRead!: boolean;
 
@@ -63,6 +64,12 @@ export class HomeComponent implements OnInit {
     this.dataColProgress = [];
     this.dataColPending = [];
     this.dataColCompleted = [];
+    this.dataToast = [
+      { isShow: true, message: "The admin has assigned you a new task with ID 1122, please confirm." },
+      { isShow: true, message: "The admin has assigned you a new task with ID 1123, please confirm." },
+      { isShow: true, message: "The admin has assigned you a new task with ID 1124, please confirm." },
+      { isShow: true, message: "The admin has assigned you a new task with ID 1125, please confirm." },
+    ];
 
     this.taskTypeMapping = this.createTaskTypeMapping();
   }
@@ -342,6 +349,11 @@ export class HomeComponent implements OnInit {
         event.currentIndex,
       );
     }
+  }
+
+  public closeToast(rowIndex: number) {
+    // this.dataToast.splice(rowIndex, 1);
+    this.dataToast[rowIndex].isShow = false;
   }
 
   private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {

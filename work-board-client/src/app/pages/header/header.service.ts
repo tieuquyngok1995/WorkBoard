@@ -1,6 +1,9 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { SearchModel } from "../../core/model/model";
+import { HeaderModel } from "../../core/model/model";
+import { WebsocketService } from "src/app/core/services/web-socket.service";
+import { CommonApiService } from "src/app/core/services/common-api.service";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +16,11 @@ export class HeaderService {
    * A constructor initializes a class's objects upon creation.
    * @param fb Form Builder
    */
-  constructor(private fb: FormBuilder) { }
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly commonApiService: CommonApiService,
+    private readonly websocketService: WebsocketService) {
+  }
 
   // Get form
   get datePickerForm(): FormGroup { return this.form = this.createFormGroup(); }
@@ -26,11 +33,21 @@ export class HeaderService {
    * @param taskProgress 
    * @returns FormGroup
    */
-  private createFormGroup(taskProgress?: SearchModel): FormGroup {
+  private createFormGroup(taskProgress?: HeaderModel): FormGroup {
     const today = new Date();
     return this.fb.group({
       dateStart: [taskProgress?.searchDateEnd || new Date(today.getFullYear(), today.getMonth() - 1, 26)],
       dateEnd: [taskProgress?.searchDateEnd || new Date(today.getFullYear(), today.getMonth(), 25)]
     });
+  }
+
+  public getNotification(): Subject<any> {
+    return this.websocketService.getData(this.commonApiService.wsConnect);
+  }
+
+
+
+  public connectWebSocket(userID: number): void {
+    this.websocketService.connect(this.commonApiService.urlConnectWebSocket + "?userId=" + userID, this.commonApiService.wsConnect);
   }
 }

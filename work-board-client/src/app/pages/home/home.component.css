@@ -329,6 +329,27 @@
   animation: loading-left 1s linear forwards 1.2s;
 }
 
+.toast-all {
+  position: absolute;
+  bottom: -65px;
+  right: 14px;
+}
+
+.toast-all .toast {
+  width: 300px;
+  opacity: 1;
+  transition: opacity 0.3s ease-out;
+}
+
+.toast-all .toast-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.toast-all .toast i {
+  color: #049dff;
+}
+
 @keyframes loading-left {
   0% {
     -webkit-transform: rotate(0deg);

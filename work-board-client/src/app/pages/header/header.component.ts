@@ -6,7 +6,7 @@ import { Search } from '../../core/enum/enums';
 import { AuthService } from '../../core/services/auth.service';
 import { DataService } from '../../shared/service/data.service';
 import { DownloadService } from '../../core/services/download.service';
-import { DataListOption, SearchModel } from '../../core/model/model';
+import { DataListOption, HeaderModel } from '../../core/model/model';
 
 import { HeaderService } from './header.service';
 
@@ -33,7 +33,12 @@ export class HeaderComponent implements OnInit {
    * A constructor initializes a class's objects upon creation.
    * @param authService 
    */
-  constructor(private headerService: HeaderService, private authService: AuthService, private dataService: DataService, private downloadService: DownloadService) {
+  constructor(
+    private readonly authService: AuthService,
+    private readonly dataService: DataService,
+    private readonly headerService: HeaderService,
+    private readonly downloadService: DownloadService) {
+
     this.searchControl = new FormControl('');
     this.datePickerForm = headerService.datePickerForm;
 
@@ -41,7 +46,7 @@ export class HeaderComponent implements OnInit {
     this.isShowItem = false;
     this.userName = '';
     this.selectedOption = 'Search by';
-    this.numNotification = -1;
+    this.numNotification = 0;
     this.selectedKeyOption = -1;
     this.dataListFilter = this.createDataListFilter()
   }
@@ -50,18 +55,30 @@ export class HeaderComponent implements OnInit {
    * On init dialog.
    */
   public ngOnInit(): void {
+
+    this.headerService.connectWebSocket(this.authService.userID);
+
     // Event check change value input search
     this.searchControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      if (!value) return;
+      if (!value) {
+        this.dataService.sendData(null);
+        return;
+      };
 
       this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
     });
+
+    this.headerService.getNotification().subscribe(data => {
+      if (data) this.numNotification++;
+      let test: string = data.toString();
+      this.dataService.sendData({ message: test });
+    })
 
     // Event check change value date picker end
     this.headerService.dateEnd?.valueChanges.subscribe(value => {
       if (!value) return;
 
-      const dataToSend: SearchModel = {
+      const dataToSend: HeaderModel = {
         searchMode: this.selectedKeyOption,
         searchDateStart: this.headerService.dateStart?.value,
         searchDateEnd: value
@@ -89,6 +106,7 @@ export class HeaderComponent implements OnInit {
           searchDateEnd: this.headerService.dateEnd?.value
         });
       }
+      this.searchControl.enable();
     }
     this.searchControl.setValue('');
   }
@@ -100,6 +118,7 @@ export class HeaderComponent implements OnInit {
     this.isInputOpen = true;
     setTimeout(() => {
       this.isShowItem = true
+      this.searchControl.disable();
     }, 500);
   }
 

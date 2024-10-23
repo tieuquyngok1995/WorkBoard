@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using WorkBoardServer.Helpers;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
 
@@ -12,9 +14,12 @@ namespace WorkBoardServer.Controllers
     {
         public readonly TaskService _service;
 
-        public TaskController(TaskService taskService)
+        private readonly ICustomWebSocketManager _webSocketManager;
+
+        public TaskController(TaskService taskService, ICustomWebSocketManager webSocketManager)
         {
             _service = taskService;
+            _webSocketManager = webSocketManager;
         }
 
         /// <summary>
@@ -27,6 +32,8 @@ namespace WorkBoardServer.Controllers
         {
             try
             {
+                string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
+
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -38,6 +45,15 @@ namespace WorkBoardServer.Controllers
                 {
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
+
+                var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
+                if (socket == null || socket.State != WebSocketState.Open)
+                {
+                    return NotFound("WebSocket connection not found for the user.");
+                }
+
+                var buffer = Encoding.UTF8.GetBytes($"The {userName} has assigned you a new task with ID {model.ModuleID}, please confirm.");
+                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
 
                 model.ID = newID;
                 return Ok(model);
@@ -102,26 +118,31 @@ namespace WorkBoardServer.Controllers
                     continue;
                 }
 
-                var receivedData = JsonSerializer.Deserialize<TaskModel>(body);
-
-                if (receivedData == null)
+                TaskModel receivedData;
+                try
+                {
+                    receivedData = JsonSerializer.Deserialize<TaskModel>(body);
+                }
+                catch (JsonException)
                 {
                     var errorBytes = Encoding.UTF8.GetBytes("Invalid data format");
                     await webSocket.SendAsync(new ArraySegment<byte>(errorBytes, 0, errorBytes.Length),
                                               WebSocketMessageType.Text, true, CancellationToken.None);
                     continue;
                 }
+                if (receivedData != null)
+                {
+                    int id = receivedData.ID;
+                    string moduleID = receivedData.ModuleID ?? "";
+                    short? taskStatus = receivedData.TaskStatus;
+                    decimal? workHour = receivedData.WorkHour;
+                    int? progress = receivedData.Progress;
 
-                int id = receivedData.ID;
-                string moduleID = receivedData.ModuleID ?? "";
-                short? taskStatus = receivedData.TaskStatus;
-                decimal? workHour = receivedData.WorkHour;
-                int? progress = receivedData.Progress;
+                    DateTime? utcDateTime = receivedData.DateWork;
+                    DateTime? dateWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
 
-                DateTime? utcDateTime = receivedData.DateWork;
-                DateTime? dateWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
-
-                await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateWork);
+                    await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateWork);
+                }
             }
         }
 

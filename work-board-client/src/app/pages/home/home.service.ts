@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { catchError, map, Observable, of } from "rxjs";
+
 import { HomeModel, TaskModel } from "../../core/model/model";
 import { CommonApiService } from "../../core/services/common-api.service";
 import { WebsocketService } from "../../core/services/web-socket.service";
@@ -9,7 +10,9 @@ import { WebsocketService } from "../../core/services/web-socket.service";
 })
 export class HomeService {
 
-  constructor(private commonApiService: CommonApiService, private websocketService: WebsocketService) { }
+  constructor(private readonly commonApiService: CommonApiService, private readonly websocketService: WebsocketService) {
+    this.websocketService.connect(commonApiService.urlUpdateTaskStatus, commonApiService.wsTask);
+  }
 
   public getInit(): Observable<HomeModel | null> {
     return this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex).pipe(
@@ -34,7 +37,7 @@ export class HomeService {
 
   public updateTaskStatus(TaskStatus: number, ID: number, ModuleID: string, WorkHour: number, Progress: number, DateWork: Date | null): void {
     const body = JSON.stringify({ ID, ModuleID, TaskStatus, WorkHour, Progress, DateWork });
-    this.websocketService.sendData(body);
+    this.websocketService.sendData(this.commonApiService.wsTask, body);
   }
 
   public updateTaskProgress(ID: number, moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {

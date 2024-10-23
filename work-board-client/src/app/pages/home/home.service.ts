@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, of } from "rxjs";
+import { catchError, map, Observable, of, Subject, tap } from "rxjs";
 
 import { HomeModel, TaskModel } from "../../core/model/model";
 import { CommonApiService } from "../../core/services/common-api.service";
@@ -10,20 +10,29 @@ import { WebsocketService } from "../../core/services/web-socket.service";
 })
 export class HomeService {
 
+  private dataSubject = new Subject<HomeModel | null>();
+
   constructor(private readonly commonApiService: CommonApiService, private readonly websocketService: WebsocketService) {
     this.websocketService.connect(commonApiService.urlUpdateTaskStatus, commonApiService.wsTask);
   }
 
-  public getInit(): Observable<HomeModel | null> {
-    return this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex).pipe(
-      map((data) => data),
-      catchError((error) => of(error))
-    );
+  public getInit(): void {
+    this.commonApiService.get<HomeModel>(this.commonApiService.urlGetIndex).pipe(
+      catchError(() => {
+        this.dataSubject.next(null);
+        return of(null);
+      })
+    ).subscribe(data => {
+      this.dataSubject.next(data);
+    });
+  }
+
+  public getData(): Observable<HomeModel | null> {
+    return this.dataSubject.asObservable();
   }
 
   public createTask(body: TaskModel): Observable<TaskModel | null> {
     return this.commonApiService.post<TaskModel>(this.commonApiService.urlCreateTask, body).pipe(
-      map((result) => result),
       catchError(() => of(null))
     );
   }

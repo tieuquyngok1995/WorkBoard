@@ -60,18 +60,18 @@ export class HeaderComponent implements OnInit {
 
     // Event check change value input search
     this.searchControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
-      if (!value) {
-        this.dataService.sendData(null);
-        return;
-      };
+      if (value === null) return;
 
-      this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
+      if (value === '') {
+        this.dataService.sendData(null);
+      } else {
+        this.dataService.sendData({ searchMode: this.selectedKeyOption, searchValue: value });
+      }
     });
 
     this.headerService.getNotification().subscribe(data => {
       if (data) this.numNotification++;
-      let test: string = data.toString();
-      this.dataService.sendData({ message: test });
+      this.dataService.sendData({ message: data.toString() });
     })
 
     // Event check change value date picker end
@@ -108,7 +108,7 @@ export class HeaderComponent implements OnInit {
       }
       this.searchControl.enable();
     }
-    this.searchControl.setValue('');
+    this.searchControl.setValue(null);
   }
 
   /**
@@ -130,6 +130,11 @@ export class HeaderComponent implements OnInit {
     this.isShowItem = false
 
     this.dataService.sendData(null);
+  }
+
+  public clearNoti() {
+    this.numNotification = 0;
+    this.dataService.sendData({ message: null });
   }
 
   public dowloadFileWBS(): void {

@@ -333,12 +333,17 @@
   position: absolute;
   bottom: -65px;
   right: 14px;
+  z-index: 9;
 }
 
 .toast-all .toast {
   width: 300px;
   opacity: 1;
   transition: opacity 0.3s ease-out;
+}
+
+.toast-all .toast strong {
+  cursor: default;
 }
 
 .toast-all .toast-hidden {

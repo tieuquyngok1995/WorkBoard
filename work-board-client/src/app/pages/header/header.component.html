@@ -32,7 +32,7 @@
   <ul class="list">
     <li><i class="mr-2 input-icon bi bi-person"></i><span>{{ userName }}</span></li>
     <li>
-      <a class="bi bi-bell-fill"></a>
+      <a class="bi bi-bell-fill" (click)="clearNoti()"></a>
       <div *ngIf="numNotification > 0" class="notification-box">
         <span class="notification-count">{{ numNotification }}</span>
       </div>

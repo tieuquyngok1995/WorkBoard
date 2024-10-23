@@ -24,7 +24,7 @@ export interface HeaderModel {
   searchValue?: string | null;
   searchDateStart?: Date | null;
   searchDateEnd?: Date | null;
-  message?: string;
+  message?: string | null;
 }
 export interface HomeModel {
   taskDialog: TaskModel;

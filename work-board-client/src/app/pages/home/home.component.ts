@@ -64,12 +64,7 @@ export class HomeComponent implements OnInit {
     this.dataColProgress = [];
     this.dataColPending = [];
     this.dataColCompleted = [];
-    this.dataToast = [
-      { isShow: true, message: "The admin has assigned you a new task with ID 1122, please confirm." },
-      { isShow: true, message: "The admin has assigned you a new task with ID 1123, please confirm." },
-      { isShow: true, message: "The admin has assigned you a new task with ID 1124, please confirm." },
-      { isShow: true, message: "The admin has assigned you a new task with ID 1125, please confirm." },
-    ];
+    this.dataToast = [];
 
     this.taskTypeMapping = this.createTaskTypeMapping();
   }
@@ -77,7 +72,9 @@ export class HomeComponent implements OnInit {
   public ngOnInit(): void {
     this.isRead = this.authService.roleID === 2;
 
-    this.homeService.getInit().subscribe(data => {
+    this.homeService.getInit();
+
+    this.homeService.getData().subscribe(data => {
       if (data) {
         this.dataDialog = data.taskDialog;
 
@@ -105,7 +102,14 @@ export class HomeComponent implements OnInit {
         this.dataColPending = this.dataModel.pending;
         this.dataColCompleted = this.dataModel.completed;
       } else {
-        if (data.searchMode === Search.MODULE_ID) {
+        if (data.message === null) {
+          this.dataToast = [];
+        }
+        else if (data.message) {
+          this.homeService.getInit();
+          this.dataToast.push({ isShow: true, message: data.message });
+        }
+        else if (data.searchMode === Search.MODULE_ID) {
           this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
           this.dataColProgress = this.dataModel.progress.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
           this.dataColPending = this.dataModel.pending.filter(obj => obj.moduleID.includes(data.searchValue ?? ''));
@@ -160,7 +164,6 @@ export class HomeComponent implements OnInit {
    * @param id 
    */
   editTaskDialog(mode: JobStatus, id: number) {
-    if (this.isRead) return;
 
     let data: TaskModel | undefined;
     if (mode === JobStatus.WAITING) {
@@ -183,7 +186,7 @@ export class HomeComponent implements OnInit {
       disableClose: true,
       minWidth: this.sizeDialog,
       data: {
-        mode: mode === JobStatus.COMPLETED ? ProgramMode.READ : ProgramMode.EDIT,
+        mode: mode === JobStatus.COMPLETED || this.isRead ? ProgramMode.READ : ProgramMode.EDIT,
         data: {
           ...data,
           dataAssignee: this.dataDialog.dataAssignee,

@@ -34,6 +34,7 @@ export class TaskProgressService {
     return this.fb.group({
       workHour: [taskProgress?.workHour || null, [Validators.required, Validators.pattern("^(0|[1-9][0-9]{0,2}(\.[0-9]{1,2})?|999(\.9{1,2})?)$")]],
       progress: [taskProgress?.progress || null, Validators.required],
+      dateWorkStart: [taskProgress?.dateWorkStart || null, [Validators.required]],
       note: [taskProgress?.note || null],
     });
   }

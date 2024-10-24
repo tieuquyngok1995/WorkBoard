@@ -181,6 +181,11 @@ input[type="number"]::-webkit-outer-spin-button {
   color: #dc2f55;
 }
 
+.date-picker {
+  position: fixed;
+  margin-left: -50px;
+}
+
 .error-message {
   color: #303244;
   left: 56%;

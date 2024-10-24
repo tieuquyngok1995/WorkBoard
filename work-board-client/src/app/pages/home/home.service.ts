@@ -89,8 +89,8 @@ export class HomeService {
    * @param note 
    * @returns 
    */
-  public updateTaskProgress(ID: number, moduleID: string, workHour: number, progress: number, note: string): Observable<boolean> {
-    return this.commonApiService.get(this.commonApiService.urlUpdateTaskProgress, { ID, moduleID, workHour, progress, note }).pipe(
+  public updateTaskProgress(ID: number, moduleID: string, workHour: number, progress: number, dateWorkStart: string, note: string): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlUpdateTaskProgress, { ID, moduleID, workHour, progress, dateWorkStart, note }).pipe(
       map(() => true),
       catchError(() => of(false))
     );

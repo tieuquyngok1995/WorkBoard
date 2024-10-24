@@ -122,6 +122,11 @@ export class HomeComponent implements OnInit {
           this.dataColProgress = this.dataModel.progress.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
           this.dataColPending = this.dataModel.pending.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
           this.dataColCompleted = this.dataModel.completed.filter(obj => obj.taskName && obj.taskName.toUpperCase().includes(data.searchValue ?? ''));
+        } else if (data.searchMode === Search.TASK_ASSIGNEE) {
+          this.dataColWaiting = this.dataModel.waiting.filter(obj => obj.assigneeName && obj.assigneeName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColProgress = this.dataModel.progress.filter(obj => obj.assigneeName && obj.assigneeName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColPending = this.dataModel.pending.filter(obj => obj.assigneeName && obj.assigneeName.toUpperCase().includes(data.searchValue ?? ''));
+          this.dataColCompleted = this.dataModel.completed.filter(obj => obj.assigneeName && obj.assigneeName.toUpperCase().includes(data.searchValue ?? ''));
         } else if (data.searchMode === Search.DATE_DELIVERY) {
           this.dataColWaiting = this.dataModel.waiting.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
           this.dataColProgress = this.dataModel.progress.filter(obj => UtilsService.isDateInRange(obj.dateDelivery, data.searchDateStart, data.searchDateEnd));
@@ -284,7 +289,8 @@ export class HomeComponent implements OnInit {
       if (dialogResult) {
         data = dialogResult.data;
         if (data) {
-          this.homeService.updateTaskProgress(id, moduleID, data.workHour, data.progress, data.note ?? '').subscribe(result => {
+          const dateWorkStart = data.dateWorkStart instanceof Date ? data.dateWorkStart.toISOString() : (data.dateWorkStart ?? '');
+          this.homeService.updateTaskProgress(id, moduleID, data.workHour, data.progress, dateWorkStart, data.note ?? '').subscribe(result => {
             if (result) {
               this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...dialogResult.data } : obj);
             } else {

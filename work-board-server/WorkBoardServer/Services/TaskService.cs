@@ -125,7 +125,7 @@ namespace WorkBoardServer.Services
             }
         }
 
-        public bool UpdateProgress(int id, string moduleID, decimal workHour, int progress, string note)
+        public bool UpdateProgress(int id, string moduleID, decimal workHour, int progress, string dateWorkStart, string note)
         {
             try
             {
@@ -135,6 +135,7 @@ namespace WorkBoardServer.Services
                     moduleID,
                     workHour,
                     progress,
+                    dateWorkStart,
                     note
                 });
             }

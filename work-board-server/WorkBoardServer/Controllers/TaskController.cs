@@ -167,7 +167,7 @@ namespace WorkBoardServer.Controllers
         /// <param name="note"></param>
         /// <returns></returns>
         [HttpGet]
-        public IActionResult UpdateTaskProgress(int id, string moduleID, decimal workHour, int progress, string? note)
+        public IActionResult UpdateTaskProgress(int id, string moduleID, decimal workHour, int progress, string dateWorkStart, string? note)
         {
             try
             {
@@ -176,7 +176,7 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                bool result = _service.UpdateProgress(id, moduleID, workHour, progress, note ?? "");
+                bool result = _service.UpdateProgress(id, moduleID, workHour, progress, dateWorkStart, note ?? "");
 
                 if (!result)
                 {

@@ -229,8 +229,9 @@
     </div>
     <div class="col-task">
       <div id="completed" class="col-task-list" cdkDropList #dataCompleted="cdkDropList"
-        [cdkDropListData]="dataColCompleted" (cdkDropListDropped)="onDrop($event, Status.COMPLETED)">
-        <div class="row" *ngFor="let task of dataColCompleted">
+        [cdkDropListData]="dataColCompleted" [cdkDropListConnectedTo]="isRead ? [] : [dataWaiting]"
+        (cdkDropListDropped)="onDrop($event, Status.COMPLETED)">
+        <div class="row" *ngFor="let task of dataColCompleted" cdkDrag [cdkDragData]="task">
           <div class="card no-select" (dblclick)="editTaskDialog(Status.COMPLETED, task.id)">
             <div class="table">
               <div class="row row-text">

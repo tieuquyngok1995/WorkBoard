@@ -1,5 +1,6 @@
 <form [formGroup]="taskProgressForm">
   <div class="title">Edit Task Progress</div>
+
   <div class="input-container ic1">
     <input id="workHour" class="input" type="text" formControlName="workHour" placeholder=" " appInputDirective />
     <div class="cut"></div>
@@ -16,6 +17,15 @@
 
   <div class="progress">
     <div class="progress-value" [style.width.%]="progress"></div>
+  </div>
+
+  <div class="input-container ic2">
+    <input id="dateWorkStart" class="input" type="text" matInput appDatepickerFilter [readonly]="true"
+      [matDatepicker]="dateWorkStart" formControlName="dateWorkStart" placeholder=" " appInputDirective />
+    <mat-datepicker-toggle matIconSuffix [for]="dateWorkStart" class="date-picker"></mat-datepicker-toggle>
+    <mat-datepicker #dateWorkStart></mat-datepicker>
+    <div class="cut cut-long3"></div>
+    <label for="dateWorkStart" class="placeholder">Date Work Start</label>
   </div>
 
   <div class="input-container ic3">

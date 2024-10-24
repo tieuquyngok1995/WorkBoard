@@ -69,6 +69,9 @@ export class HomeComponent implements OnInit {
     this.taskTypeMapping = this.createTaskTypeMapping();
   }
 
+  /**
+   * On init page.
+   */
   public ngOnInit(): void {
     this.isRead = this.authService.roleID === 2;
 
@@ -354,23 +357,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
+  /**
+   * Event close toask noti.
+   * @param rowIndex 
+   */
   public closeToast(rowIndex: number) {
-    // this.dataToast.splice(rowIndex, 1);
     this.dataToast[rowIndex].isShow = false;
-  }
-
-  private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {
-    return {
-      0: { icon: 'bi bi-file-earmark-code', name: 'Coding' },
-      1: { icon: 'bi bi-file-earmark-code', name: 'Review' },
-      2: { icon: 'bi bi-file-earmark-code', name: 'Fix Bug' },
-      3: { icon: 'bi bi-file-earmark-bar-graph', name: 'Testcase' },
-      4: { icon: 'bi bi-file-earmark-bar-graph', name: 'Review' },
-      5: { icon: 'bi bi-file-earmark-bar-graph', name: 'Fix Bug' },
-      6: { icon: 'bi bi-file-earmark-medical', name: 'Testing' },
-      7: { icon: 'bi bi-file-earmark-medical', name: 'Review' },
-      8: { icon: 'bi bi-file-earmark-medical', name: 'Fix Bug' }
-    }
   }
 
   /**
@@ -432,5 +424,23 @@ export class HomeComponent implements OnInit {
     const progress = (workedHours / estimatedHour) * 100;
 
     return Math.min(Math.round(progress), 99);
+  }
+
+  /**
+   * Create mapping task type.
+   * @returns 
+   */
+  private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {
+    return {
+      0: { icon: 'bi bi-file-earmark-code', name: 'Coding' },
+      1: { icon: 'bi bi-file-earmark-code', name: 'Review' },
+      2: { icon: 'bi bi-file-earmark-code', name: 'Fix Bug' },
+      3: { icon: 'bi bi-file-earmark-bar-graph', name: 'Testcase' },
+      4: { icon: 'bi bi-file-earmark-bar-graph', name: 'Review' },
+      5: { icon: 'bi bi-file-earmark-bar-graph', name: 'Fix Bug' },
+      6: { icon: 'bi bi-file-earmark-medical', name: 'Testing' },
+      7: { icon: 'bi bi-file-earmark-medical', name: 'Review' },
+      8: { icon: 'bi bi-file-earmark-medical', name: 'Fix Bug' }
+    }
   }
 }

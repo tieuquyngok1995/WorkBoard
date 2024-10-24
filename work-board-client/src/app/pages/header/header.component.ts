@@ -55,7 +55,7 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * On init dialog.
+   * On init header.
    */
   public ngOnInit(): void {
     this.isAdmin = this.authService.roleID !== 2;

@@ -33,10 +33,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("https://localhost:4200")
-                   .AllowAnyMethod()
+            builder.WithOrigins("http://172.16.7.66:9600")
                    .AllowAnyHeader()
-                   .AllowCredentials(); // Optional
+                   .AllowAnyMethod()
+                   .AllowCredentials();
         });
 });
 
@@ -62,7 +62,7 @@ builder.Services.AddAuthentication(options =>
 // Serilog
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Debug()
-    .WriteTo.File($"logs/log-.txt", rollingInterval: RollingInterval.Day) // Ghi log ra file
+    .WriteTo.File($"logs/log-.txt", rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 // 
@@ -84,11 +84,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseWebSockets();
+app.UseWebSockets(new WebSocketOptions
+{
+    KeepAliveInterval = TimeSpan.FromSeconds(120)
+});
+
 app.UseHttpsRedirection();
 
 // Apply the CORS policy
 app.UseCors("AllowSpecificOrigin");
+app.UseRouting();
 
 app.UseMiddleware<LoggingMiddleware>();
 app.UseMiddleware<TokenValidationMiddleware>();

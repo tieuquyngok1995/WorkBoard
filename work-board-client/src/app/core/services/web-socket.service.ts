@@ -25,7 +25,7 @@ export class WebsocketService implements OnDestroy {
       return;
     }
 
-    this.sockets[apiName] = new WebSocket(this.apiUrl + url);
+    this.sockets[apiName] = new WebSocket(this.apiUrl.replace("http", "ws") + url);
     this.dataSubjects[apiName] = new Subject<any>();
 
     this.sockets[apiName].onmessage = (event) => {

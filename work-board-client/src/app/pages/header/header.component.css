@@ -210,21 +210,21 @@ span {
   @media (min-width: 640px) {
     display: flex;
   }
+}
 
-  li {
-    font-size: 18px;
-    margin-left: 20px;
-  }
+.list li {
+  font-size: 18px;
+  margin-left: 20px;
+}
 
-  li a:not(.setting a) {
-    display: inline-block;
-    transition: color 0.3s;
-  }
+.list li a:not(.setting a) {
+  display: inline-block;
+  transition: color 0.3s;
+}
 
-  li a:not(.setting a):hover {
-    cursor: pointer;
-    color: #ffc774;
-  }
+.list li a:not(.setting a):hover {
+  cursor: pointer;
+  color: #ffc774;
 }
 
 .notification-count {

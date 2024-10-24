@@ -84,6 +84,10 @@
   -webkit-animation-delay: 1s;
 }
 
+h1, p {
+  cursor: default;
+}
+
 @-webkit-keyframes smallmove {
   0% {
     top: 10px;

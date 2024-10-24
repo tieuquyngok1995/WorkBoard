@@ -51,7 +51,7 @@ export class CommonApiService {
     }
 
     const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
-    return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
+    return this.http.get<T>(this.apiUrl + url, { headers: header, withCredentials: true, params: httpParams });
   }
 
   /**

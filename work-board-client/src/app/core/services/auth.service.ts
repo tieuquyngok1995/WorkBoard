@@ -109,7 +109,7 @@ export class AuthService {
       map(data => {
         if (data) {
           // save cookie auth
-          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: false, sameSite: 'Lax' });
+          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
 

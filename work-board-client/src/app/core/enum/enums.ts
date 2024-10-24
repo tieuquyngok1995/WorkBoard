@@ -32,5 +32,6 @@ export enum JobStatus {
 export enum Search {
     MODULE_ID,
     TASK_NAME,
+    TASK_ASSIGNEE,
     DATE_DELIVERY
 }

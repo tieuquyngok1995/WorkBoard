@@ -62,6 +62,7 @@ export interface TaskModel {
   dateDelivery: Date | null;
   note: string | null;
   dateWork: Date | null;
+  dateWorkStart: Date | null;
   workHour: number;
   progress: number;
   taskStatus: number;

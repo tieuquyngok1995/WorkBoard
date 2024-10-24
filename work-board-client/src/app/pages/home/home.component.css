@@ -147,7 +147,6 @@
 }
 
 .no-select {
-  cursor: default;
   background-color: #ffecec;
   user-select: none;
   -webkit-user-select: none;

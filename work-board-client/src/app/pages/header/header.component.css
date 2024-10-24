@@ -242,6 +242,10 @@ span {
   color: #fff;
 }
 
+.notification-count-user {
+  right: 84px;
+}
+
 .setting {
   width: 120px;
 }

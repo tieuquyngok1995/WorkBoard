@@ -165,6 +165,7 @@ export class HeaderComponent implements OnInit {
     return [
       { key: Search.MODULE_ID, value: 'Module ID' },
       { key: Search.TASK_NAME, value: 'Task Name' },
+      { key: Search.TASK_ASSIGNEE, value: 'Task Assignee' },
       { key: Search.DATE_DELIVERY, value: 'Date Delivery' },
     ]
   }

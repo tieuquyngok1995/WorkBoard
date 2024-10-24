@@ -34,6 +34,7 @@ SELECT
 	  ,T.DateWork
       ,T.WorkHour
       ,T.Progress
+	  ,T.DateWorkStart
       ,T.TaskStatus
 	FROM [dbo].[Task] T
 		LEFT JOIN [dbo].[TaskType] TT

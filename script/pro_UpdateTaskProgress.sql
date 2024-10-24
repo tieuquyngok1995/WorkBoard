@@ -12,12 +12,14 @@ CREATE PROCEDURE UpdateTaskProgress
     @moduleID nvarchar(25),
 	@workHour decimal(5, 2),
 	@progress smallint,
+	@dateWorkStart datetime,
 	@note nvarchar(max)
 AS
 BEGIN
 	UPDATE [dbo].[Task] SET 
 		[WorkHour] = @workHour
        ,[Progress] = @progress
+	   ,[DateWorkStart] = @dateWorkStart
        ,[Note] = @note
 	FROM [dbo].[Task] WHERE 
 		ID = @id AND

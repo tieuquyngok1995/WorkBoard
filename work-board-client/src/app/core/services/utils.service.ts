@@ -8,15 +8,33 @@ export class UtilsService {
 
   constructor() { }
 
+  /**
+   * Check string is null or empty.
+   * @param str 
+   * @returns 
+   */
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === '';
   }
 
+  /**
+   * Check if date is between 2 dates.
+   * @param currentDate 
+   * @param startDate 
+   * @param endDate 
+   * @returns 
+   */
   public static isDateInRange(currentDate: Date | null, startDate: Date | null | undefined, endDate: Date | null | undefined): boolean {
     if (!currentDate || !startDate || !endDate) return false;
     return new Date(currentDate) >= startDate && new Date(currentDate) <= endDate;
   }
 
+  /**
+   * Handle data list task, sort and split data.
+   * @param listStatus 
+   * @param listTask 
+   * @returns 
+   */
   public static getListTask(listStatus: DataListOption[], listTask: TaskModel[]) {
     return listTask.reduce((acc, task) => {
       // Get name status
@@ -42,6 +60,12 @@ export class UtilsService {
     } as TaskStatusModel);
   }
 
+  /**
+   * Compare 2 object.
+   * @param obj1 
+   * @param obj2 
+   * @returns 
+   */
   public static objCompare(obj1: any, obj2: any): boolean {
     if (obj1 === obj2) {
       return true;

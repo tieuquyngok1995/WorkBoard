@@ -6,8 +6,18 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class AuthGuardService implements CanActivate {
+
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param authService 
+   * @param router 
+   */
   constructor(private authService: AuthService, private router: Router) { }
 
+  /**
+   * Check authenticated user
+   * @returns 
+   */
   canActivate(): boolean {
     if (this.authService.auth.isAuthenticated) {
       return true;

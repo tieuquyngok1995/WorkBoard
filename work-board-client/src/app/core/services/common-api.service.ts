@@ -22,10 +22,24 @@ export class CommonApiService {
   public wsTask = 'wsTask';
   public wsConnect = 'wsConnect';
 
-  constructor(@Inject('API_URL') private apiUrl: string, private http: HttpClient, private cookieService: CookieService) { }
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param apiUrl 
+   * @param http 
+   * @param cookieService 
+   */
+  constructor(
+    @Inject('API_URL') private readonly apiUrl: string,
+    private readonly http: HttpClient,
+    private readonly cookieService: CookieService) { }
 
-  // Method to make GET request
-  get<T>(url: string, params?: { [key: string]: any }): Observable<T> {
+  /**
+   * Method to make GET request.
+   * @param url 
+   * @param params 
+   * @returns 
+   */
+  public get<T>(url: string, params?: { [key: string]: any }): Observable<T> {
     let httpParams = new HttpParams();
 
     if (params) {
@@ -40,18 +54,33 @@ export class CommonApiService {
     return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
   }
 
-  // Method to make POST request
-  post<T>(url: string, body: any): Observable<T> {
+  /**
+   * Method to make POST request.
+   * @param url 
+   * @param body 
+   * @returns 
+   */
+  public post<T>(url: string, body: any): Observable<T> {
     return this.http.post<T>(this.apiUrl + url + '/', body);
   }
 
-  // Method to make PUT request
-  put<T>(url: string, body: any): Observable<T> {
+  /**
+   * Method to make PUT request.
+   * @param url 
+   * @param body 
+   * @returns 
+   */
+  public put<T>(url: string, body: any): Observable<T> {
     return this.http.put<T>(this.apiUrl + url + '/', body);
   }
 
-  // Method to make DELETE request
-  delete<T>(url: string, params?: { [key: string]: any }): Observable<T> {
+  /**
+   * Method to make DELETE request.
+   * @param url 
+   * @param params 
+   * @returns 
+   */
+  public delete<T>(url: string, params?: { [key: string]: any }): Observable<T> {
     let httpParams = new HttpParams();
 
     if (params) {

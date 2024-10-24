@@ -21,11 +21,11 @@ export class HandleApiInterceptor implements HttpInterceptor {
    * @param confirmDialogService 
    */
   constructor(
-    private router: Router,
-    private authService: AuthService,
-    private loadingService: LoadingService,
-    private messageService: MessageService,
-    private confirmDialogService: DialogMessageService) { }
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly loadingService: LoadingService,
+    private readonly messageService: MessageService,
+    private readonly confirmDialogService: DialogMessageService) { }
 
   /**
    * 

@@ -135,11 +135,17 @@ export class HeaderComponent implements OnInit {
     this.dataService.sendData(null);
   }
 
+  /**
+   * Event clear all noti in screen.
+   */
   public clearNoti() {
     this.numNotification = 0;
     this.dataService.sendData({ message: null });
   }
 
+  /**
+   * Excel file download processing.
+   */
   public dowloadFileWBS(): void {
     this.downloadService.downloadExcel();
   }

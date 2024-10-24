@@ -8,8 +8,18 @@ export class WebsocketService implements OnDestroy {
   private sockets: { [key: string]: WebSocket } = {};
   private dataSubjects: { [key: string]: Subject<any> } = {};
 
-  constructor(@Inject('API_URL') private apiUrl: string) { }
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param apiUrl 
+   */
+  constructor(@Inject('API_URL') private readonly apiUrl: string) { }
 
+  /**
+   * Create connection socket.
+   * @param url 
+   * @param apiName 
+   * @returns 
+   */
   public connect(url: string, apiName: string): void {
     if (this.sockets[apiName]) {
       return;
@@ -23,6 +33,11 @@ export class WebsocketService implements OnDestroy {
     };
   }
 
+  /**
+   * Process sending data to server.
+   * @param apiName 
+   * @param message 
+   */
   public sendData(apiName: string, message: string): void {
     const socket = this.sockets[apiName];
     if (socket && socket.readyState === WebSocket.OPEN) {
@@ -30,10 +45,19 @@ export class WebsocketService implements OnDestroy {
     }
   }
 
+  /**
+   * Handle receiving data from server
+   * @param apiName 
+   * @returns 
+   */
   public getData(apiName: string): Subject<any> {
     return this.dataSubjects[apiName];
   }
 
+  /**
+   * Close connection.
+   * @param apiName 
+   */
   public closeConnection(apiName: string): void {
     if (this.sockets[apiName]) {
       this.sockets[apiName].close();

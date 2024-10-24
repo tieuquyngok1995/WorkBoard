@@ -26,6 +26,12 @@ export interface HeaderModel {
   searchDateEnd?: Date | null;
   message?: string | null;
 }
+
+export interface ToastModel {
+  isShow: boolean;
+  message: string;
+}
+
 export interface HomeModel {
   taskDialog: TaskModel;
   listTasks: TaskModel[];
@@ -66,9 +72,4 @@ export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;
   data?: TaskModel;
-}
-
-export interface ToastModel {
-  isShow: boolean;
-  message: string;
 }

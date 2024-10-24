@@ -8,13 +8,23 @@ import { DialogMessageService } from 'src/app/shared/service/dialog-message.serv
 })
 export class DownloadService {
 
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param apiUrl 
+   * @param http 
+   * @param messageService 
+   * @param confirmDialogService 
+   */
   constructor(
-    @Inject('API_URL') private apiUrl: string,
-    private http: HttpClient,
-    private messageService: MessageService,
-    private confirmDialogService: DialogMessageService) { }
+    @Inject('API_URL') private readonly apiUrl: string,
+    private readonly http: HttpClient,
+    private readonly messageService: MessageService,
+    private readonly confirmDialogService: DialogMessageService) { }
 
-  downloadExcel(): void {
+  /**
+   * Handle dowload file excel.
+   */
+  public downloadExcel(): void {
     this.http.get(this.apiUrl + 'Home/DownloadFile', { responseType: 'blob', observe: 'response' }).subscribe(response => {
       const now = new Date();
       let fileName = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}_WBS.xlsx`;

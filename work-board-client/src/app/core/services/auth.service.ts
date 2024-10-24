@@ -18,6 +18,13 @@ export class AuthService {
   private _userName!: string;
   private _auth: AuthModel = { isAuthenticated: false };
 
+  /**
+   * A constructor initializes a class's objects upon creation.
+   * @param router 
+   * @param cookieService 
+   * @param commonApiService 
+   * @param websocketService 
+   */
   constructor(
     private readonly router: Router,
     private readonly cookieService: CookieService,
@@ -25,6 +32,9 @@ export class AuthService {
     private readonly websocketService: WebsocketService) {
   }
 
+  /**
+   * Get authenticated.
+   */
   get auth(): AuthModel {
     const isLoggedIn = sessionStorage.getItem(GLOBAL.USER_NAME_TOKEN);
 
@@ -33,22 +43,35 @@ export class AuthService {
     return this._auth;
   }
 
-
+  /**
+   * Get role user .
+   */
   get roleID(): number {
     if (!this._roleID) this._roleID = Number(sessionStorage.getItem(GLOBAL.ROLE_ID_TOKEN));
     return this._roleID;
   }
 
+  /**
+   * Get user id login.
+   */
   get userID(): number {
     if (!this._userID) this._userID = Number(sessionStorage.getItem(GLOBAL.USER_ID_TOKEN));
     return this._userID;
   }
 
+  /**
+   * Get name user login
+   */
   get userName(): string {
     if (!this._userName) this._userName = sessionStorage.getItem(GLOBAL.USER_NAME_TOKEN) ?? '';
     return this._userName;
   }
 
+  /**
+   * Handle user login.
+   * @param model 
+   * @returns 
+   */
   public signIn(model: UserModel): Observable<boolean> {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
       map(data => {
@@ -77,6 +100,11 @@ export class AuthService {
     );
   }
 
+  /**
+   * Process new user registration.
+   * @param model 
+   * @returns 
+   */
   public signUp(model: UserModel): Observable<boolean> {
     return this.commonApiService.post<UserModel>(this.commonApiService.urlSignUp, model).pipe(
       map(data => {
@@ -105,6 +133,9 @@ export class AuthService {
     );
   }
 
+  /**
+   * Log out handling.
+   */
   public logOut(): void {
     sessionStorage.removeItem(GLOBAL.USER_NAME_TOKEN);
     this._auth = { isAuthenticated: false };

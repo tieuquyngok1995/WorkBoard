@@ -337,12 +337,12 @@ export class HomeComponent implements OnInit {
       }
     } else {
       const id = event.container.id;
-      let taskStatus;
+      let taskStatus = JobStatus.WAITING;
       if (id === 'progress') {
         taskStatus = JobStatus.PROGRESS;
 
         taskModel.dateWork = new Date();
-      } else {
+      } else if (id === 'pending') {
         taskStatus = JobStatus.PENDING;
 
         taskModel.workHour += this.calculateWorkingHours(taskModel.dateWork);

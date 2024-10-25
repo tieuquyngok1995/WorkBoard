@@ -45,8 +45,6 @@ export class HeaderService {
     return this.websocketService.getData(this.commonApiService.wsConnect);
   }
 
-
-
   public connectWebSocket(userID: number): void {
     this.websocketService.connect(this.commonApiService.urlConnectWebSocket + "?userId=" + userID, this.commonApiService.wsConnect);
   }

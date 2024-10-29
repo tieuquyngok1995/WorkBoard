@@ -2,6 +2,13 @@
 
 namespace WorkBoardServer.Models
 {
+    public class UserListModel
+    {
+        public List<DataListOption>? DataRole { get; set; }
+
+        public List<UserModel>? Users { get; set; }
+    }
+
     public class UserModel
     {
         public int? UserID { get; set; }
@@ -15,6 +22,8 @@ namespace WorkBoardServer.Models
         public string? Password { get; set; }
 
         public int? RoleID { get; set; }
+
+        public string? RoleName { get; set; }
 
         public string? Token { get; set; }
     }

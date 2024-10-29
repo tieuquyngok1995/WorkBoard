@@ -55,7 +55,7 @@ namespace WorkBoardServer.Controllers
                 }
                 else
                 {
-                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_CREATE_TASK, userName, model.ModuleID));
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_CREATE_TASK, userName ?? "", model.ModuleID ?? ""));
                     socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
 
@@ -99,7 +99,7 @@ namespace WorkBoardServer.Controllers
                 }
                 else
                 {
-                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_EDIT_TASK, userName, model.ModuleID));
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_EDIT_TASK, userName ?? "", model.ModuleID ?? ""));
                     socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
 
@@ -138,7 +138,7 @@ namespace WorkBoardServer.Controllers
                 TaskModel receivedData;
                 try
                 {
-                    receivedData = JsonSerializer.Deserialize<TaskModel>(body);
+                    receivedData = JsonSerializer.Deserialize<TaskModel>(body) ?? new();
                 }
                 catch (JsonException)
                 {
@@ -224,7 +224,7 @@ namespace WorkBoardServer.Controllers
                 }
                 else
                 {
-                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_DELETE_TASK, userName, moduleID));
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_DELETE_TASK, userName ?? "", moduleID));
                     socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
                 }
 

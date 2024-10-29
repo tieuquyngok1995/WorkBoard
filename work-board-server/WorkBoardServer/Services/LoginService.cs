@@ -12,13 +12,12 @@ namespace WorkBoardServer.Services
             _databaseService = databaseService;
         }
 
-        public UserModel SignIn(string userName, string password)
+        public UserModel SignIn(string userName)
         {
             return _databaseService.ExecuteQuery<UserModel>(
                 GlobalConstants.SIGN_IN, new
                 {
-                    userName,
-                    password
+                    userName
                 }).FirstOrDefault() ?? new UserModel();
         }
 

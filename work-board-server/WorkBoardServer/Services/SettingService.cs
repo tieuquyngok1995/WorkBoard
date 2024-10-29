@@ -14,15 +14,51 @@ namespace WorkBoardServer.Services
             _databaseService = databaseService;
         }
 
+        public List<DataListOption> GetDataRole()
+        {
+            return _databaseService.ExecuteQuery<DataListOption>(
+                GlobalConstants.GET_ROLE).AsList();
+        }
+
+        public List<DataListOption> GetDataAssignee()
+        {
+            return _databaseService.ExecuteQuery<DataListOption>(
+                GlobalConstants.GET_ASSIGNEE).AsList();
+        }
+
+        public Dictionary<short, string> GetDataTaskTypeJP()
+        {
+            return _databaseService.ExecuteQuery<DataListOption>(
+                GlobalConstants.GET_TASK_TYPE_JP).ToDictionary(item => item.Key, item => item.Value);
+        }
+
+        public List<UserModel> GetUsers()
+        {
+            return _databaseService.ExecuteQuery<UserModel>(
+               GlobalConstants.GET_DATA_USER).AsList();
+        }
+
         public List<TaskModel> GetDataWBS()
         {
             return _databaseService.ExecuteQuery<TaskModel>(
                 GlobalConstants.GET_DATA_WBS).AsList();
         }
-        public Dictionary<short, string> GetDataTaskTypeJP()
+
+        public bool Update(int? userID, string email, string userName, string password, int? roleID)
         {
-            return _databaseService.ExecuteQuery<DataListOption>(
-                GlobalConstants.GET_TASK_TYPE_JP).ToDictionary(item => item.Key, item => item.Value);
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_UPDATE, new
+                {
+                    userID,
+                    email,
+                    userName,
+                    password,
+                    roleID
+                });
+            }
+            catch { return false; }
+            return true;
         }
 
         public void CreateFileWBS(ExcelWorksheet worksheet, int row, TaskModel model)
@@ -38,7 +74,7 @@ namespace WorkBoardServer.Services
             worksheet.Cells[row, 6].Value = model.Assignee;
 
             // Column M: Estimated Hour
-            worksheet.Cells[row, 13].Value = model.EstimatedHour;
+            worksheet.Cells[row, 13].Value = model.EstimatedHour.HasValue ? double.Parse(Math.Round(model.EstimatedHour.Value, 2).ToString("0.##")) : 0.0; ;
             // Column N: Work Hour
             worksheet.Cells[row, 15].Value = model.WorkHour.HasValue ? double.Parse(Math.Round(model.WorkHour.Value, 2).ToString("0.##")) : 0.0;
 

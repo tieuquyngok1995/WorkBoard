@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
 
@@ -9,34 +10,43 @@ namespace WorkBoardServer.Controllers
     {
         private readonly LoginService _service;
 
+        private readonly PasswordHasher<UserModel> _passwordHasher;
+
         private readonly JwtTokenService _jwtTokenService;
 
         public LoginController(LoginService service, JwtTokenService jwtTokenService)
         {
             _service = service;
+            _passwordHasher = new PasswordHasher<UserModel>();
             _jwtTokenService = jwtTokenService;
         }
 
-        [HttpPost]
-        public IActionResult SignIn(UserModel body)
+        [HttpGet]
+        public IActionResult SignIn(string userName, string password)
         {
             try
             {
-                if (!ModelState.IsValid)
+                if (string.IsNullOrEmpty(userName) || string.IsNullOrEmpty(password))
                 {
                     return BadRequest(ModelState);
                 }
 
-                UserModel model = _service.SignIn(body.UserName, body.Password);
+                UserModel model = _service.SignIn(userName);
 
                 if (model.UserName == null)
                 {
                     return Unauthorized();
                 }
 
-                model.Token = _jwtTokenService.GenerateToken(model);
+                PasswordVerificationResult verificationResult = _passwordHasher.VerifyHashedPassword(model, model.Password ?? "", password);
 
-                return Ok(model);
+                if (verificationResult == PasswordVerificationResult.Success)
+                {
+                    model.Token = _jwtTokenService.GenerateToken(model);
+
+                    return Ok(model);
+                }
+                return Unauthorized();
             }
             catch (Exception ex)
             {
@@ -54,7 +64,8 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                UserModel model = _service.SignUp(body.Email ?? "", body.UserName, body.Password);
+                body.Password = _passwordHasher.HashPassword(body, body.Password ?? "");
+                UserModel model = _service.SignUp(body.Email ?? "", body.UserName ?? "", body.Password ?? "");
 
                 if (model.UserName == null)
                 {

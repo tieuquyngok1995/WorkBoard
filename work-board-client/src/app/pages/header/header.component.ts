@@ -9,6 +9,8 @@ import { DownloadService } from '../../core/services/download.service';
 import { DataListOption, HeaderModel } from '../../core/model/model';
 
 import { HeaderService } from './header.service';
+import { Dialog } from '@angular/cdk/dialog';
+import { SettingUserComponent } from '../setting/user/user.component';
 
 @Component({
   selector: 'app-header',
@@ -37,6 +39,7 @@ export class HeaderComponent implements OnInit {
    * @param authService 
    */
   constructor(
+    private readonly dialog: Dialog,
     private readonly authService: AuthService,
     private readonly dataService: DataService,
     private readonly headerService: HeaderService,
@@ -141,6 +144,13 @@ export class HeaderComponent implements OnInit {
   public clearNoti() {
     this.numNotification = 0;
     this.dataService.sendData({ message: null });
+  }
+
+  public openSettingUser() {
+    this.dialog.open(SettingUserComponent, {
+      disableClose: true,
+      minWidth: '1200px',
+    });
   }
 
   /**

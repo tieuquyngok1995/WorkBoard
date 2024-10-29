@@ -16,6 +16,8 @@ export interface UserModel {
   userName: string;
   password: string;
   roleID: number;
+  roleName: string;
+  dataRole: DataListOption[] | null;
   token: string;
 }
 

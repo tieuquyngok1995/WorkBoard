@@ -9,7 +9,6 @@ import { DialogMessageService } from '../../shared/service/dialog-message.servic
 import { LoginService } from './login.service';
 
 @Component({
-  selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })

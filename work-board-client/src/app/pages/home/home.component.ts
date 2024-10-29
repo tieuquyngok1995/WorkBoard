@@ -15,7 +15,6 @@ import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
 
 @Component({
-  selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })

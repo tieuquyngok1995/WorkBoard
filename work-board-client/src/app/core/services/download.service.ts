@@ -25,7 +25,7 @@ export class DownloadService {
    * Handle dowload file excel.
    */
   public downloadExcel(): void {
-    this.http.get(this.apiUrl + 'Home/DownloadFile', { responseType: 'blob', observe: 'response' }).subscribe(response => {
+    this.http.get(this.apiUrl + 'Setting/DownloadFile', { responseType: 'blob', observe: 'response' }).subscribe(response => {
       const now = new Date();
       let fileName = `${String(now.getMonth() + 1).padStart(2, '0')}-${now.getFullYear()}_${String(now.getHours()).padStart(2, '0')}-${String(now.getMinutes()).padStart(2, '0')}-${String(now.getSeconds()).padStart(2, '0')}_WBS.xlsx`;
 

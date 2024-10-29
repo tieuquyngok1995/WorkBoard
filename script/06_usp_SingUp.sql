@@ -10,7 +10,7 @@ GO
 CREATE PROCEDURE usp_SignUp
 	@Email NVARCHAR(100),
 	@UserName NVARCHAR(50),
-	@Password NVARCHAR(50)
+	@Password NVARCHAR(256)
 AS
 BEGIN
     -- Check exist user

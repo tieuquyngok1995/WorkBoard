@@ -24,13 +24,13 @@ CREATE TABLE TaskType (
     NameJP NVARCHAR(50) NOT NULL
 );
 
-create table Users (
-	UserID smallint primary key identity (0,1),
-	Email varchar(100) not null,
-	UserName varchar(25) not null,
-	Password varchar(100) not null,
-	RoleID int, 
-	FOREIGN KEY (RoleID) REFERENCES dbo.Roles(RoleID)
+CREATE TABLE Users (
+    UserID smallint PRIMARY KEY IDENTITY (0,1),
+    Email nvarchar(100) NOT NULL,
+    UserName nvarchar(50) NOT NULL UNIQUE, 
+    Password nvarchar(256) NOT NULL,
+    RoleID int,
+    FOREIGN KEY (RoleID) REFERENCES dbo.Roles(RoleID)
 );
 
 CREATE TABLE Priority (
@@ -73,13 +73,7 @@ INSERT INTO Roles (RoleName)
 VALUES ('Admin'), ('Leader'), ('User') ;
 
 INSERT INTO Users
-VALUES ('admin@fujinet.net', 'admin', '1', 0) ;
-
-INSERT INTO Users
-VALUES ('tuan-vq@fujinet.net', 'tuan-vq', '1', 2) 
-      ,('hieu-mth@fujinet.net', 'hieu-mth', '1', 2) 
-      ,('thinh-nt@fujinet.net', 'thinh-nt', '1', 2) 
-      ,('duy-tranb@fujinet.net', 'duy-tranb', '1', 2) 
+VALUES ('admin@fujinet.net', 'admin', 'AQAAAAIAAYagAAAAEJ+Bs9r7Zn6H3SrBT4kg2qKK++UV5rWqpX2d7tcrd3eWJnM4VYsDeF8JTmMLKazF2A==', 0) ;
 
 INSERT INTO TaskType (Name, NameJP)
 VALUES ('Coding', N'コーディング'), ('Review Coding', N'コーディングのレビュー'), ('Fix Bug Coding', N'コーディングのレビュー結果対応')

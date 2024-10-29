@@ -8,16 +8,14 @@ END
 GO
 
 CREATE PROCEDURE usp_SignIn
-    @UserName NVARCHAR(50),
-    @Password NVARCHAR(50)
+    @UserName NVARCHAR(50)
 AS
 BEGIN
     -- Check exist user
     IF EXISTS (
         SELECT 1 
         FROM Users 
-        WHERE UserName = @UserName 
-        AND Password = @Password
+        WHERE UserName = @UserName
     )
     BEGIN
         -- get user
@@ -28,8 +26,7 @@ BEGIN
             Password,
             RoleID
         FROM Users
-        WHERE UserName = @UserName 
-        AND Password = @Password;
+        WHERE UserName = @UserName
     END
     
 END;

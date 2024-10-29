@@ -44,7 +44,7 @@ export class TaskService {
       assignee: [task?.assignee || null, Validators.required],
       priority: [task?.priority || null],
       dateCreate: [task?.dateCreate || null, Validators.required],
-      estimatedHour: [task?.estimatedHour || null, [Validators.required, Validators.pattern("^[0-9]*$"), Validators.max(9999999)]],
+      estimatedHour: [task?.estimatedHour || null, [Validators.required, Validators.pattern("^(0|[1-9][0-9]{0,2}(\.[0-9]{1,2})?|999(\.9{1,2})?)$")]],
       dateDelivery: [task?.dateDelivery || null, Validators.required],
       note: [task?.note || null, Validators.maxLength(1000)],
     });

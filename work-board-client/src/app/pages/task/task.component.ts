@@ -3,20 +3,22 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { ProgramMode } from '../../core/enum/enums';
+import { GLOBAL } from '../../core/constants/global';
 import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
+import { fadeAnimation } from "../../shared/animations/animations";
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
 import { TaskService } from './task.service';
-import { GLOBAL } from 'src/app/core/constants/global';
 
 @Component({
-  selector: 'app-dialog-add-task',
   templateUrl: './task.component.html',
-  styleUrls: ['./task.component.css']
+  styleUrls: ['./task.component.css'],
+  animations: [fadeAnimation]
 })
 export class TaskComponent implements OnInit {
   public title: string;
   public isRead!: boolean;
+  public isClose!: boolean;
   public isReadModuleID!: boolean;
   public taskForm!: FormGroup;
 
@@ -97,6 +99,10 @@ export class TaskComponent implements OnInit {
    * Event click Cancel dialog .
    */
   public cancel(): void {
-    this.dialogRef.close();
+    this.isClose = true;
+
+    setTimeout(() => {
+      this.dialogRef.close();
+    }, 300);
   }
 }

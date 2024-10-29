@@ -3,17 +3,19 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { TaskDialog, TaskModel } from '../../core/model/model';
+import { fadeAnimation } from "../../shared/animations/animations";
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
 import { TaskProgressService } from './task-progress.service';
 
 @Component({
-  selector: 'app-task-progress',
   templateUrl: './task-progress.component.html',
-  styleUrls: ['./task-progress.component.css']
+  styleUrls: ['./task-progress.component.css'],
+  animations: [fadeAnimation]
 })
 export class TaskProgressComponent implements OnInit {
 
+  public isClose!: boolean;
   public progress: number = 0;
   public taskProgressForm: FormGroup;
 

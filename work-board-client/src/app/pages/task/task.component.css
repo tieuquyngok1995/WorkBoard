@@ -7,21 +7,6 @@ form {
   width: 26vw;
 }
 
-.title {
-  color: #eee;
-  font-size: 36px;
-  font-weight: 600;
-  margin-top: 30px;
-  cursor: default;
-}
-
-.subtitle {
-  color: #eee;
-  font-size: 16px;
-  font-weight: 600;
-  margin-top: 10px;
-}
-
 textarea {
   font-size: 15px !important;
   padding: 8px 20px 0 !important;

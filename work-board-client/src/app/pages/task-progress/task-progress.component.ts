@@ -29,11 +29,11 @@ export class TaskProgressComponent implements OnInit {
    */
   constructor(
     @Inject(DIALOG_DATA)
-    private dialog: TaskDialog,
-    private messageService: MessageService,
-    private dialogRef: DialogRef<TaskDialog>,
-    private taskProgressService: TaskProgressService,
-    private confirmDialogService: DialogMessageService) {
+    private readonly dialog: TaskDialog,
+    private readonly messageService: MessageService,
+    private readonly dialogRef: DialogRef<TaskDialog>,
+    private readonly taskProgressService: TaskProgressService,
+    private readonly confirmDialogService: DialogMessageService) {
     this.taskProgressForm = taskProgressService.taskProgressForm;
   }
 

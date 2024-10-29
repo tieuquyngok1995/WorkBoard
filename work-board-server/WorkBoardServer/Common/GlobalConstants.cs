@@ -13,13 +13,18 @@
         public const string TASK_UPDATE_PROGRESS = "usp_UpdateTaskProgress";
         public const string TASK_DELETE = "usp_DeleteTask";
 
+        // User
+        public const string USER_UPDATE = "usp_UpdateUser";
+
         // Home
         public const string GET_TASK = "usp_GetTask";
         public const string GET_TASK_TYPE = "usp_GetTaskType";
         public const string GET_TASK_TYPE_JP = "usp_GetTaskTypeJP";
+        public const string GET_TASK_STATUS = "usp_GetTaskStatus";
+        public const string GET_ROLE = "usp_GetRole";
         public const string GET_ASSIGNEE = "usp_GetAssignee";
         public const string GET_PRIORITY = "usp_GetPriority";
-        public const string GET_TASK_STATUS = "usp_GetTaskStatus";
+        public const string GET_DATA_USER = "usp_GetUser";
         public const string GET_DATA_WBS = "usp_GetDataWBS";
     }
 }

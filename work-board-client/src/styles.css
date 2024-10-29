@@ -81,6 +81,10 @@ textarea {
 }
 
 .cut-short4 {
+  width: 55px !important;
+}
+
+.cut-short5 {
   width: 40px !important;
 }
 

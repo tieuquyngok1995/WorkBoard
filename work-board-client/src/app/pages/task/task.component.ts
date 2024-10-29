@@ -36,11 +36,11 @@ export class TaskComponent implements OnInit {
    */
   constructor(
     @Inject(DIALOG_DATA)
-    private dialog: TaskDialog,
-    private taskService: TaskService,
-    private messageService: MessageService,
-    private dialogRef: DialogRef<TaskDialog>,
-    private confirmDialogService: DialogMessageService) {
+    private readonly dialog: TaskDialog,
+    private readonly taskService: TaskService,
+    private readonly messageService: MessageService,
+    private readonly dialogRef: DialogRef<TaskDialog>,
+    private readonly confirmDialogService: DialogMessageService) {
     this.title = GLOBAL.CREATE_TASK;
     this.taskForm = taskService.taskForm;
   }

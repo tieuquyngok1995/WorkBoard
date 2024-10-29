@@ -15,6 +15,7 @@
 
         // User
         public const string USER_UPDATE = "usp_UpdateUser";
+        public const string USER_DELETE = "usp_DeleteUser";
 
         // Home
         public const string GET_TASK = "usp_GetTask";

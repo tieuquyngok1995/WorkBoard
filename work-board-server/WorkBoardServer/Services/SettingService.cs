@@ -60,6 +60,18 @@ namespace WorkBoardServer.Services
             catch { return false; }
             return true;
         }
+        public bool Delete(int userID)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_DELETE, new
+                {
+                    userID
+                });
+            }
+            catch { return false; }
+            return true;
+        }
 
         public void CreateFileWBS(ExcelWorksheet worksheet, int row, TaskModel model)
         {

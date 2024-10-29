@@ -37,4 +37,16 @@ export class UserService {
       catchError(() => of(false))
     );
   }
+
+  /**
+   * Delete user
+   * @param userID 
+   * @returns 
+   */
+  public deleteUser(userID: number): Observable<boolean> {
+    return this.commonApiService.get(this.commonApiService.urlSettingDeleteUsers, { userID }).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 }

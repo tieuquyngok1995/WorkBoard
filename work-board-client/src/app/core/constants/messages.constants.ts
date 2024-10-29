@@ -1,5 +1,6 @@
 export const MESSAGES = {
   C001: 'Do you want to continue deleting this data?',
+  C002: 'Do you want to continue deleting this user?',
 
   A001: 'There is an invalid input field value. Please check again.',
   A002: 'No edits made as there were no changes.',
@@ -21,5 +22,6 @@ export const MESSAGES = {
   E013: 'Failed to update the task progress. Please check the information.',
   E014: 'The registered account already exists.',
   E015: 'No file data received.',
-  E016: 'Username already exists, please choose a different username.'
+  E016: 'Username already exists, please choose a different username.',
+  E017: 'User delete failed. Please check the information.',
 }

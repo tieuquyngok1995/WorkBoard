@@ -85,7 +85,20 @@ export class SettingUserComponent implements OnInit {
   }
 
   public deleteUser(rowIndex: number): void {
+    this.confirmDialogService.openDialog(this.messageService.getMessage('C002'), true).subscribe(result => {
+      if (!result) return;
 
+      const data = this.dataSource.data[rowIndex];
+      this.userService.deleteUser(data.userID).subscribe(result => {
+        if (!result) {
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E017'));
+        } else {
+          const currentData = this.dataSource.data;
+          currentData.splice(rowIndex, 1);
+          this.dataSource.data = [...currentData];
+        }
+      })
+    });
   }
 
   public close() {

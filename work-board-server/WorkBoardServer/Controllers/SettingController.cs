@@ -83,6 +83,25 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        public IActionResult DeleteUser(int userID)
+        {
+            try
+            {
+                bool result = _service.Delete(userID);
+
+                if (!result)
+                {
+                    return BadRequest(Message.MESS_ERR_DELETE_USER);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
         /// <summary>
         /// Create file wbs
         /// </summary>

@@ -2,20 +2,24 @@
 {
     public class GlobalConstants
     {
-        public const string PSignIn = "SignIn";
-        public const string PSignUp = "SignUp";
-        public const string PCreateTask = "CreateTask";
-        public const string PUpdateTask = "UpdateTask";
-        public const string PUpdateTaskStatus = "UpdateTaskStatus";
-        public const string PUpdateTaskProgress = "UpdateTaskProgress";
-        public const string PDeleteTask = "DeleteTask";
+        // Login
+        public const string SIGN_IN = "usp_SignIn";
+        public const string SIGN_UP = "usp_SignUp";
 
-        public const string PGetTask = "GetTask";
-        public const string PGetDataWBS = "GetDataWBS";
-        public const string PGetTaskType = "GetTaskType";
-        public const string PGetTaskTypeJP = "GetTaskTypeJP";
-        public const string PGetAssignee = "GetAssignee";
-        public const string PGetPriority = "GetPriority";
-        public const string PGetTaskStatus = "GetTaskStatus";
+        // Task
+        public const string TASK_CREATE = "usp_CreateTask";
+        public const string TASK_UPDATE = "usp_UpdateTask";
+        public const string TASK_UPDATE_STATUS = "usp_UpdateTaskStatus";
+        public const string TASK_UPDATE_PROGRESS = "usp_UpdateTaskProgress";
+        public const string TASK_DELETE = "usp_DeleteTask";
+
+        // Home
+        public const string GET_TASK = "usp_GetTask";
+        public const string GET_TASK_TYPE = "usp_GetTaskType";
+        public const string GET_TASK_TYPE_JP = "usp_GetTaskTypeJP";
+        public const string GET_ASSIGNEE = "usp_GetAssignee";
+        public const string GET_PRIORITY = "usp_GetPriority";
+        public const string GET_TASK_STATUS = "usp_GetTaskStatus";
+        public const string GET_DATA_WBS = "usp_GetDataWBS";
     }
 }

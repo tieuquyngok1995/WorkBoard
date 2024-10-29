@@ -27,7 +27,7 @@ namespace WorkBoardServer.Services
                 taskTable.Columns.Add("Assignee", typeof(short));            // smallint not null
                 taskTable.Columns.Add("Priority", typeof(short));            // smallint
                 taskTable.Columns.Add("DateCreate", typeof(DateTime));       // date
-                taskTable.Columns.Add("EstimatedHour", typeof(short));       // smallint
+                taskTable.Columns.Add("EstimatedHour", typeof(decimal));     // decimal(5, 2) not null
                 taskTable.Columns.Add("DateDelivery", typeof(DateTime));     // date
                 taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
@@ -45,7 +45,7 @@ namespace WorkBoardServer.Services
                     model.Note);
 
                 return _databaseService.ExecuteNonQueryGetID(
-                      GlobalConstants.PCreateTask, "@newID", new SqlParameter
+                      GlobalConstants.TASK_CREATE, "@newID", new SqlParameter
                       {
                           ParameterName = "@data",
                           SqlDbType = SqlDbType.Structured,
@@ -72,7 +72,7 @@ namespace WorkBoardServer.Services
                 taskTable.Columns.Add("Assignee", typeof(short));            // smallint not null
                 taskTable.Columns.Add("Priority", typeof(short));            // smallint
                 taskTable.Columns.Add("DateCreate", typeof(DateTime));       // date
-                taskTable.Columns.Add("EstimatedHour", typeof(short));       // smallint
+                taskTable.Columns.Add("EstimatedHour", typeof(decimal));     // decimal(5, 2) not null
                 taskTable.Columns.Add("DateDelivery", typeof(DateTime));     // date
                 taskTable.Columns.Add("Note", typeof(string));               // nvarchar(max) NULL
 
@@ -90,7 +90,7 @@ namespace WorkBoardServer.Services
                     model.Note);
 
                 _databaseService.ExecuteNonQuery(
-                    GlobalConstants.PUpdateTask, new SqlParameter
+                    GlobalConstants.TASK_UPDATE, new SqlParameter
                     {
                         ParameterName = "@data",
                         SqlDbType = SqlDbType.Structured,
@@ -109,7 +109,7 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                await _databaseService.ExecuteQueryAsync<bool>(GlobalConstants.PUpdateTaskStatus, new
+                await _databaseService.ExecuteQueryAsync<bool>(GlobalConstants.TASK_UPDATE_STATUS, new
                 {
                     id,
                     moduleID,
@@ -129,7 +129,7 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                _databaseService.ExecuteQuery<bool>(GlobalConstants.PUpdateTaskProgress, new
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.TASK_UPDATE_PROGRESS, new
                 {
                     id,
                     moduleID,
@@ -147,7 +147,7 @@ namespace WorkBoardServer.Services
         {
             try
             {
-                _databaseService.ExecuteQuery<bool>(GlobalConstants.PDeleteTask, new
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.TASK_DELETE, new
                 {
                     id,
                     moduleID

@@ -35,7 +35,7 @@ namespace WorkBoardServer.Models
         public DateTime? DateCreate { get; set; }
 
         [Required(ErrorMessage = "Estimated Hour is required.")]
-        public short? EstimatedHour { get; set; }
+        public decimal? EstimatedHour { get; set; }
 
         [Required(ErrorMessage = "Date Delivery is required.")]
         public DateTime? DateDelivery { get; set; }

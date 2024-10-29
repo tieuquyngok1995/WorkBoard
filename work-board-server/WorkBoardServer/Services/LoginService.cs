@@ -15,7 +15,7 @@ namespace WorkBoardServer.Services
         public UserModel SignIn(string userName, string password)
         {
             return _databaseService.ExecuteQuery<UserModel>(
-                GlobalConstants.PSignIn, new
+                GlobalConstants.SIGN_IN, new
                 {
                     userName,
                     password
@@ -25,7 +25,7 @@ namespace WorkBoardServer.Services
         public UserModel SignUp(string email, string userName, string password)
         {
             return _databaseService.ExecuteQuery<UserModel>(
-                GlobalConstants.PSignUp, new
+                GlobalConstants.SIGN_UP, new
                 {
                     email,
                     userName,

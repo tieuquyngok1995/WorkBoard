@@ -1,0 +1,69 @@
+<form @fadeInOut [ngClass]="{ 'form-fade-out': isClose}">
+  <div class="row">
+    <div class="col">
+      <div class="title">Setting User</div>
+    </div>
+    <div class="col-1"><button type="button" class="close-button" tabindex="-1" (click)="close()"></button></div>
+  </div>
+
+  <div class=" table-container mat-elevation-z8">
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource">
+
+        <colgroup>
+          <col style="width: 12%;">
+          <col style="width: 30%;">
+          <col style="width: 36%;">
+          <col style="width: 12%;">
+          <col style="width: 10%;">
+        </colgroup>
+
+        <!-- User ID Column -->
+        <ng-container matColumnDef="userID">
+          <th mat-header-cell *matHeaderCellDef> User ID </th>
+          <td mat-cell *matCellDef="let model" class="text-center"> {{ model.userID }} </td>
+        </ng-container>
+
+        <!-- User Name Column -->
+        <ng-container matColumnDef="userName">
+          <th mat-header-cell *matHeaderCellDef> User Name </th>
+          <td mat-cell *matCellDef="let model"> {{ model.userName }} </td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Email </th>
+          <td mat-cell *matCellDef="let model"> {{ model.email }} </td>
+        </ng-container>
+
+        <!-- Role Column -->
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef> Role </th>
+          <td mat-cell *matCellDef="let model" class="text-center"> {{ model.roleName }} </td>
+        </ng-container>
+
+        <!-- Action Column -->
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> </th>
+          <td mat-cell *matCellDef="let model; let rowIndex = index">
+            <button type="button" class="action-button" tabindex="-1" (click)="editUser(rowIndex)">
+              <i class="bi bi-pen"></i>
+            </button>
+            <button type="button" class="action-button action-button-right" tabindex="-1"
+              (click)="deleteUser(rowIndex)">
+              <i class="bi bi-trash"></i>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['userID', 'userName', 'email', 'role', 'action']"></tr>
+        <tr mat-row
+          *matRowDef="let rowIndex = index;let row; columns: ['userID', 'userName', 'email', 'role', 'action']"
+          (dblclick)="editUser(rowIndex)"></tr>
+      </table>
+    </div>
+  </div>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons
+    aria-label="Select page of periodic elements"></mat-paginator>
+</form>

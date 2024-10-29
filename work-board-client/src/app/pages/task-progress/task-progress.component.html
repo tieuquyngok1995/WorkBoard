@@ -1,4 +1,4 @@
-<form [formGroup]="taskProgressForm">
+<form [formGroup]="taskProgressForm" @fadeInOut [ngClass]="{ 'form-fade-out': isClose}">
   <div class="title">Edit Task Progress</div>
 
   <div class="input-container ic1">

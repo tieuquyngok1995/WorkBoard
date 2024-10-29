@@ -1,0 +1,160 @@
+form {
+  height: 45vh;
+  padding: 20px 50px;
+  border-radius: 20px;
+  background-color: #15172b;
+  box-sizing: border-box;
+}
+
+.title {
+  height: 40px;
+}
+
+.close-button {
+  width: 36px;
+  height: 36px;
+  margin-top: -4px;
+  margin-left: 62px;
+  border: 2px solid white;
+  border-radius: 50%;
+  background-color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+.action-button {
+  width: 32px;
+  height: 32px;
+  margin: 0;
+  padding: 0;
+  color: #ddd;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  transition: 0.3s;
+}
+
+.action-button-right {
+  margin-left: 12px;
+}
+
+.action-button:hover {
+  color: #15172b;
+  background-color: #ddd;
+  border: 1px solid #15172b;
+}
+
+.close-button::before,
+.close-button::after {
+  content: "";
+  width: 60%;
+  height: 2px;
+  background-color: #ddd;
+  position: absolute;
+  transition: transform 0.3s;
+}
+
+.close-button::before {
+  transform: rotate(0deg);
+}
+
+.close-button::after {
+  transform: rotate(0deg);
+}
+
+.close-button:hover::before {
+  transform: rotate(45deg);
+}
+
+.close-button:hover::after {
+  transform: rotate(-45deg);
+}
+
+.table-container {
+  width: 1108px;
+  overflow-y: auto;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
+
+.table-wrapper {
+  max-width: 1100px;
+  max-height: 270px;
+}
+
+table {
+  width: 100%;
+  background-color: #15172b;
+}
+
+.mat-mdc-header-cell {
+  font-size: 20px;
+  text-align: center;
+}
+
+.mat-mdc-cell {
+  font-size: 16px;
+}
+
+.mat-mdc-header-cell, .mat-mdc-cell {
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.mat-mdc-header-row, .mat-mdc-row {
+  height: 45px;
+  cursor: default;
+  color: #ddd;
+  background-color: #303245;
+  font-family: 'SuseFont', sans-serif !important;
+}
+
+.mat-mdc-row:hover {
+  color: #303245;
+  background-color: #4b92a7;
+  transition: background-color 0.3s ease;
+}
+
+.mat-mdc-header-cell:last-child, .mat-mdc-cell:last-child {
+  border-right: none;
+}
+
+.mat-mdc-paginator {
+  color: #ddd;
+  font-size: 16px !important;
+  background-color: #15172b;
+  font-family: 'SuseFont', sans-serif !important;
+}
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  border: 1px solid #ddd;
+}
+
+::ng-deep .mat-mdc-select-value {
+  font-size: 16px !important;
+  color: #ddd !important;
+  font-family: 'SuseFont', sans-serif !important;
+}
+
+::ng-deep .mat-mdc-select-arrow {
+  color: #ddd !important;
+}
+
+::ng-deep .mat-mdc-paginator-range-label {
+  width: 120px;
+}
+
+::ng-deep .mat-mdc-paginator-icon path {
+  fill: #ddd;
+}
+
+::ng-deep [disabled] .mat-mdc-paginator-icon path {
+  fill: #ddd;
+  opacity: 0.5;
+}

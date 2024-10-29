@@ -20,5 +20,6 @@ export const MESSAGES = {
   E012: 'Task delete failed. Please check the information.',
   E013: 'Failed to update the task progress. Please check the information.',
   E014: 'The registered account already exists.',
-  E015: 'No file data received.'
+  E015: 'No file data received.',
+  E016: 'Username already exists, please choose a different username.'
 }

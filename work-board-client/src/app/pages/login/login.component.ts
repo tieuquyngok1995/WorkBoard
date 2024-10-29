@@ -25,11 +25,11 @@ export class LoginComponent implements OnInit {
    * @param confirmDialogService 
    */
   constructor(
-    private authService: AuthService,
-    private loginService: LoginService,
-    private messageService: MessageService,
-    private navigationService: NavigationService,
-    private confirmDialogService: DialogMessageService) {
+    private readonly authService: AuthService,
+    private readonly loginService: LoginService,
+    private readonly messageService: MessageService,
+    private readonly navigationService: NavigationService,
+    private readonly confirmDialogService: DialogMessageService) {
     this.signInForm = this.loginService.signInForm;
     this.signUpForm = this.loginService.signUpForm;
   }

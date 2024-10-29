@@ -10,6 +10,11 @@ export interface AuthModel {
   token?: string | null
 }
 
+export interface UserListModel {
+  dataRole: DataListOption[] | null;
+  users: UserModel[];
+}
+
 export interface UserModel {
   userID: number;
   email: string;
@@ -17,7 +22,6 @@ export interface UserModel {
   password: string;
   roleID: number;
   roleName: string;
-  dataRole: DataListOption[] | null;
   token: string;
 }
 
@@ -75,4 +79,10 @@ export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;
   data?: TaskModel;
+}
+
+export interface UserDialog {
+  data: UserModel;
+  dataRole: DataListOption[] | null;
+  dataName: string[]
 }

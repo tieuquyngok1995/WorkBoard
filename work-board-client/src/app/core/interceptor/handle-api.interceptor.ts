@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Dialog } from '@angular/cdk/dialog';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, delay, finalize, mergeMap } from 'rxjs/operators';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, } from '@angular/common/http';
@@ -8,6 +9,7 @@ import { LoadingService } from '../services/loading.service';
 import { AuthService } from '../services/auth.service';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
+
 
 @Injectable()
 export class HandleApiInterceptor implements HttpInterceptor {
@@ -22,6 +24,7 @@ export class HandleApiInterceptor implements HttpInterceptor {
    */
   constructor(
     private readonly router: Router,
+    private readonly dialog: Dialog,
     private readonly authService: AuthService,
     private readonly loadingService: LoadingService,
     private readonly messageService: MessageService,
@@ -51,6 +54,7 @@ export class HandleApiInterceptor implements HttpInterceptor {
               this.confirmDialogService.openDialog(this.messageService.getMessage('E014'));
               return EMPTY;
             } else if (error.status === 404) {
+              this.dialog.closeAll();
               this.router.navigate(['/404']);
               return EMPTY;
             }

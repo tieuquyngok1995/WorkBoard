@@ -58,7 +58,6 @@ export class HomeComponent implements OnInit {
     private readonly homeService: HomeService,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {
-
     this.dataColWaiting = [];
     this.dataColProgress = [];
     this.dataColPending = [];

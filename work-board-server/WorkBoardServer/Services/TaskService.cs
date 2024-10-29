@@ -49,7 +49,7 @@ namespace WorkBoardServer.Services
                       {
                           ParameterName = "@data",
                           SqlDbType = SqlDbType.Structured,
-                          TypeName = "TaskType",
+                          TypeName = "udt_TaskType",
                           Value = taskTable
                       });
             }
@@ -94,7 +94,7 @@ namespace WorkBoardServer.Services
                     {
                         ParameterName = "@data",
                         SqlDbType = SqlDbType.Structured,
-                        TypeName = "TaskType",
+                        TypeName = "udt_TaskType",
                         Value = taskTable
                     });
             }

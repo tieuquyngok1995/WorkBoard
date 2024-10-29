@@ -389,8 +389,8 @@
 
 @media (max-width: 1439px) {
   .card .table .fixed-width-time {
-    max-width: 20px;
-    min-width: 20px;
+    max-width: 18px;
+    min-width: 18px;
     white-space: nowrap;
     overflow: hidden;
   }
@@ -514,5 +514,36 @@
     min-width: 16px;
     white-space: nowrap;
     overflow: hidden;
+  }
+}
+
+@media (max-height: 850px) {
+  .col-task-container {
+    height: 80.5vh;
+  }
+
+  .card .table .row-text {
+    height: 2.8vh;
+  }
+}
+
+@media (max-height: 640px) {
+  .col-task-container {
+    height: 75.5vh;
+  }
+
+  .card .table .row-text {
+    height: 3.5vh;
+  }
+}
+
+
+@media (max-height: 530px) {
+  .col-task-container {
+    height: 70.5vh;
+  }
+
+  .card .table .row-text {
+    height: 4.5vh;
   }
 }

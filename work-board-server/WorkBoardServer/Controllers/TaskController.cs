@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using WorkBoardServer.Common;
 using WorkBoardServer.Helpers;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
@@ -49,11 +51,13 @@ namespace WorkBoardServer.Controllers
                 var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    return NotFound("WebSocket connection not found for the user.");
+                    Log.Error("An error occurred: CreateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
                 }
-
-                var buffer = Encoding.UTF8.GetBytes($"The {userName} has assigned you a new task with ID {model.ModuleID}, please confirm.");
-                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                else
+                {
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_CREATE_TASK, userName, model.ModuleID));
+                    socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
 
                 model.ID = newID;
                 return Ok(model);
@@ -85,17 +89,19 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
-                    return BadRequest("Failed to update data.");
+                    return BadRequest(Message.MESS_ERR_UPDATE_TASK);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    return NotFound("WebSocket connection not found for the user.");
+                    Log.Error("An error occurred: UpdateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
                 }
-
-                var buffer = Encoding.UTF8.GetBytes($"The {userName} has edited the task with ID {model.ModuleID}, please confirm.");
-                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                else
+                {
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_EDIT_TASK, userName, model.ModuleID));
+                    socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
 
                 return Ok(model);
             }
@@ -180,7 +186,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
-                    return BadRequest("Failed to update data.");
+                    return BadRequest(Message.MESS_ERR_UPDATE_TASK_PROGRESS);
                 }
 
                 return Ok();
@@ -208,17 +214,19 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
-                    return BadRequest("Failed to update data.");
+                    return BadRequest(Message.MESS_ERR_DELETE_TASK);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    return NotFound("WebSocket connection not found for the user.");
+                    Log.Error("An error occurred: UpdateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
                 }
-
-                var buffer = Encoding.UTF8.GetBytes($"The {userName} has deleted the task with ID {moduleID}, please confirm.");
-                socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                else
+                {
+                    var buffer = Encoding.UTF8.GetBytes(Message.FormatMessage(Message.NOTI_DELETE_TASK, userName, moduleID));
+                    socket.SendAsync(new ArraySegment<byte>(buffer), WebSocketMessageType.Text, true, CancellationToken.None);
+                }
 
                 return Ok();
             }

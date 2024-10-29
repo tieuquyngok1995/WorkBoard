@@ -82,8 +82,7 @@ namespace WorkBoardServer.Controllers
                 {
                     _webSocketManager.RemoveSocket(userId);
 
-                    if (webSocket.State == WebSocketState.Open ||
-                        webSocket.State == WebSocketState.CloseReceived ||
+                    if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived ||
                         webSocket.State == WebSocketState.CloseSent)
                     {
                         await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed by server", CancellationToken.None);

@@ -70,7 +70,7 @@ create table Task (
 );
 
 INSERT INTO Roles (RoleName)
-VALUES ('Admin'), ('Leader'), ('User') ;
+VALUES ('Admin'), ('Manager'), ('Member') ;
 
 INSERT INTO Users
 VALUES ('admin@fujinet.net', 'admin', 'AQAAAAIAAYagAAAAEJ+Bs9r7Zn6H3SrBT4kg2qKK++UV5rWqpX2d7tcrd3eWJnM4VYsDeF8JTmMLKazF2A==', 0) ;

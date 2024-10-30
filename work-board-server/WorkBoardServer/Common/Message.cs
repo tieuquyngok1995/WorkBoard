@@ -2,6 +2,8 @@
 {
     public class Message
     {
+        public const string MESS_NO_DATA = "No data available.";
+
         public const string MESS_ERR_UPDATE_TASK = "Failed to update task.";
         public const string MESS_ERR_UPDATE_TASK_PROGRESS = "Failed to update task progress.";
         public const string MESS_ERR_DELETE_TASK = "Failed to delete task.";

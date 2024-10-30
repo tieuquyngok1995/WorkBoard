@@ -112,6 +112,11 @@ namespace WorkBoardServer.Controllers
             // Get data using to WBS
             List<TaskModel> listData = _service.GetDataWBS();
 
+            if (listData.Count == 0)
+            {
+                return StatusCode(204);
+            }
+
             // Get dictionary type key and name jp
             Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
 

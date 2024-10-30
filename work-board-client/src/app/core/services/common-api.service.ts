@@ -11,13 +11,19 @@ export class CommonApiService {
 
   public urlSignIn = 'Login/SignIn';
   public urlSignUp = 'Login/SignUp';
+
   public urlGetIndex = 'Home/GetIndex';
   public urlConnectWebSocket = 'Home/ConnectWebSocket';
+
   public urlCreateTask = 'Task/CreateTask';
   public urlUpdateTask = 'Task/UpdateTask';
   public urlUpdateTaskStatus = 'Task/UpdateTaskStatus';
   public urlUpdateTaskProgress = 'Task/UpdateTaskProgress';
   public urlDeleteTask = 'Task/DeleteTask';
+
+  public urlSettingUsers = 'Setting/GetUser';
+  public urlSettingUpdateUsers = 'Setting/UpdateUser';
+  public urlSettingDeleteUsers = 'Setting/DeleteUser';
 
   public wsTask = 'wsTask';
   public wsConnect = 'wsConnect';
@@ -50,8 +56,12 @@ export class CommonApiService {
       }
     }
 
-    const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
-    return this.http.get<T>(this.apiUrl + url, { headers: header, withCredentials: true, params: httpParams });
+    const authToken = this.cookieService.get(GLOBAL.AUTH_TOKEN);
+    if (authToken) {
+      const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
+      return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
+    }
+    return this.http.get<T>(this.apiUrl + url, { params: httpParams });
   }
 
   /**

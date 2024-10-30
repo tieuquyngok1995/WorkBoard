@@ -1,6 +1,4 @@
-﻿use WorkBoard;
-
-IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.udf_IsDateInRange') AND type = N'FN')
+﻿IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.udf_IsDateInRange') AND type = N'FN')
 BEGIN
     DROP FUNCTION dbo.udf_IsDateInRange;
 END

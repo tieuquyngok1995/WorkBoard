@@ -1,5 +1,3 @@
-use WorkBoard;
-
 IF OBJECT_ID('dbo.usp_GetPriority', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.usp_GetPriority;

@@ -1,5 +1,3 @@
-use WorkBoard;
-
 IF OBJECT_ID('dbo.usp_GetTask', 'P') IS NOT NULL
 BEGIN
     DROP PROCEDURE dbo.usp_GetTask;

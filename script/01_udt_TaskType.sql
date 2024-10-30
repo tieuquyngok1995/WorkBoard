@@ -1,5 +1,3 @@
-use WorkBoard;
-
 DROP TYPE IF EXISTS udt_TaskType;
 
 CREATE TYPE udt_TaskType AS TABLE

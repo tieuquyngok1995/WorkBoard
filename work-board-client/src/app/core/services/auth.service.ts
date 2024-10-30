@@ -73,7 +73,7 @@ export class AuthService {
    * @returns 
    */
   public signIn(model: UserModel): Observable<boolean> {
-    return this.commonApiService.post<UserModel>(this.commonApiService.urlSignIn, model).pipe(
+    return this.commonApiService.get<UserModel>(this.commonApiService.urlSignIn, model).pipe(
       map(data => {
         if (data) {
           // save cookie auth

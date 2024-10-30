@@ -30,7 +30,7 @@ import { TaskComponent } from './pages/task/task.component';
 import { TaskProgressComponent } from './pages/task-progress/task-progress.component';
 import { ErrorComponent } from './pages/error/login.component';
 
-const API_URL = 'https://localhost:7047/api/';
+const API_URL = 'http://172.16.7.66:9600/core/api/';
 
 @NgModule({
   declarations: [

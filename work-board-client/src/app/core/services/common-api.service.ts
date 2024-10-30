@@ -1,7 +1,7 @@
-import { Inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
+import { Inject, Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { GLOBAL } from '../constants/global';
 
 @Injectable({
@@ -13,7 +13,6 @@ export class CommonApiService {
   public urlSignUp = 'Login/SignUp';
 
   public urlGetIndex = 'Home/GetIndex';
-  public urlConnectWebSocket = 'Home/ConnectWebSocket';
 
   public urlCreateTask = 'Task/CreateTask';
   public urlUpdateTask = 'Task/UpdateTask';
@@ -27,6 +26,7 @@ export class CommonApiService {
 
   public wsTask = 'wsTask';
   public wsConnect = 'wsConnect';
+  public urlConnectWebSocket = 'Home/ConnectWebSocket';
 
   /**
    * A constructor initializes a class's objects upon creation.
@@ -35,7 +35,8 @@ export class CommonApiService {
    * @param cookieService 
    */
   constructor(
-    @Inject('API_URL') private readonly apiUrl: string,
+    @Inject('API_URL')
+    private readonly apiUrl: string,
     private readonly http: HttpClient,
     private readonly cookieService: CookieService) { }
 
@@ -59,7 +60,7 @@ export class CommonApiService {
     const authToken = this.cookieService.get(GLOBAL.AUTH_TOKEN);
     if (authToken) {
       const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
-      return this.http.get<T>(this.apiUrl + url, { headers: header, withCredentials: true, params: httpParams });
+      return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
     }
     return this.http.get<T>(this.apiUrl + url, { params: httpParams });
   }

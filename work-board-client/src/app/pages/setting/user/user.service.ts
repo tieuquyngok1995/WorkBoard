@@ -1,6 +1,6 @@
 
 import { Injectable } from "@angular/core";
-import { catchError, map, Observable, of, Subject } from "rxjs";
+import { catchError, map, Observable, of } from "rxjs";
 
 import { UserListModel, UserModel } from "../../../core/model/model";
 import { CommonApiService } from "../../../core/services/common-api.service";

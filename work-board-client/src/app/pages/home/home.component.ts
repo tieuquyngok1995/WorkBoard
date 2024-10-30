@@ -2,6 +2,7 @@ import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
+import { DialogConfig } from '../../config/dialog-config.model';
 import { AuthService } from '../../core/services/auth.service';
 import { UtilsService } from '../../core/services/utils.service';
 import { DataService } from '../../shared/service/data.service';
@@ -35,8 +36,6 @@ export class HomeComponent implements OnInit {
 
   public isRead!: boolean;
 
-  private readonly sizeDialog = '300px';
-
   private dataModel!: TaskStatusModel;
   private dataDialog!: TaskModel;
 
@@ -44,12 +43,6 @@ export class HomeComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param dialog 
-   * @param authService 
-   * @param dataService 
-   * @param homeService 
-   * @param messageService 
-   * @param confirmDialogService 
    */
   constructor(
     private readonly dialog: Dialog,
@@ -58,6 +51,7 @@ export class HomeComponent implements OnInit {
     private readonly homeService: HomeService,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.dataColWaiting = [];
     this.dataColProgress = [];
     this.dataColPending = [];
@@ -135,6 +129,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  /**
+   * Get task name and icon in screen
+   * @param taskType 
+   * @returns 
+   */
   public getTasktype(taskType: number): { icon: string, name: string } {
     return this.taskTypeMapping[taskType];
   }
@@ -142,11 +141,11 @@ export class HomeComponent implements OnInit {
   /**
    * Open and process creating a new task.
    */
-  addTaskDialog() {
+  public addTaskDialog(): void {
     // Open diag task
     this.dialog.open(TaskComponent, {
       disableClose: true,
-      minWidth: this.sizeDialog,
+      minWidth: DialogConfig.DEFAULT_WIDTH,
       data: {
         mode: ProgramMode.CREATE,
         data: this.dataDialog
@@ -169,7 +168,7 @@ export class HomeComponent implements OnInit {
    * @param mode
    * @param id 
    */
-  editTaskDialog(mode: JobStatus, id: number) {
+  public editTaskDialog(mode: JobStatus, id: number): void {
 
     let data: TaskModel | undefined;
     if (mode === JobStatus.WAITING) {
@@ -190,7 +189,7 @@ export class HomeComponent implements OnInit {
     // Open diag task
     this.dialog.open(TaskComponent, {
       disableClose: true,
-      minWidth: this.sizeDialog,
+      minWidth: DialogConfig.DEFAULT_WIDTH,
       data: {
         mode: mode === JobStatus.COMPLETED || this.isRead ? ProgramMode.READ : ProgramMode.EDIT,
         data: {
@@ -281,7 +280,7 @@ export class HomeComponent implements OnInit {
 
     this.dialog.open(TaskProgressComponent, {
       disableClose: true,
-      minWidth: this.sizeDialog,
+      minWidth: DialogConfig.DEFAULT_WIDTH,
       data: { data } as TaskDialog,
     }).closed.subscribe((dialogResult: any) => {
       if (dialogResult) {
@@ -345,6 +344,10 @@ export class HomeComponent implements OnInit {
 
         taskModel.workHour += this.calculateWorkingHours(taskModel.dateWork);
         taskModel.progress = this.calculateProgress(taskModel.workHour, taskModel.estimatedHour);
+        taskModel.dateWork = null;
+      } else {
+        taskModel.workHour = 0;
+        taskModel.progress = 0;
         taskModel.dateWork = null;
       }
 

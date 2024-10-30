@@ -6,6 +6,7 @@ import { TaskDialog, TaskModel } from '../../core/model/model';
 import { fadeAnimation } from "../../shared/animations/animations";
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
+
 import { TaskProgressService } from './task-progress.service';
 
 @Component({
@@ -21,11 +22,6 @@ export class TaskProgressComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param dialog 
-   * @param messageService 
-   * @param dialogRef 
-   * @param taskProgressService 
-   * @param confirmDialogService 
    */
   constructor(
     @Inject(DIALOG_DATA)
@@ -34,6 +30,7 @@ export class TaskProgressComponent implements OnInit {
     private readonly dialogRef: DialogRef<TaskDialog>,
     private readonly taskProgressService: TaskProgressService,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.taskProgressForm = taskProgressService.taskProgressForm;
   }
 
@@ -44,7 +41,7 @@ export class TaskProgressComponent implements OnInit {
   /**
    * On init dialog.
    */
-  ngOnInit() {
+  public ngOnInit(): void {
     // Reset form 
     this.taskProgressService.resetForm();
 
@@ -66,7 +63,7 @@ export class TaskProgressComponent implements OnInit {
   /**
    * Event click Save data.
    */
-  save() {
+  public save(): void {
     if (!this.taskProgressForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
       return;
@@ -80,7 +77,9 @@ export class TaskProgressComponent implements OnInit {
   /**
    * Event click Cancel dialog.
    */
-  cancel() {
-    this.dialogRef.close();
+  public cancel(): void {
+    this.isClose = true;
+
+    setTimeout(() => { this.dialogRef.close(); }, 300);
   }
 }

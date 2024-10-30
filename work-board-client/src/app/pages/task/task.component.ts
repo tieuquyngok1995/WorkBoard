@@ -4,10 +4,11 @@ import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { ProgramMode } from '../../core/enum/enums';
 import { GLOBAL } from '../../core/constants/global';
-import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
 import { fadeAnimation } from "../../shared/animations/animations";
 import { MessageService } from '../../shared/service/message.service';
+import { DataListOption, TaskDialog, TaskModel } from '../../core/model/model';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
+
 import { TaskService } from './task.service';
 
 @Component({
@@ -28,11 +29,6 @@ export class TaskComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param dialog 
-   * @param taskService 
-   * @param messageService 
-   * @param dialogRef 
-   * @param confirmDialogService 
    */
   constructor(
     @Inject(DIALOG_DATA)
@@ -41,6 +37,7 @@ export class TaskComponent implements OnInit {
     private readonly messageService: MessageService,
     private readonly dialogRef: DialogRef<TaskDialog>,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.title = GLOBAL.CREATE_TASK;
     this.taskForm = taskService.taskForm;
   }
@@ -101,8 +98,6 @@ export class TaskComponent implements OnInit {
   public cancel(): void {
     this.isClose = true;
 
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 300);
+    setTimeout(() => { this.dialogRef.close(); }, 300);
   }
 }

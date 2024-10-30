@@ -1,3 +1,5 @@
+
+import { Dialog } from '@angular/cdk/dialog';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
@@ -9,7 +11,6 @@ import { DownloadService } from '../../core/services/download.service';
 import { DataListOption, HeaderModel } from '../../core/model/model';
 
 import { HeaderService } from './header.service';
-import { Dialog } from '@angular/cdk/dialog';
 import { SettingUserComponent } from '../setting/user/user.component';
 
 @Component({
@@ -36,7 +37,6 @@ export class HeaderComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param authService 
    */
   constructor(
     private readonly dialog: Dialog,
@@ -146,6 +146,16 @@ export class HeaderComponent implements OnInit {
     this.dataService.sendData({ message: null });
   }
 
+  /**
+   * Open dialog send mail
+   */
+  public openSendEmail() {
+
+  }
+
+  /**
+   * Open dialog setting user
+   */
   public openSettingUser() {
     this.dialog.open(SettingUserComponent, {
       disableClose: true,

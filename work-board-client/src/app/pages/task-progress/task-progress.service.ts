@@ -15,8 +15,9 @@ export class TaskProgressService {
    */
   constructor(private fb: FormBuilder) { }
 
+  // Create form
   get taskProgressForm(): FormGroup { return this.form = this.createFormGroup() }
-
+  // Get valu
   get progress() { return this.form.get('progress') }
 
   /**

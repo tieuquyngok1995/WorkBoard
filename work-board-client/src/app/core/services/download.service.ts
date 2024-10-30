@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { MessageService } from 'src/app/shared/service/message.service';
-import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
+import { MessageService } from '../../shared/service/message.service';
+import { DialogMessageService } from '../../shared/service/dialog-message.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,8 @@ export class DownloadService {
    * @param confirmDialogService 
    */
   constructor(
-    @Inject('API_URL') private readonly apiUrl: string,
+    @Inject('API_URL')
+    private readonly apiUrl: string,
     private readonly http: HttpClient,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) { }

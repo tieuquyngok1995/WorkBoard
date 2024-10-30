@@ -41,10 +41,18 @@ export class HeaderService {
     });
   }
 
+  /**
+   * Get noti send in socket
+   * @returns 
+   */
   public getNotification(): Subject<any> {
     return this.websocketService.getData(this.commonApiService.wsConnect);
   }
 
+  /**
+   * Connect web socket
+   * @param userID 
+   */
   public connectWebSocket(userID: number): void {
     this.websocketService.connect(this.commonApiService.urlConnectWebSocket + "?userId=" + userID, this.commonApiService.wsConnect);
   }

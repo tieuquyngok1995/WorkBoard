@@ -1,11 +1,14 @@
-import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, Inject } from '@angular/core';
+
 import { FormGroup } from '@angular/forms';
-import { DataListOption, UserDialog, UserModel } from 'src/app/core/model/model';
-import { fadeAnimation } from 'src/app/shared/animations/animations';
+import { Component, Inject } from '@angular/core';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+
+import { fadeAnimation } from '../../../shared/animations/animations';
+import { MessageService } from '../../../shared/service/message.service';
+import { DialogMessageService } from '../../../shared/service/dialog-message.service';
+import { DataListOption, UserDialog, UserModel } from '../../../core/model/model';
+
 import { UserService } from './user-dialog.service';
-import { MessageService } from 'src/app/shared/service/message.service';
-import { DialogMessageService } from 'src/app/shared/service/dialog-message.service';
 
 @Component({
   templateUrl: './user-dialog.component.html',
@@ -22,11 +25,6 @@ export class UserDialogComponent {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param dialog 
-   * @param taskService 
-   * @param messageService 
-   * @param dialogRef 
-   * @param confirmDialogService 
    */
   constructor(
     @Inject(DIALOG_DATA)
@@ -35,6 +33,7 @@ export class UserDialogComponent {
     private readonly dialogRef: DialogRef<any>,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.userForm = userService.userForm;
   }
 
@@ -83,8 +82,6 @@ export class UserDialogComponent {
   public cancel(): void {
     this.isClose = true;
     // Delay close 300ms
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 300);
+    setTimeout(() => { this.dialogRef.close(); }, 300);
   }
 }

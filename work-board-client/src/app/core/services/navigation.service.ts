@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 })
 export class NavigationService {
 
-  constructor(private router: Router) { }
+  constructor(private readonly router: Router) { }
 
   navigateTo(url: string): void {
     this.router.navigateByUrl(url);

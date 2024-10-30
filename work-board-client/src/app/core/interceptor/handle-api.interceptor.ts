@@ -1,15 +1,14 @@
-import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { Injectable } from '@angular/core';
 import { Dialog } from '@angular/cdk/dialog';
 import { EMPTY, Observable, of, throwError } from 'rxjs';
 import { catchError, delay, finalize, mergeMap } from 'rxjs/operators';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, } from '@angular/common/http';
 
-import { LoadingService } from '../services/loading.service';
 import { AuthService } from '../services/auth.service';
+import { LoadingService } from '../services/loading.service';
 import { MessageService } from '../../shared/service/message.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
-
 
 @Injectable()
 export class HandleApiInterceptor implements HttpInterceptor {

@@ -1,15 +1,16 @@
-
-import { Component, OnInit, ViewChild } from "@angular/core";
 import { Dialog, DialogRef } from "@angular/cdk/dialog";
 import { MatPaginator } from "@angular/material/paginator";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatTableDataSource } from "@angular/material/table";
 
-import { DataListOption, UserDialog, UserModel } from "../../../core/model/model";
+import { DialogConfig } from "../../../config/dialog-config.model";
 import { fadeAnimation } from "../../../shared/animations/animations";
+import { MessageService } from "../../../shared/service/message.service";
+import { DataListOption, UserDialog, UserModel } from "../../../core/model/model";
+import { DialogMessageService } from "../../../shared/service/dialog-message.service";
+
 import { UserService } from "./user.service";
 import { UserDialogComponent } from "../user-dialog/user-dialog.component";
-import { MessageService } from "src/app/shared/service/message.service";
-import { DialogMessageService } from "src/app/shared/service/dialog-message.service";
 
 @Component({
   templateUrl: './user.component.html',
@@ -28,11 +29,6 @@ export class SettingUserComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param dialog 
-   * @param taskService 
-   * @param messageService 
-   * @param dialogRef 
-   * @param confirmDialogService 
    */
   constructor(
     private readonly dialogRef: DialogRef<any>,
@@ -40,10 +36,14 @@ export class SettingUserComponent implements OnInit {
     private readonly userService: UserService,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.dataRole = [];
     this.dataSource = new MatTableDataSource<UserModel>([]);
   }
 
+  /**
+   * Handle data init
+   */
   public ngOnInit(): void {
     this.userService.getInit().subscribe(data => {
       if (data) {
@@ -51,9 +51,11 @@ export class SettingUserComponent implements OnInit {
         this.dataSource.data = data.users;
       }
     })
-
   }
 
+  /**
+   * Handle data after view init
+   */
   public ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
   }
@@ -63,7 +65,7 @@ export class SettingUserComponent implements OnInit {
 
     this.dialog.open(UserDialogComponent, {
       disableClose: true,
-      minWidth: '300px',
+      minWidth: DialogConfig.DEFAULT_WIDTH,
       data: {
         data: this.dataSource.data[rowIndex],
         dataRole: this.dataRole,
@@ -84,6 +86,10 @@ export class SettingUserComponent implements OnInit {
     });
   }
 
+  /**
+   * Delete user with id 
+   * @param rowIndex 
+   */
   public deleteUser(rowIndex: number): void {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C002'), true).subscribe(result => {
       if (!result) return;
@@ -101,11 +107,12 @@ export class SettingUserComponent implements OnInit {
     });
   }
 
+  /**
+   * Close dialog
+   */
   public close() {
     this.isClose = true;
     // Delay close 300ms
-    setTimeout(() => {
-      this.dialogRef.close();
-    }, 300);
+    setTimeout(() => { this.dialogRef.close(); }, 300);
   }
 }

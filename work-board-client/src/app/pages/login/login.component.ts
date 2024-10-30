@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
 
 import { UserModel } from '../../core/model/model';
 import { AuthService } from '../../core/services/auth.service';
 import { MessageService } from '../../shared/service/message.service';
 import { NavigationService } from '../../core/services/navigation.service';
 import { DialogMessageService } from '../../shared/service/dialog-message.service';
+
 import { LoginService } from './login.service';
 
 @Component({
@@ -18,11 +19,6 @@ export class LoginComponent implements OnInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param authService 
-   * @param loginService 
-   * @param messageService 
-   * @param navigationService 
-   * @param confirmDialogService 
    */
   constructor(
     private readonly authService: AuthService,
@@ -30,6 +26,7 @@ export class LoginComponent implements OnInit {
     private readonly messageService: MessageService,
     private readonly navigationService: NavigationService,
     private readonly confirmDialogService: DialogMessageService) {
+
     this.signInForm = this.loginService.signInForm;
     this.signUpForm = this.loginService.signUpForm;
   }
@@ -37,7 +34,7 @@ export class LoginComponent implements OnInit {
   /**
    * On init dialog.
    */
-  ngOnInit() {
+  public ngOnInit(): void {
     // Reset form
     this.loginService.resetFormSignIn();
     this.loginService.resetFormSignUp();
@@ -47,7 +44,7 @@ export class LoginComponent implements OnInit {
    * Event sing in.
    * @returns 
    */
-  signIn() {
+  public signIn(): void {
     if (!this.signInForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
       return;
@@ -69,7 +66,7 @@ export class LoginComponent implements OnInit {
    * Event sing up.
    * @returns 
    */
-  signUp() {
+  public signUp(): void {
     if (!this.signUpForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
       return;

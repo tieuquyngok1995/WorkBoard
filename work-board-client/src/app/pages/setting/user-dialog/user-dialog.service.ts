@@ -17,9 +17,9 @@ export class UserService {
    */
   constructor(private fb: FormBuilder) { }
 
-  // Get form
+  // Create form
   get userForm(): FormGroup { return this.form = this.createFormGroup(); }
-
+  // Get value
   get password() { return this.form.get('password') }
 
   /**

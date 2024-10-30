@@ -12,7 +12,7 @@ export class AuthGuardService implements CanActivate {
    * @param authService 
    * @param router 
    */
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private readonly authService: AuthService, private readonly router: Router) { }
 
   /**
    * Check authenticated user

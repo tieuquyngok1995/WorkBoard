@@ -5,7 +5,7 @@ import { AuthGuardService } from './core/services/auth-guard.service';
 
 import { LoginComponent } from './pages/login/login.component';
 import { HomeComponent } from './pages/home/home.component';
-import { ErrorComponent } from './pages/error/login.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },

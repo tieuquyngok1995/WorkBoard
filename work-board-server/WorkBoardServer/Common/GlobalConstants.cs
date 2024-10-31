@@ -13,6 +13,11 @@
         public const string TASK_UPDATE_PROGRESS = "usp_UpdateTaskProgress";
         public const string TASK_DELETE = "usp_DeleteTask";
 
+        // TemplateSendMail
+        public const string SEND_MAIL_GET_DATA = "usp_GetTemplateSendMail";
+        public const string SEND_MAIL_CREATE = "usp_CreateTemplateSendMail";
+        public const string SEND_MAIL_UPDATE = "usp_UpdateTemplateSendMail";
+
         // User
         public const string USER_UPDATE = "usp_UpdateUser";
         public const string USER_DELETE = "usp_DeleteUser";

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using OfficeOpenXml;
 using Serilog;
+using System.Net.Mail;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using WorkBoardServer.Common;
@@ -59,14 +60,16 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                if (body.TemplateID == null)
-                {
-                    _service.CreateTemplateSendMail(body.TemplateName, body.Subject, body.Content, body.ToUser);
-                }
-                else
-                {
-                    _service.UpdateTemplateSendMail(body.TemplateID, body.Subject, body.Content, body.ToUser);
-                }
+                //if (body.TemplateID == null)
+                //{
+                //    _service.CreateTemplateSendMail(body.TemplateName, body.Subject, body.Content, body.ToUser);
+                //}
+                //else
+                //{
+                //    _service.UpdateTemplateSendMail(body.TemplateID, body.Subject, body.Content, body.ToUser);
+                //}
+
+                await SendMail();
 
                 return Ok();
             }
@@ -84,34 +87,36 @@ namespace WorkBoardServer.Controllers
             var _toEmail = "thuan-doanm@fujinet.net";
             var _password = "Abc123456";
 
-            var message = new MimeMessage();
-            message.From.Add(new MailboxAddress("Your Name", _username));
-            message.To.Add(new MailboxAddress("Recipient Name", _toEmail));
-            message.Subject = "subject";
-            message.Body = new TextPart("html")
+            try
             {
-                Text = "body"
-            };
+                var email = new MimeMessage();
 
-            using (var client = new MailKit.Net.Smtp.SmtpClient())
+                email.From.Add(new MailboxAddress("Sender Name", _username));
+                email.To.Add(new MailboxAddress("Receiver Name", _toEmail));
+
+                email.Subject = "Testing out email sending";
+                email.Body = new TextPart(MimeKit.Text.TextFormat.Plain)
+                {
+                    Text = "Hello all the way from the land of C#"
+                };
+                using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+                {
+                    smtp.Connect(_smtpServer, 25, SecureSocketOptions.StartTls);
+
+                    // Note: only needed if the SMTP server requires authentication
+                    smtp.Authenticate(_username, _password);
+
+                    smtp.Send(email);
+                    smtp.Disconnect(true);
+                }
+            }
+            catch (SmtpException ex)
             {
-                try
-                {
-                    client.Connect(_smtpServer, 25, SecureSocketOptions.None);
-
-                    client.Authenticate(new SaslMechanismNtlm(_username, _password));
-
-                    client.Send(message);
-                }
-                catch (Exception ex)
-                {
-                    Log.Error($"An error occurred: {ex.Message}");
-                }
-                finally
-                {
-                    // Ngắt kết nối
-                    client.Disconnect(true);
-                }
+                Log.Error(string.Format("[Send Mail Exception] --> SMTPException has occurred: {0}", ex.Message), LogLevel.Error);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Send Mail Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
             }
         }
 

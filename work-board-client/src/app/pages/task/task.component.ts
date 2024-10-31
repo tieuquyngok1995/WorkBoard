@@ -82,6 +82,7 @@ export class TaskComponent implements OnInit {
 
     const dataForm: TaskModel = this.taskForm.value;
     dataForm.assigneeName = this.dataListAssigne.find(obj => obj.key == dataForm.assignee)?.value ?? '';
+    dataForm.numRedmine = dataForm.numRedmine === '' ? null : dataForm.numRedmine;
     dataForm.workHour = 0
     dataForm.progress = 0;
 

@@ -97,13 +97,10 @@ namespace WorkBoardServer.Controllers
             {
                 try
                 {
-                    // Kết nối đến máy chủ SMTP
                     client.Connect(_smtpServer, 25, SecureSocketOptions.None);
 
-                    // Xác thực NTLM
                     client.Authenticate(new SaslMechanismNtlm(_username, _password));
 
-                    // Gửi email
                     client.Send(message);
                 }
                 catch (Exception ex)

@@ -36,7 +36,7 @@ img {
 }
 
 .logo-title a {
-  text-decoration: none;
+  text-decoration: none !important;
   transition: color 0.3s;
 }
 

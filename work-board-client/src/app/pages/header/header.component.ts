@@ -151,6 +151,16 @@ export class HeaderComponent implements OnInit {
   /**
    * Open dialog setting user
    */
+  public openSendMail() {
+    this.dialog.open(EmailDialogComponent, {
+      disableClose: true,
+      minWidth: DialogConfig.DEFAULT_MAX_WIDTH,
+    });
+  }
+
+  /**
+   * Open dialog setting user
+   */
   public openSettingUser() {
     this.dialog.open(UserComponent, {
       disableClose: true,

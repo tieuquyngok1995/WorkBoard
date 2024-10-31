@@ -1,7 +1,6 @@
-import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
-import { Component, inject, Inject, OnInit, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject, OnInit, signal, WritableSignal } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { DataListOption, SendMailDialog, TemplateSendMailModel } from 'src/app/core/model/model';
 import { fadeAnimation } from 'src/app/shared/animations/animations';

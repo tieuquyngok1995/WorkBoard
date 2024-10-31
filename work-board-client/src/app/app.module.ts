@@ -23,12 +23,13 @@ import { DatepickerFilterDirective } from './shared/directives/datepicker-filter
 
 import { HomeComponent } from './pages/home/home.component';
 import { HeaderComponent } from './pages/header/header.component';
-import { SettingUserComponent } from './pages/setting/user/user.component';
+import { UserComponent } from './pages/setting/user/user.component';
 import { UserDialogComponent } from './pages/setting/user-dialog/user-dialog.component';
+import { EmailDialogComponent } from './pages/setting/email-dialog/email-dialog.component';
 import { LoginComponent } from './pages/login/login.component';
 import { TaskComponent } from './pages/task/task.component';
 import { TaskProgressComponent } from './pages/task-progress/task-progress.component';
-import { ErrorComponent } from './pages/error/login.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 const API_URL = 'http://172.16.7.66:9600/core/api/';
 
@@ -41,7 +42,8 @@ const API_URL = 'http://172.16.7.66:9600/core/api/';
     DatepickerFilterDirective,
     HomeComponent,
     HeaderComponent,
-    SettingUserComponent,
+    EmailDialogComponent,
+    UserComponent,
     UserDialogComponent,
     ErrorComponent,
     LoginComponent,

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MimeKit;
 using OfficeOpenXml;
+using Serilog;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using WorkBoardServer.Common;
@@ -80,7 +81,7 @@ namespace WorkBoardServer.Controllers
 
             var _smtpServer = "mail.fujinet.net";
             var _username = "tuan-vq@fujinet.net";
-            var _toEmail = "hieu-mth@fujinet.net";
+            var _toEmail = "thuan-doanm@fujinet.net";
             var _password = "Abc123456";
 
             var message = new MimeMessage();
@@ -107,8 +108,7 @@ namespace WorkBoardServer.Controllers
                 }
                 catch (Exception ex)
                 {
-                    // Xử lý lỗi
-                    Console.WriteLine($"Error sending email: {ex.Message}");
+                    Log.Error($"An error occurred: {ex.Message}");
                 }
                 finally
                 {

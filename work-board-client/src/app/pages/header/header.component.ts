@@ -154,7 +154,7 @@ export class HeaderComponent implements OnInit {
   public openSendMail() {
     this.dialog.open(EmailDialogComponent, {
       disableClose: true,
-      minWidth: DialogConfig.DEFAULT_MAX_WIDTH,
+      minWidth: DialogConfig.DEFAULT_WIDTH,
     });
   }
 

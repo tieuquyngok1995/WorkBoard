@@ -27,6 +27,7 @@ export const MESSAGES = {
   E018: 'User delete failed. Please check the information.',
   E019: 'Recipient user information is missing, please check again.',
   E020: 'Failed to create the template for sending email, please check again.',
+  E021: 'Task duplication failed. Please check the information.',
 
   I001: 'Email template saved and sent successfully.',
 }

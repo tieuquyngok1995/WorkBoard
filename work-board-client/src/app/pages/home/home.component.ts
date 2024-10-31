@@ -168,7 +168,7 @@ export class HomeComponent implements OnInit {
    * @param mode
    * @param id 
    */
-  public editTaskDialog(mode: JobStatus, id: number): void {
+  public editTaskDialog(mode: JobStatus, id: number, isClone?: boolean): void {
 
     let data: TaskModel | undefined;
     if (mode === JobStatus.WAITING) {
@@ -186,12 +186,16 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+    let jobStatus = ProgramMode.EDIT;
+    if (mode === JobStatus.COMPLETED || this.isRead) jobStatus = ProgramMode.READ;
+    else if (mode === JobStatus.WAITING && isClone) jobStatus = ProgramMode.CLONE;
+
     // Open diag task
     this.dialog.open(TaskComponent, {
       disableClose: true,
       minWidth: DialogConfig.DEFAULT_WIDTH,
       data: {
-        mode: mode === JobStatus.COMPLETED || this.isRead ? ProgramMode.READ : ProgramMode.EDIT,
+        mode: jobStatus,
         data: {
           ...data,
           dataAssignee: this.dataDialog.dataAssignee,
@@ -205,7 +209,7 @@ export class HomeComponent implements OnInit {
           this.dataColWaiting = this.dataColWaiting.filter(obj => obj.id !== id);
         } else {
           // Handle edit and update task 
-          this.handleEditTask(mode, id, data, dialogResult.data)
+          this.handleEditTask(mode, id, data, dialogResult.data, isClone)
         }
       }
     });
@@ -219,7 +223,7 @@ export class HomeComponent implements OnInit {
    * @param taskEdit 
    * @returns 
    */
-  private handleEditTask(mode: JobStatus, id: number, task?: TaskModel, taskEdit?: TaskModel) {
+  private handleEditTask(mode: JobStatus, id: number, task?: TaskModel, taskEdit?: TaskModel, isClone?: boolean) {
     if (UtilsService.objCompare(task, taskEdit)) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A002'));
       return;
@@ -229,19 +233,29 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    this.homeService.updateTask({ ...task, ...taskEdit } as TaskModel).subscribe(result => {
-      if (result) {
-        if (mode === JobStatus.WAITING) {
-          this.dataColWaiting = this.dataColWaiting.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
-        } else if (mode === JobStatus.PROGRESS) {
-          this.dataColProgress = this.dataColProgress.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
-        } else if (mode === JobStatus.PENDING) {
-          this.dataColPending = this.dataColPending.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
+    if (taskEdit && isClone) {
+      this.homeService.createTask(taskEdit).subscribe(data => {
+        if (data) {
+          this.dataColWaiting = [data, ...this.dataColWaiting];
+        } else {
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E021'));
         }
-      } else {
-        this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
-      }
-    })
+      });
+    } else {
+      this.homeService.updateTask({ ...task, ...taskEdit } as TaskModel).subscribe(result => {
+        if (result) {
+          if (mode === JobStatus.WAITING) {
+            this.dataColWaiting = this.dataColWaiting.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
+          } else if (mode === JobStatus.PROGRESS) {
+            this.dataColProgress = this.dataColProgress.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
+          } else if (mode === JobStatus.PENDING) {
+            this.dataColPending = this.dataColPending.map(obj => obj.id === id ? { ...obj, ...taskEdit } : obj);
+          }
+        } else {
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E010'));
+        }
+      });
+    }
   }
 
   /**

@@ -54,7 +54,10 @@ export class TaskComponent implements OnInit {
       this.dataListPriority = this.dialog.data.dataPriority ?? [];
       this.dataListType = this.dialog.data.dataTaskType ?? [];
 
-      if (this.dialog.mode === ProgramMode.EDIT) {
+      if (this.dialog.mode === ProgramMode.CLONE) {
+        this.title = GLOBAL.DUPLICATION_TASK;
+      }
+      else if (this.dialog.mode === ProgramMode.EDIT) {
         this.title = GLOBAL.EDIT_TASK;
         this.isReadModuleID = true;
 

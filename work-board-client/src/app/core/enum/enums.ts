@@ -1,5 +1,6 @@
 export enum ProgramMode {
     CREATE,
+    CLONE,
     EDIT,
     READ
 }

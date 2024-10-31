@@ -17,7 +17,7 @@ import { UserDialogComponent } from "../user-dialog/user-dialog.component";
   styleUrls: ['./user.component.css'],
   animations: [fadeAnimation],
 })
-export class SettingUserComponent implements OnInit {
+export class UserComponent implements OnInit {
   // Check close dialog 
   public isClose!: boolean;
   // Data table
@@ -75,7 +75,7 @@ export class SettingUserComponent implements OnInit {
       if (dialogResult) {
         this.userService.updateUser(dialogResult.data).subscribe(data => {
           if (!data) {
-            this.confirmDialogService.openDialog(this.messageService.getMessage('E003'));
+            this.confirmDialogService.openDialog(this.messageService.getMessage('E017'));
           } else {
             const currentData = this.dataSource.data;
             currentData[rowIndex] = dialogResult.data;
@@ -97,7 +97,7 @@ export class SettingUserComponent implements OnInit {
       const data = this.dataSource.data[rowIndex];
       this.userService.deleteUser(data.userID).subscribe(result => {
         if (!result) {
-          this.confirmDialogService.openDialog(this.messageService.getMessage('E017'));
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E018'));
         } else {
           const currentData = this.dataSource.data;
           currentData.splice(rowIndex, 1);

@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using MailKit.Security;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using MimeKit;
 using OfficeOpenXml;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
@@ -19,6 +21,101 @@ namespace WorkBoardServer.Controllers
         {
             _service = service;
             _passwordHasher = new PasswordHasher<UserModel>();
+        }
+
+        [HttpGet]
+        public IActionResult GetTemplateSendMail()
+        {
+            try
+            {
+                List<TemplateSendMailModel> templates = _service.GetTemplateSendMail();
+
+                List<DataListOption> assigneeList = _service.GetDataAssignee();
+                assigneeList.Insert(0, new DataListOption { Key = -1, Value = "All" });
+
+                TemplateSendMailListModel model = new()
+                {
+                    DataTemplate = templates.Select(x => new DataListOption { Key = x.TemplateID.Value, Value = x.TemplateName }).ToList(),
+                    DataToUser = assigneeList,
+                    Templates = templates
+                };
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateTemplateSendMailAsync(TemplateSendMailModel body)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if (body.TemplateID == null)
+                {
+                    _service.CreateTemplateSendMail(body.TemplateName, body.Subject, body.Content, body.ToUser);
+                }
+                else
+                {
+                    _service.UpdateTemplateSendMail(body.TemplateID, body.Subject, body.Content, body.ToUser);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        private async Task SendMail()
+        {
+
+            var _smtpServer = "mail.fujinet.net";
+            var _username = "tuan-vq@fujinet.net";
+            var _toEmail = "hieu-mth@fujinet.net";
+            var _password = "Abc123456";
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress("Your Name", _username));
+            message.To.Add(new MailboxAddress("Recipient Name", _toEmail));
+            message.Subject = "subject";
+            message.Body = new TextPart("html")
+            {
+                Text = "body"
+            };
+
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                try
+                {
+                    // Kết nối đến máy chủ SMTP
+                    client.Connect(_smtpServer, 25, SecureSocketOptions.None);
+
+                    // Xác thực NTLM
+                    client.Authenticate(new SaslMechanismNtlm(_username, _password));
+
+                    // Gửi email
+                    client.Send(message);
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi
+                    Console.WriteLine($"Error sending email: {ex.Message}");
+                }
+                finally
+                {
+                    // Ngắt kết nối
+                    client.Disconnect(true);
+                }
+            }
         }
 
         [HttpGet]
@@ -68,7 +165,7 @@ namespace WorkBoardServer.Controllers
                 {
                     password = _passwordHasher.HashPassword(body, body.Password ?? "");
                 }
-                bool result = _service.Update(body.UserID, body.Email ?? "", body.UserName ?? "", password, body.RoleID);
+                bool result = _service.UpdateUser(body.UserID, body.Email ?? "", body.UserName ?? "", password, body.RoleID);
 
                 if (!result)
                 {
@@ -87,7 +184,7 @@ namespace WorkBoardServer.Controllers
         {
             try
             {
-                bool result = _service.Delete(userID);
+                bool result = _service.DeleteUser(userID);
 
                 if (!result)
                 {

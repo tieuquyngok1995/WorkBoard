@@ -32,6 +32,12 @@ namespace WorkBoardServer.Services
                 GlobalConstants.GET_TASK_TYPE_JP).ToDictionary(item => item.Key, item => item.Value);
         }
 
+        public List<TemplateSendMailModel> GetTemplateSendMail()
+        {
+            return _databaseService.ExecuteQuery<TemplateSendMailModel>(
+               GlobalConstants.SEND_MAIL_GET_DATA).AsList();
+        }
+
         public List<UserModel> GetUsers()
         {
             return _databaseService.ExecuteQuery<UserModel>(
@@ -44,7 +50,39 @@ namespace WorkBoardServer.Services
                 GlobalConstants.GET_DATA_WBS).AsList();
         }
 
-        public bool Update(int? userID, string email, string userName, string password, int? roleID)
+        public bool CreateTemplateSendMail(string templateName, string subject, string content, string toUser)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.SEND_MAIL_CREATE, new
+                {
+                    templateName,
+                    subject,
+                    content,
+                    toUser
+                });
+            }
+            catch { return false; }
+            return true;
+        }
+
+        public bool UpdateTemplateSendMail(short? templateID, string subject, string content, string toUser)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.SEND_MAIL_UPDATE, new
+                {
+                    templateID,
+                    subject,
+                    content,
+                    toUser
+                });
+            }
+            catch { return false; }
+            return true;
+        }
+
+        public bool UpdateUser(int? userID, string email, string userName, string password, int? roleID)
         {
             try
             {
@@ -60,7 +98,7 @@ namespace WorkBoardServer.Services
             catch { return false; }
             return true;
         }
-        public bool Delete(int userID)
+        public bool DeleteUser(int userID)
         {
             try
             {

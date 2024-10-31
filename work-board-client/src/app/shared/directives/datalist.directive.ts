@@ -1,5 +1,5 @@
 import { NgControl } from '@angular/forms';
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
 import { DataListOption } from '../../core/model/model';
 
 @Directive({
@@ -34,6 +34,16 @@ export class DataListDirective implements OnInit, AfterViewInit {
    */
   ngAfterViewInit() {
     if (this.optionList) {
+      this.createOption();
+    }
+  }
+
+  /**
+   * Check change drop downd and update
+   * @param changes
+   */
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['optionList']) {
       this.createOption();
     }
   }

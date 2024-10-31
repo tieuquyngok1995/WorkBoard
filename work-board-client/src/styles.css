@@ -68,6 +68,11 @@ textarea {
   height: 70px;
 }
 
+.ic4 {
+  margin-top: 20px;
+  height: 177px;
+}
+
 .cut-short1 {
   width: 70px !important;
 }
@@ -86,6 +91,10 @@ textarea {
 
 .cut-short5 {
   width: 40px !important;
+}
+
+.cut-short6 {
+  width: 30px !important;
 }
 
 .cut-medium {

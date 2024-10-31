@@ -7,7 +7,7 @@ import { UserModel } from '../../../core/model/model';
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserDialogService {
 
   private form!: FormGroup;
 

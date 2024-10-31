@@ -1,11 +1,11 @@
 export const MESSAGES = {
-  C001: 'Do you want to continue deleting this data?',
-  C002: 'Do you want to continue deleting this user?',
-
   A001: 'There is an invalid input field value. Please check again.',
   A002: 'No edits made as there were no changes.',
   A003: 'Edit task executed successfully.',
   A004: 'The progress is incomplete, please check again.',
+
+  C001: 'Do you want to continue deleting this data?',
+  C002: 'Do you want to continue deleting this user?',
 
   E001: 'Login failed. Please check your login information.',
   E002: 'Registration failed. Please check your registration information.',
@@ -23,5 +23,10 @@ export const MESSAGES = {
   E014: 'The registered account already exists.',
   E015: 'No file data received.',
   E016: 'Username already exists, please choose a different username.',
-  E017: 'User delete failed. Please check the information.',
+  E017: 'Failed to edit user.. Please check the information.',
+  E018: 'User delete failed. Please check the information.',
+  E019: 'Recipient user information is missing, please check again.',
+  E020: 'Failed to create the template for sending email, please check again.',
+
+  I001: 'Email template saved and sent successfully.',
 }

@@ -10,6 +10,8 @@ IF OBJECT_ID('dbo.Priority', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Priority; END
 
 IF OBJECT_ID('dbo.TaskStatuses', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TaskStatuses; END
 
+IF OBJECT_ID('dbo.TemplateSendMail', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TaskStatuses; END
+
 
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY IDENTITY(0,1),
@@ -65,6 +67,14 @@ create table Task (
 	FOREIGN KEY (Assignee) REFERENCES dbo.Users(UserID) ,
 	FOREIGN KEY (Priority) REFERENCES dbo.Priority(ID) ,
 	FOREIGN KEY (TaskStatus) REFERENCES dbo.TaskStatuses(ID)         
+);
+
+CREATE TABLE TemplateSendMail (
+    ID smallint PRIMARY KEY IDENTITY(0,1),
+	TemplateName nvarchar(100) NOT NULL,
+	Subject nvarchar(100) NOT NULL,
+	Content nvarchar(max) NOT NULL,
+	ToUser varchar(256) NOT NULL
 );
 
 INSERT INTO Roles (RoleName)

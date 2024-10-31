@@ -8,7 +8,7 @@ import { MessageService } from '../../../shared/service/message.service';
 import { DialogMessageService } from '../../../shared/service/dialog-message.service';
 import { DataListOption, UserDialog, UserModel } from '../../../core/model/model';
 
-import { UserService } from './user-dialog.service';
+import { UserDialogService } from './user-dialog.service';
 
 @Component({
   templateUrl: './user-dialog.component.html',
@@ -29,7 +29,7 @@ export class UserDialogComponent {
   constructor(
     @Inject(DIALOG_DATA)
     private readonly dialog: UserDialog,
-    private readonly userService: UserService,
+    private readonly userService: UserDialogService,
     private readonly dialogRef: DialogRef<any>,
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {

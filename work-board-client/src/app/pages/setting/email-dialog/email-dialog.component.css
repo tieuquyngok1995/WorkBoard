@@ -1,0 +1,42 @@
+form {
+  background-color: #15172b;
+  border-radius: 20px;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 20px 50px;
+  width: 26vw;
+}
+
+.input-container-fix {
+  height: auto;
+}
+
+.input-fix {
+  margin-left: 0;
+  height: 50px;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom: 1px solid #fff;
+}
+
+.input-chip {
+  min-height: 40px;
+  background-color: #303245;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.mat-chip-item {
+  left: 8px
+}
+
+.btn-chip-remove {
+  margin-top: 3px;
+}
+
+textarea {
+  padding-top: 16px;
+  line-height: 1.1;
+}

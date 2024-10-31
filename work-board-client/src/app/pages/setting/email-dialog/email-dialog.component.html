@@ -1,0 +1,44 @@
+<form [formGroup]="sendMailForm" @fadeInOut [ngClass]="{ 'form-fade-out': isClose}">
+  <div class="title">Send Email</div>
+
+  <div class="input-container ic1">
+    <input id="template" class="input" type="text" formControlName="templateID" placeholder=" " appDataList
+      [optionList]="dataTemplate" appInputDirective />
+    <div class="cut cut-short2"></div>
+    <label for="template" class="placeholder">Template</label>
+  </div>
+
+  <div class="input-container ic2">
+    <input id="subject" class="input" type="text" formControlName="subject" placeholder=" " appInputDirective />
+    <div class="cut cut-short4"></div>
+    <label for="subject" class="placeholder">Subject</label>
+  </div>
+
+  <div class="input-container ic4">
+    <textarea id="content" class="input" formControlName="content" placeholder=" " appInputDirective></textarea>
+    <div class="cut cut-short4"></div>
+    <label for="content" class="placeholder">Content</label>
+  </div>
+
+  <div class="input-container input-container-fix ic2">
+    <input id="toUser" class="input input-fix" type="text" formControlName="toUser" placeholder=" " appPreventInput
+      appDataList [optionList]="dataUser" appInputDirective [matChipInputFor]="reactiveChipGrid"
+      (matChipInputTokenEnd)="addChipUser($event)" />
+    <div class="cut cut-short4"></div>
+    <label for="toUser" class="placeholder">To User</label>
+    <mat-chip-grid #reactiveChipGrid class="input-chip">
+      <div *ngFor="let toUser of dataToUser(); let i = index">
+        <mat-chip-row class="mat-chip-item" (removed)="removeChipUser(i)">
+          {{ toUser.value}}
+          <button matChipRemove tabindex="-1" class="btn-chip-remove"><i class="bi bi-x-circle"></i></button>
+        </mat-chip-row>
+      </div>
+    </mat-chip-grid>
+  </div>
+
+  <div class="row justify-content-center pt-3">
+    <button class="col-3 btn btn-outline-info mr-4" (click)="save()">Save</button>
+    <button class="col-3 btn btn-outline-danger" (click)="sendMail()">Send Mail</button>
+    <button class="col-3 btn btn-outline-secondary ml-4" (click)="cancel()">Cancel</button>
+  </div>
+</form>

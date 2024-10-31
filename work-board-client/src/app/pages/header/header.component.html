@@ -30,8 +30,10 @@
     </span>
   </div>
   <ul class="list">
-    <li><i class="mr-2 input-icon bi bi-person" [ngClass]="{ 'bi-person-gear': isAdmin, }"></i><span>{{ userName
-        }}</span></li>
+    <li>
+      <i class="mr-2 input-icon bi bi-person" [ngClass]="{ 'bi-person-gear': isAdmin, }"></i>
+      <span>{{ userName }}</span>
+    </li>
     <li>
       <a class="bi bi-bell-fill" (click)="clearNoti()"></a>
       <div *ngIf="numNotification > 0">
@@ -41,7 +43,6 @@
     <li class="setting-dropdown" *ngIf="isAdmin">
       <a class="bi bi-gear-fill dropdown-toggle" data-toggle="dropdown"> </a>
       <div class="dropdown-menu setting">
-        <a class="dropdown-item" (click)="openSendEmail()">Send Email</a>
         <a class="dropdown-item" (click)="openSettingUser()">Setting User</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="dowloadFileWBS()">Export File WBS</a>

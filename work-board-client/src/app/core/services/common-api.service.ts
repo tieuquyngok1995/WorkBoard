@@ -20,6 +20,8 @@ export class CommonApiService {
   public urlUpdateTaskProgress = 'Task/UpdateTaskProgress';
   public urlDeleteTask = 'Task/DeleteTask';
 
+  public urlSettingGetTemplate = 'Setting/GetTemplateSendMail';
+  public urlSettingUpdateTemplate = 'Setting/UpdateTemplateSendMail';
   public urlSettingUsers = 'Setting/GetUser';
   public urlSettingUpdateUsers = 'Setting/UpdateUser';
   public urlSettingDeleteUsers = 'Setting/DeleteUser';

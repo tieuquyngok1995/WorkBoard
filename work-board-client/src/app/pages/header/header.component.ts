@@ -6,12 +6,14 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 import { Search } from '../../core/enum/enums';
 import { AuthService } from '../../core/services/auth.service';
+import { DialogConfig } from '../../config/dialog-config.model';
 import { DataService } from '../../shared/service/data.service';
 import { DownloadService } from '../../core/services/download.service';
 import { DataListOption, HeaderModel } from '../../core/model/model';
 
 import { HeaderService } from './header.service';
-import { SettingUserComponent } from '../setting/user/user.component';
+import { UserComponent } from '../setting/user/user.component';
+import { EmailDialogComponent } from '../setting/email-dialog/email-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -65,7 +67,7 @@ export class HeaderComponent implements OnInit {
     this.headerService.connectWebSocket(this.authService.userID);
 
     // Event check change value input search
-    this.searchControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged()).subscribe(value => {
+    this.searchControl.valueChanges.pipe(debounceTime(250), distinctUntilChanged()).subscribe(value => {
       if (value === null) return;
 
       if (value === '') {
@@ -147,19 +149,12 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
-   * Open dialog send mail
-   */
-  public openSendEmail() {
-
-  }
-
-  /**
    * Open dialog setting user
    */
   public openSettingUser() {
-    this.dialog.open(SettingUserComponent, {
+    this.dialog.open(UserComponent, {
       disableClose: true,
-      minWidth: '1200px',
+      minWidth: DialogConfig.DEFAULT_MAX_WIDTH,
     });
   }
 

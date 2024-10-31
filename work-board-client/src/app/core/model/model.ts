@@ -5,14 +5,18 @@ export interface DataListOption {
   value: string;
 }
 
-export interface AuthModel {
-  isAuthenticated: boolean,
-  token?: string | null
+export interface TemplateSendMailModel {
+  templateID: number | null;
+  templateName: string;
+  subject: string;
+  content: string;
+  toUser: string;
 }
 
-export interface UserListModel {
-  dataRole: DataListOption[] | null;
-  users: UserModel[];
+export interface TemplateSendMailListModel {
+  dataTemplate: DataListOption[] | null;
+  dataToUser: DataListOption[] | null;
+  templates: TemplateSendMailModel[];
 }
 
 export interface UserModel {
@@ -23,6 +27,16 @@ export interface UserModel {
   roleID: number;
   roleName: string;
   token: string;
+}
+
+export interface UserListModel {
+  dataRole: DataListOption[] | null;
+  users: UserModel[];
+}
+
+export interface AuthModel {
+  isAuthenticated: boolean,
+  token?: string | null
 }
 
 export interface HeaderModel {
@@ -79,6 +93,10 @@ export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;
   data?: TaskModel;
+}
+
+export interface SendMailDialog {
+
 }
 
 export interface UserDialog {

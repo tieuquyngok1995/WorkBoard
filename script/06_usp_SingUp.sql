@@ -8,7 +8,8 @@ GO
 CREATE PROCEDURE usp_SignUp
 	@Email NVARCHAR(100),
 	@UserName NVARCHAR(50),
-	@Password NVARCHAR(256)
+	@Password NVARCHAR(256),
+	@PasswordEmail NVARCHAR(256)
 AS
 BEGIN
     -- Check exist user
@@ -21,16 +22,16 @@ BEGIN
     BEGIN
         -- register user
         INSERT INTO Users
-		VALUES( @Email, @UserName, @Password, 2)
+		VALUES( @Email, @UserName, @Password, @PasswordEmail, 2)
 
 		SELECT 
             UserID,
             Email,
             UserName,
             Password,
+			PasswordEmail,
             RoleID
         FROM Users
-        WHERE UserName = @UserName 
-        AND Password = @Password;
+        WHERE UserName = @UserName;
     END
 END;

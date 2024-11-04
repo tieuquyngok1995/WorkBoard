@@ -22,6 +22,7 @@ BEGIN
             Email,
             UserName,
             Password,
+			PasswordEmail,
             RoleID
         FROM Users
         WHERE UserName = @UserName

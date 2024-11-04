@@ -6,21 +6,26 @@ END
 GO
 
 CREATE PROCEDURE usp_GetUser
+	@userID smallint 
 AS
 BEGIN
 
 SET NOCOUNT ON;
 
+DECLARE @roleID as smallint;
+SET @roleID = (select roleid from Users where UserID = @userID);
+
 SELECT [UserID]
       ,[Email]
       ,[UserName]
       ,[Password]
+      ,[PasswordEmail]
 	  ,U.[RoleID]
       ,R.[RoleName]
   FROM [dbo].[Users] U
 	LEFT JOIN [dbo].[Roles] R
 			ON U.RoleID = R.RoleID
-  WHERE U.[RoleID] != 0
+  WHERE (@roleID = 0) OR (U.RoleID != 0)
   ORDER BY 
 	RoleID ASC, UserID ASC
 END

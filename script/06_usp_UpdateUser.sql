@@ -10,6 +10,7 @@ CREATE PROCEDURE usp_UpdateUser
     @email nvarchar(100),
     @userName nvarchar(50), 
     @password nvarchar(256),
+	@passwordEmail NVARCHAR(256),
     @roleID int
 AS
 BEGIN
@@ -17,6 +18,7 @@ BEGIN
 	   [Email] = @email
       ,[UserName] = @userName
       ,[Password] = @password
+	  ,[PasswordEmail] = @passwordEmail
       ,[RoleID] = @roleID
 	WHERE UserID = @userID
 END

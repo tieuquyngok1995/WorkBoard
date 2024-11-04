@@ -10,7 +10,7 @@ IF OBJECT_ID('dbo.Priority', 'U') IS NOT NULL BEGIN DROP TABLE dbo.Priority; END
 
 IF OBJECT_ID('dbo.TaskStatuses', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TaskStatuses; END
 
-IF OBJECT_ID('dbo.TemplateSendMail', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TaskStatuses; END
+IF OBJECT_ID('dbo.TemplateSendMail', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TemplateSendMail; END
 
 
 CREATE TABLE Roles (
@@ -29,6 +29,7 @@ CREATE TABLE Users (
     Email nvarchar(100) NOT NULL,
     UserName nvarchar(50) NOT NULL UNIQUE, 
     Password nvarchar(256) NOT NULL,
+    PasswordEmail nvarchar(256) NOT NULL,
     RoleID int,
     FOREIGN KEY (RoleID) REFERENCES dbo.Roles(RoleID)
 );
@@ -81,7 +82,7 @@ INSERT INTO Roles (RoleName)
 VALUES ('Admin'), ('Manager'), ('Member') ;
 
 INSERT INTO Users
-VALUES ('admin@fujinet.net', 'admin', 'AQAAAAIAAYagAAAAEJ+Bs9r7Zn6H3SrBT4kg2qKK++UV5rWqpX2d7tcrd3eWJnM4VYsDeF8JTmMLKazF2A==', 0) ;
+VALUES ('test_dept3@fujinet.net', 'admin', 'AQAAAAIAAYagAAAAEJ+Bs9r7Zn6H3SrBT4kg2qKK++UV5rWqpX2d7tcrd3eWJnM4VYsDeF8JTmMLKazF2A==', 'Zxc12345', 0) ;
 
 INSERT INTO TaskType (Name, NameJP)
 VALUES ('Coding', N'コーディング'), ('Review Coding', N'コーディングのレビュー'), ('Fix Bug Coding', N'コーディングのレビュー結果対応')

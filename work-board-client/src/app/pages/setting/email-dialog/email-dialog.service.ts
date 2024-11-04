@@ -53,6 +53,10 @@ export class EmailDialogService {
     });
   }
 
+  /**
+   * Get teamplate send mail
+   * @returns 
+   */
   public getTemplateSendMail(): Observable<TemplateSendMailListModel | null> {
     return this.commonApiService.get<TemplateSendMailListModel>(this.commonApiService.urlSettingGetTemplate).pipe(
       catchError(() => of(null))

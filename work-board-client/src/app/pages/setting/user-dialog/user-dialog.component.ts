@@ -62,6 +62,10 @@ export class UserDialogComponent {
     this.password?.setValue("Abc12345");
   }
 
+  /**
+   * Save user 
+   * @returns 
+   */
   public save(): void {
     if (!this.userForm.valid) {
       this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
@@ -79,6 +83,9 @@ export class UserDialogComponent {
     this.dialogRef.close({ data: dataForm });
   }
 
+  /**
+   * Close dialog
+   */
   public cancel(): void {
     this.isClose = true;
     // Delay close 300ms

@@ -142,10 +142,16 @@ export class EmailDialogComponent implements OnInit {
     });
   }
 
+  /**
+   * Event send mail.
+   */
   public sendMail(): void {
 
   }
 
+  /**
+   * Event close dialog 
+   */
   public cancel(): void {
     this.isClose = true;
     // Delay close 300ms

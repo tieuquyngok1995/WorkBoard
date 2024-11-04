@@ -43,6 +43,7 @@
     <li class="setting-dropdown" *ngIf="isAdmin">
       <a class="bi bi-gear-fill dropdown-toggle" data-toggle="dropdown"> </a>
       <div class="dropdown-menu setting">
+        <a class="dropdown-item" (click)="openSendMail()">Send Email</a>
         <a class="dropdown-item" (click)="openSettingUser()">Setting User</a>
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" (click)="dowloadFileWBS()">Export File WBS</a>

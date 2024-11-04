@@ -22,9 +22,9 @@ export class UserComponent implements OnInit {
   public isClose!: boolean;
   // Data table
   public dataSource: MatTableDataSource<UserModel>;
-
+  // Data role
   private dataRole: DataListOption[];
-
+  // Paginator
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   /**
@@ -60,9 +60,11 @@ export class UserComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
   }
 
+  /**
+   * Handle edit user
+   * @param rowIndex 
+   */
   public editUser(rowIndex: number): void {
-    console.log(rowIndex)
-
     this.dialog.open(UserDialogComponent, {
       disableClose: true,
       minWidth: DialogConfig.DEFAULT_WIDTH,

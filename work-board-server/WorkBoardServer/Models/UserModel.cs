@@ -21,6 +21,8 @@ namespace WorkBoardServer.Models
         [Required(ErrorMessage = "Password is required.")]
         public string? Password { get; set; }
 
+        public string? PasswordEmail { get; set; }
+
         public int? RoleID { get; set; }
 
         public string? RoleName { get; set; }

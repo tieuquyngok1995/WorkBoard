@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
 
@@ -35,6 +36,7 @@ namespace WorkBoardServer.Controllers
 
                 if (model.UserName == null)
                 {
+                    Log.Error(("[Sign In Error] --> Unauthorized"), LogLevel.Error);
                     return Unauthorized();
                 }
 
@@ -50,6 +52,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Sign In Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -63,12 +66,13 @@ namespace WorkBoardServer.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
+                string passwordEmail = body.Password ?? "";
                 body.Password = _passwordHasher.HashPassword(body, body.Password ?? "");
-                UserModel model = _service.SignUp(body.Email ?? "", body.UserName ?? "", body.Password ?? "");
+                UserModel model = _service.SignUp(body.Email ?? "", body.UserName ?? "", body.Password ?? "", passwordEmail);
 
                 if (model.UserName == null)
                 {
+                    Log.Error(("[Sign Up Error] --> The registered account already exists."), LogLevel.Error);
                     return StatusCode(406);
                 }
 
@@ -78,6 +82,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Sign In Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }

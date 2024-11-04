@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Serilog;
 using System.Net.WebSockets;
 using System.Security.Claims;
 using System.Text;
@@ -34,6 +35,7 @@ namespace WorkBoardServer.Controllers
 
                 if (userId is null)
                 {
+                    Log.Error(("[Send Mail Error] --> Not found user"), LogLevel.Error);
                     return NotFound();
                 }
 
@@ -54,6 +56,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Get Index Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -66,6 +69,7 @@ namespace WorkBoardServer.Controllers
 
             if (string.IsNullOrEmpty(userId))
             {
+                Log.Error(string.Format("[Connect Web Socket Exception] --> Exception has occurred: {0}", "User is not authenticated."), LogLevel.Error);
                 throw new UnauthorizedAccessException("User is not authenticated.");
             }
 
@@ -85,6 +89,7 @@ namespace WorkBoardServer.Controllers
                     if (webSocket.State == WebSocketState.Open || webSocket.State == WebSocketState.CloseReceived ||
                         webSocket.State == WebSocketState.CloseSent)
                     {
+                        Log.Information(("Connect Web Socket closed by server"), LogLevel.Information);
                         await webSocket.CloseAsync(WebSocketCloseStatus.NormalClosure, "Closed by server", CancellationToken.None);
                     }
                     break;

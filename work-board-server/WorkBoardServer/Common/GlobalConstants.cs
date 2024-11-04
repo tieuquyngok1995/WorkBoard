@@ -15,6 +15,7 @@
 
         // TemplateSendMail
         public const string SEND_MAIL_GET_DATA = "usp_GetTemplateSendMail";
+        public const string SEND_MAIL_GET_EMAIL = "usp_GetEmailFromUser";
         public const string SEND_MAIL_CREATE = "usp_CreateTemplateSendMail";
         public const string SEND_MAIL_UPDATE = "usp_UpdateTemplateSendMail";
 

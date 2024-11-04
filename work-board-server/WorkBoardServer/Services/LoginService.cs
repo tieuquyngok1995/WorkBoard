@@ -21,14 +21,15 @@ namespace WorkBoardServer.Services
                 }).FirstOrDefault() ?? new UserModel();
         }
 
-        public UserModel SignUp(string email, string userName, string password)
+        public UserModel SignUp(string email, string userName, string password, string passwordEmail)
         {
             return _databaseService.ExecuteQuery<UserModel>(
                 GlobalConstants.SIGN_UP, new
                 {
                     email,
                     userName,
-                    password
+                    password,
+                    passwordEmail
                 }).FirstOrDefault() ?? new UserModel();
         }
     }

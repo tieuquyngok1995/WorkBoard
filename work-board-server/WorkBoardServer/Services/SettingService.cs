@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using MailKit.Security;
+using MimeKit;
 using OfficeOpenXml;
 using WorkBoardServer.Common;
 using WorkBoardServer.Models;
@@ -38,16 +40,47 @@ namespace WorkBoardServer.Services
                GlobalConstants.SEND_MAIL_GET_DATA).AsList();
         }
 
-        public List<UserModel> GetUsers()
+        public List<UserModel> GetUsers(string? userID)
         {
             return _databaseService.ExecuteQuery<UserModel>(
-               GlobalConstants.GET_DATA_USER).AsList();
+               GlobalConstants.GET_DATA_USER, new { userID }).AsList();
         }
 
         public List<TaskModel> GetDataWBS()
         {
             return _databaseService.ExecuteQuery<TaskModel>(
                 GlobalConstants.GET_DATA_WBS).AsList();
+        }
+
+        public bool UpdateUser(int? userID, string email, string userName, string password, string passwordEmail, int? roleID)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_UPDATE, new
+                {
+                    userID,
+                    email,
+                    userName,
+                    password,
+                    passwordEmail,
+                    roleID
+                });
+            }
+            catch { return false; }
+            return true;
+        }
+
+        public bool DeleteUser(int userID)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_DELETE, new
+                {
+                    userID
+                });
+            }
+            catch { return false; }
+            return true;
         }
 
         public bool CreateTemplateSendMail(string templateName, string subject, string content, string toUser)
@@ -82,33 +115,35 @@ namespace WorkBoardServer.Services
             return true;
         }
 
-        public bool UpdateUser(int? userID, string email, string userName, string password, int? roleID)
+        public void SendMail(string email, string password, TemplateSendMailModel body)
         {
-            try
+            List<string> listEmail = GetEmailFromUser(body.ToUser);
+            listEmail.RemoveAll(user => user == email);
+
+            MimeMessage mimeMessage = new();
+
+            mimeMessage.From.Add(new MailboxAddress("Work Board Management", email));
+            mimeMessage.To.AddRange(listEmail.Select(email => new MailboxAddress("Receiver Name", email)));
+
+            mimeMessage.Subject = "[WorkBoard] " + body.Subject;
+            mimeMessage.Body = new TextPart(MimeKit.Text.TextFormat.Plain)
             {
-                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_UPDATE, new
-                {
-                    userID,
-                    email,
-                    userName,
-                    password,
-                    roleID
-                });
+                Text = body.Content
+            };
+
+            using (var client = new MailKit.Net.Smtp.SmtpClient())
+            {
+                client.Connect("mail.fujinet.net", 25, SecureSocketOptions.None);
+                client.Authenticate(new SaslMechanismLogin(email, password));
+                client.Send(mimeMessage);
+                client.Disconnect(true);
             }
-            catch { return false; }
-            return true;
         }
-        public bool DeleteUser(int userID)
+
+        private List<string> GetEmailFromUser(string listUserID)
         {
-            try
-            {
-                _databaseService.ExecuteQuery<bool>(GlobalConstants.USER_DELETE, new
-                {
-                    userID
-                });
-            }
-            catch { return false; }
-            return true;
+            return _databaseService.ExecuteQuery<string>(
+             GlobalConstants.SEND_MAIL_GET_EMAIL, new { listUserID }).AsList();
         }
 
         public void CreateFileWBS(ExcelWorksheet worksheet, int row, TaskModel model)

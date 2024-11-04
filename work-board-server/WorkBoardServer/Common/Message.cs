@@ -9,7 +9,7 @@
         public const string MESS_ERR_DELETE_TASK = "Failed to delete task.";
         public const string MESS_ERR_UPDATE_USER = "Failed to update user.";
         public const string MESS_ERR_DELETE_USER = "Failed to delete user.";
-        public const string MESS_ERR_USER_WEB_SOCKET = "WebSocket connection not found for the user.";
+        public const string MESS_ERR_USER_WEB_SOCKET = "Web Socket connection not found for the user.";
 
         public const string NOTI_CREATE_TASK = "The {0} has assigned you a new task with ID {1}, please confirm.";
         public const string NOTI_EDIT_TASK = "The {0} has edited the task with ID {1}, please confirm.";

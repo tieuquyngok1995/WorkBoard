@@ -1,10 +1,7 @@
-﻿using MailKit.Security;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MimeKit;
 using OfficeOpenXml;
 using Serilog;
-using System.Net.Mail;
 using System.Security.Claims;
 using System.Text.RegularExpressions;
 using WorkBoardServer.Common;
@@ -46,12 +43,36 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Get Template Send Mail Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
 
         [HttpPost]
-        public async Task<IActionResult> UpdateTemplateSendMailAsync(TemplateSendMailModel body)
+        public IActionResult UpdateTemplateSendMail(TemplateSendMailModel body)
+        {
+            try
+            {
+                if (body.TemplateID == null)
+                {
+                    _service.CreateTemplateSendMail(body.TemplateName, body.Subject, body.Content, body.ToUser);
+                }
+                else
+                {
+                    _service.UpdateTemplateSendMail(body.TemplateID, body.Subject, body.Content, body.ToUser);
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Update Template Send Mail] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        public IActionResult SendMail(TemplateSendMailModel body)
         {
             try
             {
@@ -60,60 +81,23 @@ namespace WorkBoardServer.Controllers
                     return BadRequest(ModelState);
                 }
 
-                //if (body.TemplateID == null)
-                //{
-                //    _service.CreateTemplateSendMail(body.TemplateName, body.Subject, body.Content, body.ToUser);
-                //}
-                //else
-                //{
-                //    _service.UpdateTemplateSendMail(body.TemplateID, body.Subject, body.Content, body.ToUser);
-                //}
+                string? email = User.FindFirst(ClaimTypes.Email)?.Value;
+                string? password = User.FindFirst(ClaimTypes.Sid)?.Value;
 
-                await SendMail();
+                if (email is null)
+                {
+                    Log.Error(("[Send Mail Error] --> Not found user"), LogLevel.Error);
+                    return NotFound();
+                }
+
+                _service.SendMail(email, password, body);
 
                 return Ok();
             }
             catch (Exception ex)
             {
-                return StatusCode(500, new { Error = ex.Message });
-            }
-        }
-
-        private async Task SendMail()
-        {
-
-            var _smtpServer = "mail.fujinet.net";
-            var _username = "tuan-vq@fujinet.net";
-            var _toEmail = "thuan-doanm@fujinet.net";
-            var _password = "Abc123456";
-
-            try
-            {
-                var email = new MimeMessage();
-
-                email.From.Add(new MailboxAddress("Sender Name", _username));
-                email.To.Add(new MailboxAddress("Receiver Name", _toEmail));
-
-                email.Subject = "Testing out email sending";
-                email.Body = new TextPart(MimeKit.Text.TextFormat.Plain)
-                {
-                    Text = "Hello all the way from the land of C#"
-                };
-                using (var client = new MailKit.Net.Smtp.SmtpClient())
-                {
-                    await client.ConnectAsync(_smtpServer, 25, SecureSocketOptions.None);
-                    await client.AuthenticateAsync(new SaslMechanismLogin(_username, _password));
-                    await client.SendAsync(email);
-                    await client.DisconnectAsync(true);
-                }
-            }
-            catch (SmtpException ex)
-            {
-                Log.Error(string.Format("[Send Mail Exception] --> SMTPException has occurred: {0}", ex.Message), LogLevel.Error);
-            }
-            catch (Exception ex)
-            {
                 Log.Error(string.Format("[Send Mail Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
             }
         }
 
@@ -126,12 +110,13 @@ namespace WorkBoardServer.Controllers
 
                 if (userId is null)
                 {
+                    Log.Error(("[Get User Error] --> Not found user"), LogLevel.Error);
                     return NotFound();
                 }
 
                 UserListModel model = new()
                 {
-                    Users = _service.GetUsers(),
+                    Users = _service.GetUsers(userId),
                     DataRole = _service.GetDataRole()
                 };
 
@@ -139,6 +124,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Get User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -153,8 +139,11 @@ namespace WorkBoardServer.Controllers
         {
             try
             {
+                string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
                 if (!ModelState.IsValid)
                 {
+                    Log.Error(("[Update User Error] --> Bad Request"), LogLevel.Error);
                     return BadRequest(ModelState);
                 }
 
@@ -164,17 +153,24 @@ namespace WorkBoardServer.Controllers
                 {
                     password = _passwordHasher.HashPassword(body, body.Password ?? "");
                 }
-                bool result = _service.UpdateUser(body.UserID, body.Email ?? "", body.UserName ?? "", password, body.RoleID);
+                bool result = _service.UpdateUser(body.UserID, body.Email ?? "", body.UserName ?? "", password, body.Password, body.RoleID);
 
                 if (!result)
                 {
+                    Log.Error(("[Update User Error] --> Bad Request" + Message.MESS_ERR_UPDATE_USER), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_UPDATE_USER);
+                }
+
+                if (userId == body.UserID.ToString())
+                {
+                    return Unauthorized();
                 }
 
                 return Ok(result);
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Update User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -187,6 +183,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
+                    Log.Error(("[Delete User Error] --> Bad Request" + Message.MESS_ERR_DELETE_USER), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_DELETE_USER);
                 }
 
@@ -194,6 +191,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Delete User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -205,54 +203,62 @@ namespace WorkBoardServer.Controllers
         [HttpGet]
         public IActionResult DownloadFile()
         {
-            // Get data using to WBS
-            List<TaskModel> listData = _service.GetDataWBS();
-
-            if (listData.Count == 0)
+            try
             {
-                return StatusCode(204);
-            }
+                // Get data using to WBS
+                List<TaskModel> listData = _service.GetDataWBS();
 
-            // Get dictionary type key and name jp
-            Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
-
-            // Create work sheets excel 
-            ExcelPackage package = new();
-            ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_Phase3");
-
-            int startIndex = 0, i = 2;
-            string moduleId = string.Empty;
-            foreach (TaskModel item in listData)
-            {
-                if (item.Type.HasValue) item.TypeName = dicType[item.Type.Value];
-
-                // Create row file excel
-                _service.CreateFileWBS(worksheet, i, item);
-
-                if (item.ModuleID != moduleId)
+                if (listData.Count == 0)
                 {
-                    if (moduleId != null && startIndex != i - 1)
-                    {
-                        worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
-                    }
-                    startIndex = i;
+                    return StatusCode(204);
                 }
-                moduleId = item.ModuleID ?? "";
-                i++;
-            }
 
-            if (startIndex != i - 1)
+                // Get dictionary type key and name jp
+                Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
+
+                // Create work sheets excel 
+                ExcelPackage package = new();
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_Phase3");
+
+                int startIndex = 0, i = 2;
+                string moduleId = string.Empty;
+                foreach (TaskModel item in listData)
+                {
+                    if (item.Type.HasValue) item.TypeName = dicType[item.Type.Value];
+
+                    // Create row file excel
+                    _service.CreateFileWBS(worksheet, i, item);
+
+                    if (item.ModuleID != moduleId)
+                    {
+                        if (moduleId != null && startIndex != i - 1)
+                        {
+                            worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                        }
+                        startIndex = i;
+                    }
+                    moduleId = item.ModuleID ?? "";
+                    i++;
+                }
+
+                if (startIndex != i - 1)
+                {
+                    worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                }
+
+                // Save file to stream
+                var fileStream = new MemoryStream();
+                package.SaveAs(fileStream);
+                fileStream.Position = 0;
+
+                // Return file wbs to client
+                return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+            }
+            catch (Exception ex)
             {
-                worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                Log.Error(string.Format("[Download File Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
             }
-
-            // Save file to stream
-            var fileStream = new MemoryStream();
-            package.SaveAs(fileStream);
-            fileStream.Position = 0;
-
-            // Return file wbs to client
-            return File(fileStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
         }
 
         private bool IsBase64String(string base64)

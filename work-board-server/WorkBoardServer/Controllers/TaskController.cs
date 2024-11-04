@@ -38,6 +38,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!ModelState.IsValid)
                 {
+                    Log.Error(("[Create Task Error] --> Bad Request"), LogLevel.Error);
                     return BadRequest(ModelState);
                 }
 
@@ -45,13 +46,14 @@ namespace WorkBoardServer.Controllers
 
                 if (newID == -1)
                 {
+                    Log.Error(("[Create Task Error] --> Create task fail"), LogLevel.Error);
                     return StatusCode(StatusCodes.Status500InternalServerError);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    Log.Error("An error occurred: CreateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
+                    Log.Error(("[Create Task Error] -->  Web socket " + Message.MESS_ERR_USER_WEB_SOCKET), LogLevel.Error);
                 }
                 else
                 {
@@ -64,6 +66,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Create Task Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -82,6 +85,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!ModelState.IsValid)
                 {
+                    Log.Error(("[Create Task Error] --> Bad Request"), LogLevel.Error);
                     return BadRequest(ModelState);
                 }
 
@@ -89,13 +93,14 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
+                    Log.Error(("[Create Task Error] --> " + Message.MESS_ERR_UPDATE_TASK), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_UPDATE_TASK);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    Log.Error("An error occurred: UpdateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
+                    Log.Error(("[Create Task Error] --> Web socket " + Message.MESS_ERR_USER_WEB_SOCKET), LogLevel.Error);
                 }
                 else
                 {
@@ -107,6 +112,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Update Task Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -118,48 +124,51 @@ namespace WorkBoardServer.Controllers
         [HttpGet]
         public async Task UpdateTaskStatus()
         {
-            WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-
-            var buffer = new byte[1024 * 4];
-
-            while (webSocket.State == WebSocketState.Open)
+            try
             {
-                var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
-                var body = Encoding.UTF8.GetString(buffer, 0, result.Count);
+                WebSocket webSocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
 
-                if (string.IsNullOrWhiteSpace(body))
-                {
-                    var errorBytes = Encoding.UTF8.GetBytes("Received empty message");
-                    await webSocket.SendAsync(new ArraySegment<byte>(errorBytes, 0, errorBytes.Length),
-                                              WebSocketMessageType.Text, true, CancellationToken.None);
-                    continue;
-                }
+                var buffer = new byte[1024 * 4];
 
-                TaskModel receivedData;
-                try
+                while (webSocket.State == WebSocketState.Open)
                 {
-                    receivedData = JsonSerializer.Deserialize<TaskModel>(body) ?? new();
-                }
-                catch (JsonException)
-                {
-                    var errorBytes = Encoding.UTF8.GetBytes("Invalid data format");
-                    await webSocket.SendAsync(new ArraySegment<byte>(errorBytes, 0, errorBytes.Length),
-                                              WebSocketMessageType.Text, true, CancellationToken.None);
-                    continue;
-                }
-                if (receivedData != null)
-                {
-                    int id = receivedData.ID;
-                    string moduleID = receivedData.ModuleID ?? "";
-                    short? taskStatus = receivedData.TaskStatus;
-                    decimal? workHour = receivedData.WorkHour;
-                    int? progress = receivedData.Progress;
+                    var result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), CancellationToken.None);
+                    var body = Encoding.UTF8.GetString(buffer, 0, result.Count);
 
-                    DateTime? utcDateTime = receivedData.DateWork;
-                    DateTime? dateWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
+                    if (string.IsNullOrWhiteSpace(body))
+                    {
+                        Log.Error(("[Update Task Status Error] --> Received empty message"), LogLevel.Error);
+                        continue;
+                    }
 
-                    await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateWork);
+                    TaskModel receivedData;
+                    try
+                    {
+                        receivedData = JsonSerializer.Deserialize<TaskModel>(body) ?? new();
+                    }
+                    catch (JsonException)
+                    {
+                        Log.Error(("[Update Task Status Error] --> Invalid data format"), LogLevel.Error);
+                        continue;
+                    }
+                    if (receivedData != null)
+                    {
+                        int id = receivedData.ID;
+                        string moduleID = receivedData.ModuleID ?? "";
+                        short? taskStatus = receivedData.TaskStatus;
+                        decimal? workHour = receivedData.WorkHour;
+                        int? progress = receivedData.Progress;
+
+                        DateTime? utcDateTime = receivedData.DateWork;
+                        DateTime? dateWork = utcDateTime.HasValue ? utcDateTime.Value.ToLocalTime() : null;
+
+                        await _service.UpdateTaskStatus(id, moduleID, taskStatus, workHour, progress, dateWork);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Update Task Status Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
             }
         }
 
@@ -179,6 +188,7 @@ namespace WorkBoardServer.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    Log.Error(("[Update Task Progress Error] --> Bad Request"), LogLevel.Error);
                     return BadRequest(ModelState);
                 }
 
@@ -186,6 +196,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
+                    Log.Error(("[Update Task Progress Error] --> " + Message.MESS_ERR_UPDATE_TASK_PROGRESS), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_UPDATE_TASK_PROGRESS);
                 }
 
@@ -193,6 +204,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Update Task Progress Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }
@@ -214,13 +226,15 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
+                    Log.Error(("[Delete Task Error] --> " + Message.MESS_ERR_DELETE_TASK), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_DELETE_TASK);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    Log.Error("An error occurred: UpdateTask " + Message.MESS_ERR_USER_WEB_SOCKET);
+
+                    Log.Error(("[Delete Task Error] --> Web socket " + Message.MESS_ERR_USER_WEB_SOCKET), LogLevel.Error);
                 }
                 else
                 {
@@ -232,6 +246,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
+                Log.Error(string.Format("[Delete Task Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }

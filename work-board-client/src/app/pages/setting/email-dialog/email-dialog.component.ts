@@ -66,11 +66,13 @@ export class EmailDialogComponent implements OnInit {
     // Event change tempalte
     this.template?.valueChanges.pipe(debounceTime(100), distinctUntilChanged()).subscribe(value => {
       if (!value) {
+        console.log("null" + value);
         this.sendMailForm.reset();
         this.dataToUser = signal<DataListOption[]>([]);
 
         this.isDisabled = true;
       } else {
+        console.log(value);
         const template = this.emplatesSendMail.find(item => item.templateID === value);
 
         if (template) {

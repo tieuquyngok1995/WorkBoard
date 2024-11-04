@@ -99,15 +99,12 @@ namespace WorkBoardServer.Controllers
                 {
                     Text = "Hello all the way from the land of C#"
                 };
-                using (var smtp = new MailKit.Net.Smtp.SmtpClient())
+                using (var client = new MailKit.Net.Smtp.SmtpClient())
                 {
-                    smtp.Connect(_smtpServer, 25, SecureSocketOptions.StartTls);
-
-                    // Note: only needed if the SMTP server requires authentication
-                    smtp.Authenticate(_username, _password);
-
-                    smtp.Send(email);
-                    smtp.Disconnect(true);
+                    await client.ConnectAsync(_smtpServer, 25, SecureSocketOptions.None);
+                    await client.AuthenticateAsync(new SaslMechanismLogin(_username, _password));
+                    await client.SendAsync(email);
+                    await client.DisconnectAsync(true);
                 }
             }
             catch (SmtpException ex)

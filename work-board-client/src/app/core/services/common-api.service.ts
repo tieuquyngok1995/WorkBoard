@@ -22,6 +22,7 @@ export class CommonApiService {
 
   public urlSettingGetTemplate = 'Setting/GetTemplateSendMail';
   public urlSettingUpdateTemplate = 'Setting/UpdateTemplateSendMail';
+  public urlSettingSendMail = 'Setting/SendMail';
   public urlSettingUsers = 'Setting/GetUser';
   public urlSettingUpdateUsers = 'Setting/UpdateUser';
   public urlSettingDeleteUsers = 'Setting/DeleteUser';
@@ -74,7 +75,7 @@ export class CommonApiService {
    * @returns 
    */
   public post<T>(url: string, body: any): Observable<T> {
-    return this.http.post<T>(this.apiUrl + url + '/', body);
+    return this.http.post<T>(this.apiUrl + url + '/', body, { headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN)) });
   }
 
   /**

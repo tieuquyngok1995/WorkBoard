@@ -74,4 +74,16 @@ export class EmailDialogService {
       catchError(() => of(false))
     );
   }
+
+  /**
+   * Send mail
+   * @param body 
+   * @returns 
+   */
+  public sendMail(body?: TemplateSendMailModel): Observable<boolean> {
+    return this.commonApiService.post(this.commonApiService.urlSettingSendMail, body).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
+  }
 }

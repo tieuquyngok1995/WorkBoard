@@ -17,6 +17,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs';
 export class EmailDialogComponent implements OnInit {
   // Check close dialog
   public isClose!: boolean;
+  public isDisabled!: boolean;
   // User form
   public sendMailForm!: FormGroup;
 
@@ -38,6 +39,7 @@ export class EmailDialogComponent implements OnInit {
     private readonly messageService: MessageService,
     private readonly confirmDialogService: DialogMessageService) {
 
+    this.isDisabled = true;
     this.sendMailForm = emailService.sendMailForm;
     this.dataToUser = signal<DataListOption[]>([]);
   }
@@ -66,6 +68,8 @@ export class EmailDialogComponent implements OnInit {
       if (!value) {
         this.sendMailForm.reset();
         this.dataToUser = signal<DataListOption[]>([]);
+
+        this.isDisabled = true;
       } else {
         const template = this.emplatesSendMail.find(item => item.templateID === value);
 
@@ -75,6 +79,8 @@ export class EmailDialogComponent implements OnInit {
 
           const keys = template.toUser.split(',').map(key => Number(key));
           this.dataToUser = signal<DataListOption[]>(this.dataUser.filter(item => keys.includes(item.key)));
+
+          this.isDisabled = false;
         }
       }
     });
@@ -138,6 +144,7 @@ export class EmailDialogComponent implements OnInit {
         this.confirmDialogService.openDialog(this.messageService.getMessage('E020'));
       } else {
         this.confirmDialogService.openDialog(this.messageService.getMessage('I001'));
+        this.isDisabled = false;
       }
     });
   }
@@ -146,7 +153,26 @@ export class EmailDialogComponent implements OnInit {
    * Event send mail.
    */
   public sendMail(): void {
+    if (!this.sendMailForm.valid) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('A001'));
+      return;
+    }
 
+    if (this.dataToUser().length === 0) {
+      this.confirmDialogService.openDialog(this.messageService.getMessage('E019'));
+      return;
+    }
+
+    const dataForm: TemplateSendMailModel = this.sendMailForm.value;
+    dataForm.toUser = this.dataToUser().map(item => item.key).join(',');
+
+    this.emailService.sendMail(dataForm).subscribe(data => {
+      if (!data) {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('E022'));
+      } else {
+        this.confirmDialogService.openDialog(this.messageService.getMessage('I002'));
+      }
+    });
   }
 
   /**

@@ -62,8 +62,8 @@ export class CommonApiService {
 
     const authToken = this.cookieService.get(GLOBAL.AUTH_TOKEN);
     if (authToken) {
-      const header = new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN));
-      return this.http.get<T>(this.apiUrl + url, { headers: header, params: httpParams });
+      const headers = new HttpHeaders().set('Authorization', 'Bearer ' + authToken);
+      return this.http.get<T>(this.apiUrl + url, { headers, params: httpParams });
     }
     return this.http.get<T>(this.apiUrl + url, { params: httpParams });
   }
@@ -75,7 +75,12 @@ export class CommonApiService {
    * @returns 
    */
   public post<T>(url: string, body: any): Observable<T> {
-    return this.http.post<T>(this.apiUrl + url + '/', body, { headers: new HttpHeaders().set('Authorization', 'Bearer ' + this.cookieService.get(GLOBAL.AUTH_TOKEN)) });
+    const authToken = this.cookieService.get(GLOBAL.AUTH_TOKEN);
+    if (authToken) {
+      const headers = new HttpHeaders().set('Authorization', 'Bearer ' + authToken);
+      return this.http.post<T>(this.apiUrl + url + '/', body, { headers });
+    }
+    return this.http.post<T>(this.apiUrl + url + '/', body);
   }
 
   /**

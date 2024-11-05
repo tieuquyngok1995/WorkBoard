@@ -18,8 +18,7 @@ SET @roleID = (select roleid from Users where UserID = @userID);
 SELECT [UserID]
       ,[Email]
       ,[UserName]
-      ,[Password]
-      ,[PasswordEmail]
+      ,[PasswordEmail] as [Password]
 	  ,U.[RoleID]
       ,R.[RoleName]
   FROM [dbo].[Users] U

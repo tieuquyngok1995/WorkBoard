@@ -1,6 +1,7 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using WorkBoardServer.Common;
 
 namespace WorkBoardServer.Helpers
 {
@@ -38,7 +39,7 @@ namespace WorkBoardServer.Helpers
 
                     if (jwtToken.ValidTo < DateTime.UtcNow)
                     {
-                        context.Response.Cookies.Delete("authToken");
+                        context.Response.Cookies.Delete(GlobalConstants.AUTH_TOKEN);
                         context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                         await context.Response.WriteAsync("Token has expired. Please log in again.");
                         return;
@@ -48,14 +49,14 @@ namespace WorkBoardServer.Helpers
                 }
                 catch (SecurityTokenExpiredException)
                 {
-                    context.Response.Cookies.Delete("authToken");
+                    context.Response.Cookies.Delete(GlobalConstants.AUTH_TOKEN);
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     await context.Response.WriteAsync("Token has expired. Please log in again.");
                     return;
                 }
                 catch (Exception)
                 {
-                    context.Response.Cookies.Delete("authToken");
+                    context.Response.Cookies.Delete(GlobalConstants.AUTH_TOKEN);
                     context.Response.StatusCode = StatusCodes.Status401Unauthorized;
                     await context.Response.WriteAsync("Unauthorized");
                     return;

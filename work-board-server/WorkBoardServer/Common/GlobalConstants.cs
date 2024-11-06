@@ -2,6 +2,8 @@
 {
     public class GlobalConstants
     {
+        public const string AUTH_TOKEN = "authToken";
+
         // Login
         public const string SIGN_IN = "usp_SignIn";
         public const string SIGN_UP = "usp_SignUp";

@@ -383,7 +383,14 @@ export class HomeComponent implements OnInit {
    * @param rowIndex 
    */
   public closeToast(rowIndex: number) {
-    this.dataToast[rowIndex].isShow = false;
+    if (rowIndex >= 0 && rowIndex < this.dataToast.length) {
+      this.dataToast[rowIndex].isShow = false;
+
+      const hiddenMessage = this.dataToast.splice(rowIndex, 1)[0];
+      this.dataToast.unshift(hiddenMessage);
+    }
+
+    if (this.dataToast.length === 0) this.dataService.sendData(null);
   }
 
   /**

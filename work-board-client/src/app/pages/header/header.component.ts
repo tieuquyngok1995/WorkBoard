@@ -80,7 +80,11 @@ export class HeaderComponent implements OnInit {
     this.headerService.getNotification().subscribe(data => {
       if (data) this.numNotification++;
       this.dataService.sendData({ message: data.toString() });
-    })
+    });
+
+    this.dataService.currentData.subscribe(data => {
+      if (data === null) this.numNotification = 0;
+    });
 
     // Event check change value date picker end
     this.headerService.dateEnd?.valueChanges.subscribe(value => {
@@ -92,7 +96,7 @@ export class HeaderComponent implements OnInit {
         searchDateEnd: value
       }
       this.dataService.sendData(dataToSend);
-    })
+    });
 
     // Set user name login in
     this.userName = this.authService.userName;

@@ -71,6 +71,13 @@ export class TaskProgressComponent implements OnInit {
 
     const dataForm: TaskModel = this.taskProgressForm.value;
     dataForm.workHour = parseFloat(dataForm.workHour.toString());
+
+    if (dataForm.dateWorkStart) {
+      const dateWithTime = new Date(dataForm.dateWorkStart);
+      dateWithTime.setHours(new Date().getHours(), new Date().getMinutes(), new Date().getSeconds());
+      dataForm.dateWorkStart = dateWithTime;
+    }
+
     this.dialogRef.close({ data: dataForm });
   }
 

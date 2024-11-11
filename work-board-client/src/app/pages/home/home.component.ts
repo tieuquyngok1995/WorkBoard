@@ -300,7 +300,7 @@ export class HomeComponent implements OnInit {
       if (dialogResult) {
         data = dialogResult.data;
         if (data) {
-          const dateWorkStart = data.dateWorkStart instanceof Date ? data.dateWorkStart.toISOString() : (data.dateWorkStart ?? '');
+          const dateWorkStart = data.dateWorkStart instanceof Date ? this.toLocalISOString(data.dateWorkStart) : (data.dateWorkStart ?? '');
           this.homeService.updateTaskProgress(id, moduleID, data.workHour, data.progress, dateWorkStart, data.note ?? '').subscribe(result => {
             if (result) {
               this.dataColProgress = this.dataColProgress.map(obj => obj.moduleID === moduleID ? { ...obj, ...dialogResult.data } : obj);
@@ -470,5 +470,21 @@ export class HomeComponent implements OnInit {
       7: { icon: 'bi bi-file-earmark-medical', name: 'Review' },
       8: { icon: 'bi bi-file-earmark-medical', name: 'Fix Bug' }
     }
+  }
+
+  /**
+   * Convert date to iso string utc
+   * @param date 
+   * @returns 
+   */
+  private toLocalISOString(date: Date): string {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
   }
 }

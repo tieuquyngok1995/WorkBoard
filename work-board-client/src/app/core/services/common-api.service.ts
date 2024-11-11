@@ -14,6 +14,8 @@ export class CommonApiService {
 
   public urlGetIndex = 'Home/GetIndex';
 
+  public urlGetCalendar = 'Calendar/GetAllTask';
+
   public urlCreateTask = 'Task/CreateTask';
   public urlUpdateTask = 'Task/UpdateTask';
   public urlUpdateTaskStatus = 'Task/UpdateTaskStatus';

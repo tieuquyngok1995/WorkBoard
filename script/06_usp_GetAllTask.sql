@@ -1,11 +1,11 @@
-IF OBJECT_ID('dbo.usp_GetTask', 'P') IS NOT NULL
+IF OBJECT_ID('dbo.usp_GetAllTask', 'P') IS NOT NULL
 BEGIN
-    DROP PROCEDURE dbo.usp_GetTask;
+    DROP PROCEDURE dbo.usp_GetAllTask;
 END
 
 GO
 
-CREATE PROCEDURE usp_GetTask
+CREATE PROCEDURE usp_GetAllTask
     @UserID smallint 
 AS
 BEGIN
@@ -40,9 +40,7 @@ SET @roleID = (select roleid from Users where UserID = @USERID);
 		LEFT JOIN [dbo].[Users] U
 			ON T.Assignee = U.UserID
 	WHERE 
-		dbo.udf_IsDateInRange(T.DateCreate) = 1 
-		AND dbo.udf_IsDateInRange(T.DateDelivery) = 1 
-		AND CASE WHEN @roleID < 2 THEN 1
+		CASE WHEN @roleID < 2 THEN 1
 		ELSE CASE WHEN @roleID = 2 and T.Assignee = @USERID THEN 1 END
 		END = 1 AND 
 		FlgDelete = 0

@@ -32,11 +32,11 @@ BEGIN
 		,NumRedmine
 		,Assignee
 		,Priority
-		,DateCreate
+		,CAST(DateCreate AS DATE)
 		,0
 		,EstimatedHour
 		,0
-		,DateDelivery
+		,CAST(DateDelivery AS DATE)
 		,Note
 		,0
 		,0

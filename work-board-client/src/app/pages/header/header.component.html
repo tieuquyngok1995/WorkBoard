@@ -37,16 +37,20 @@
     <li>
       <a class="bi bi-bell-fill" (click)="clearNoti()"></a>
       <div *ngIf="numNotification > 0">
-        <span class="notification-count" [ngClass]="{ 'notification-count-user': !isAdmin}">{{ numNotification }}</span>
+        <span class="notification-count">{{ numNotification }}</span>
       </div>
     </li>
-    <li class="setting-dropdown" *ngIf="isAdmin">
+    <li class="setting-dropdown">
       <a class="bi bi-gear-fill dropdown-toggle" data-toggle="dropdown"> </a>
       <div class="dropdown-menu setting">
-        <a class="dropdown-item" (click)="openSendMail()">Send Email</a>
-        <a class="dropdown-item" (click)="openSettingUser()">Setting User</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" (click)="dowloadFileWBS()">Export File WBS</a>
+        <a class="dropdown-item" (click)="openTaskCalendar()">
+          <i class="bi bi-calendar-week"></i>Task Calendar</a>
+        <a class="dropdown-item" (click)="openSendMail()" [hidden]="!isAdmin"><i class="bi bi-send"></i>Send Email</a>
+        <a class="dropdown-item" (click)="openSettingUser()" [hidden]="!isAdmin"><i
+            class="bi bi-person-gear"></i>Setting User</a>
+        <div class="dropdown-divider" [hidden]="!isAdmin"></div>
+        <a class="dropdown-item" (click)="dowloadFileWBS()" [hidden]="!isAdmin"><i class="bi bi-download"></i>Dowload
+          WBS</a>
       </div>
     </li>
     <li>

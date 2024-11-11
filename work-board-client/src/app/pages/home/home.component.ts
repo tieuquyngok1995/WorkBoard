@@ -390,7 +390,7 @@ export class HomeComponent implements OnInit {
       this.dataToast.unshift(hiddenMessage);
     }
 
-    if (this.dataToast.length === 0) this.dataService.sendData(null);
+    if (this.dataToast.every(item => item.isShow === false)) this.dataService.sendData(null);
   }
 
   /**

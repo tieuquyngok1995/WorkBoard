@@ -9,6 +9,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { DialogConfig } from '../../config/dialog-config.model';
 import { DataService } from '../../shared/service/data.service';
 import { DownloadService } from '../../core/services/download.service';
+import { NavigationService } from '../../core/services/navigation.service';
 import { DataListOption, HeaderModel } from '../../core/model/model';
 
 import { HeaderService } from './header.service';
@@ -45,7 +46,8 @@ export class HeaderComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly dataService: DataService,
     private readonly headerService: HeaderService,
-    private readonly downloadService: DownloadService) {
+    private readonly downloadService: DownloadService,
+    private readonly navigationService: NavigationService) {
 
     this.searchControl = new FormControl('');
     this.datePickerForm = headerService.datePickerForm;
@@ -150,6 +152,13 @@ export class HeaderComponent implements OnInit {
   public clearNoti() {
     this.numNotification = 0;
     this.dataService.sendData({ message: null });
+  }
+
+  /**
+   * Open task calendar
+   */
+  public openTaskCalendar() {
+    this.navigationService.navigateTo('calendar');
   }
 
   /**

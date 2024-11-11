@@ -82,7 +82,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("[Sign In Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                Log.Error(string.Format("[Sign Up Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }

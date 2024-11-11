@@ -35,7 +35,7 @@ namespace WorkBoardServer.Controllers
 
                 if (userId is null)
                 {
-                    Log.Error(("[Send Mail Error] --> Not found user"), LogLevel.Error);
+                    Log.Error(("[Get Index Error] --> Not found user"), LogLevel.Error);
                     return NotFound();
                 }
 

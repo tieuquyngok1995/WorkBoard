@@ -85,7 +85,7 @@ namespace WorkBoardServer.Controllers
 
                 if (!ModelState.IsValid)
                 {
-                    Log.Error(("[Create Task Error] --> Bad Request"), LogLevel.Error);
+                    Log.Error(("[Update Task Error] --> Bad Request"), LogLevel.Error);
                     return BadRequest(ModelState);
                 }
 
@@ -93,14 +93,14 @@ namespace WorkBoardServer.Controllers
 
                 if (!result)
                 {
-                    Log.Error(("[Create Task Error] --> " + Message.MESS_ERR_UPDATE_TASK), LogLevel.Error);
+                    Log.Error(("[Update Task Error] --> " + Message.MESS_ERR_UPDATE_TASK), LogLevel.Error);
                     return BadRequest(Message.MESS_ERR_UPDATE_TASK);
                 }
 
                 var socket = _webSocketManager.GetSocketByUserId(model.Assignee.ToString() ?? "");
                 if (socket == null || socket.State != WebSocketState.Open)
                 {
-                    Log.Error(("[Create Task Error] --> Web socket " + Message.MESS_ERR_USER_WEB_SOCKET), LogLevel.Error);
+                    Log.Error(("[Update Task Error] --> Web socket " + Message.MESS_ERR_USER_WEB_SOCKET), LogLevel.Error);
                 }
                 else
                 {

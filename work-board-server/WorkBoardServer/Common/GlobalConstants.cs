@@ -35,5 +35,8 @@
         public const string GET_PRIORITY = "usp_GetPriority";
         public const string GET_DATA_USER = "usp_GetUser";
         public const string GET_DATA_WBS = "usp_GetDataWBS";
+
+        // Calendar
+        public const string GET_ALL_TASK = "usp_GetAllTask";
     }
 }

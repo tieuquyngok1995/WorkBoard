@@ -1,0 +1,52 @@
+.full-calendar {
+  height: 92vh;
+}
+
+::ng-deep .fc-toolbar-title {
+  color: #fff;
+}
+
+::ng-deep .fc-scrollgrid-section-header .fc-scroller-harness .fc-scroller {
+  overflow: hidden !important;
+}
+
+::ng-deep .fc-scrollgrid a {
+  color: #fff;
+}
+
+::ng-deep .fc-daygrid-day-top {
+  margin-right: 10px;
+}
+
+::ng-deep .fc-day-today {
+  background-color: #1d5b7d !important;
+}
+
+::ng-deep .fc-col-header-cell-cushion {
+  cursor: default;
+}
+
+::ng-deep .fc-col-header-cell-cushion:hover {
+  text-decoration: none;
+}
+
+::ng-deep .fc-timegrid-slot-label-cushion {
+  color: #fff;
+}
+
+::ng-deep .fc-event:hover {
+  background-color: #c4c3ca !important;
+}
+
+::ng-deep .fc-event-title {
+  color: rgb(52, 51, 51);
+}
+
+::ng-deep .fc-event-title-container {
+  cursor: default;
+}
+
+::ng-deep .fc-daygrid-dot-event .fc-event-title {
+  color: #fff;
+  cursor: default;
+}

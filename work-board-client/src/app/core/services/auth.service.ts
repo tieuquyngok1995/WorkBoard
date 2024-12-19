@@ -1,11 +1,11 @@
-import { catchError, map, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { CookieService } from 'ngx-cookie-service';
+import { catchError, map, Observable, of } from 'rxjs';
 
 import { GLOBAL } from '../constants/global';
-import { CommonApiService } from './common-api.service';
 import { AuthModel, UserModel } from '../model/model';
+import { CommonApiService } from './common-api.service';
 import { WebsocketService } from './web-socket.service';
 
 @Injectable({
@@ -77,7 +77,7 @@ export class AuthService {
       map(data => {
         if (data) {
           // save cookie auth
-          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: false, sameSite: 'Lax' });
+          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
           this._auth = { isAuthenticated: true };
 
           this._roleID = data.roleID;
@@ -109,7 +109,7 @@ export class AuthService {
       map(data => {
         if (data) {
           // save cookie auth
-          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: false, sameSite: 'Lax' });
+          this.cookieService.set(GLOBAL.AUTH_TOKEN, data.token, { secure: true, sameSite: 'Lax' });
 
           this._auth = { isAuthenticated: true };
 

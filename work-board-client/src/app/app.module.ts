@@ -6,6 +6,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { DialogModule } from '@angular/cdk/dialog';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { CustomDateAdapter, MaterialModule } from './app-material.module';
 import { MatInputModule } from '@angular/material/input';
@@ -30,8 +31,10 @@ import { LoginComponent } from './pages/login/login.component';
 import { TaskComponent } from './pages/task/task.component';
 import { TaskProgressComponent } from './pages/task-progress/task-progress.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { TaskCalendarComponent } from './pages/task-calendar/task-calendar.component';
+import { DocumentComponent } from './pages/document/document.component';
 
-const API_URL = 'http://172.16.7.66:9600/core/api/';
+const API_URL = 'https://localhost:7047/api/';
 
 @NgModule({
   declarations: [
@@ -49,6 +52,8 @@ const API_URL = 'http://172.16.7.66:9600/core/api/';
     LoginComponent,
     TaskComponent,
     TaskProgressComponent,
+    TaskCalendarComponent,
+    DocumentComponent,
   ],
   imports: [
     BrowserModule,
@@ -59,6 +64,7 @@ const API_URL = 'http://172.16.7.66:9600/core/api/';
     MatInputModule,
     HttpClientModule,
     AppRoutingModule,
+    FullCalendarModule,
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,

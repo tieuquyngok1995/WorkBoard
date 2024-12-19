@@ -1,5 +1,5 @@
-import { Inject, Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
+import { Inject, Injectable, OnDestroy } from '@angular/core';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class WebsocketService implements OnDestroy {
       return;
     }
 
-    this.sockets[apiName] = new WebSocket(this.apiUrl.replace("http", "ws") + url);
+    this.sockets[apiName] = new WebSocket(this.apiUrl.replace("https", "wss") + url);
     this.dataSubjects[apiName] = new Subject<any>();
 
     this.sockets[apiName].onmessage = (event) => {

@@ -155,6 +155,13 @@ export class HeaderComponent implements OnInit {
   }
 
   /**
+   * Open Document
+   */
+  public openDocument() {
+    this.navigationService.navigateTo('document');
+  }
+
+  /**
    * Open task calendar
    */
   public openTaskCalendar() {

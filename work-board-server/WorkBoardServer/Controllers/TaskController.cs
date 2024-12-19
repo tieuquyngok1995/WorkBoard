@@ -33,7 +33,7 @@ namespace WorkBoardServer.Controllers
         public IActionResult CreateTask(TaskModel model)
         {
             try
-            {
+             {
                 string? userName = User.FindFirst(ClaimTypes.Name)?.Value;
 
                 if (!ModelState.IsValid)

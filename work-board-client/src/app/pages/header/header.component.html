@@ -43,6 +43,8 @@
     <li class="setting-dropdown">
       <a class="bi bi-gear-fill dropdown-toggle" data-toggle="dropdown"> </a>
       <div class="dropdown-menu setting">
+        <a class="dropdown-item" (click)="openDocument()">
+          <i class="bi bi-file-earmark-post"></i>Document</a>
         <a class="dropdown-item" (click)="openTaskCalendar()">
           <i class="bi bi-calendar-week"></i>Task Calendar</a>
         <a class="dropdown-item" (click)="openSendMail()" [hidden]="!isAdmin"><i class="bi bi-send"></i>Send Email</a>

@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using WorkBoardServer.Common;
 using WorkBoardServer.Models;
 using WorkBoardServer.Services;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace WorkBoardServer.Controllers
 {
@@ -48,7 +50,12 @@ namespace WorkBoardServer.Controllers
 
                     return Ok(model);
                 }
-                return Unauthorized();
+
+                return StatusCode(499, new
+                {
+                    Code = 499,
+                    Message = "Sign-in failed: Incorrect username or password.",
+                });
             }
             catch (Exception ex)
             {

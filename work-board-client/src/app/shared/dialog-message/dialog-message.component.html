@@ -1,7 +1,10 @@
 <div class="modal-dialog" role="document">
   <div class="modal-content">
     <div class="modal-header">
-      <h3 class="modal-title">{{ data.isConfirm ? 'Confirm Dialog' : 'Alert Dialog' }}</h3>
+      <h3 class="modal-title">
+        <i [ngClass]="{ 'bi bi-question-octagon': data.isConfirm, 'bi bi-exclamation-octagon': !data.isConfirm }"></i>
+        {{ title }}
+      </h3>
     </div>
     <div class="modal-body">
       <p [innerHTML]="message"></p>

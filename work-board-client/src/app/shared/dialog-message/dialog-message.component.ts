@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./dialog-message.component.css']
 })
 export class ConfirmDialogComponent implements OnInit {
+  public title!: string;
   public message!: string;
 
   constructor(
@@ -16,6 +17,7 @@ export class ConfirmDialogComponent implements OnInit {
   ) { }
 
   public ngOnInit(): void {
+    this.title = this.data.isConfirm ? 'Confirmation' : 'Warning'
     this.message = this.data.message.replace('.', '.<br>');
   }
 

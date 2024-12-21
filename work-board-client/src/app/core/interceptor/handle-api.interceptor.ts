@@ -50,12 +50,15 @@ export class HandleApiInterceptor implements HttpInterceptor {
               this.dialog.closeAll();
               this.authService.logOut();
               return EMPTY;
-            } else if (error.status === 406) {
-              this.confirmDialogService.openDialog(this.messageService.getMessage('E014'));
-              return EMPTY;
             } else if (error.status === 404) {
               this.dialog.closeAll();
               this.router.navigate(['/404']);
+              return EMPTY;
+            } else if (error.status === 406) {
+              this.confirmDialogService.openDialog(this.messageService.getMessage('E014'));
+              return EMPTY;
+            } else if (error.status === 499) {
+              this.confirmDialogService.openDialog(this.messageService.getMessage('E001'));
               return EMPTY;
             }
 

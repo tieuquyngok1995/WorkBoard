@@ -6,6 +6,7 @@ export const MESSAGES = {
 
   C001: 'Do you want to continue deleting this data?',
   C002: 'Do you want to continue deleting this user?',
+  C003: 'Do you want to continue clear this data?',
 
   E001: 'Login failed. Please check your login information.',
   E002: 'Registration failed. Please check your registration information.',
@@ -29,7 +30,9 @@ export const MESSAGES = {
   E020: 'Failed to create the template for sending email, please check again.',
   E021: 'Task duplication failed. Please check the information.',
   E022: 'Failed to sending email, please check again.',
+  E023: 'Failed to update the template for setting the WBS file. Please check again.',
 
   I001: 'Email template saved successfully.',
   I002: 'Email sent successfully.',
+  I003: 'The WBS template file has been saved successfully.',
 }

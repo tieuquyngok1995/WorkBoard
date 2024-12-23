@@ -25,6 +25,10 @@
         public const string USER_UPDATE = "usp_UpdateUser";
         public const string USER_DELETE = "usp_DeleteUser";
 
+        // Template wbs
+        public const string SETTING_TEMPLATE_WBS = "usp_GetSettingTemplateWBS";
+        public const string SETTING_TEMPLATE_WBS_UPDATE = "usp_UpdateSettingTemplateWBS";
+
         // Home
         public const string GET_TASK = "usp_GetTask";
         public const string GET_TASK_TYPE = "usp_GetTaskType";

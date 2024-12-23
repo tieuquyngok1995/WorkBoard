@@ -3,13 +3,13 @@
     <div class="section text-center">
       <div class="logo mx-auto"> <img src="../../../assets/images/logo.png" width="125" height="125"></div>
       <h4 class="mb-0 pb-3"><span>Sign In</span><span>Sign Up</span></h4>
-      <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" />
+      <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" (click)="clearForm()" />
       <label for="reg-log"></label>
       <div class="card-3d-wrap mx-auto">
         <div class="card-3d-wrapper">
           <div class="card-front">
             <div class="center-wrap">
-              <form [formGroup]="signInForm" (ngSubmit)="signIn()">
+              <form id="signInForm" [formGroup]="signInForm" appResetInputForm (ngSubmit)="signIn()">
                 <h2 class="pb-1">Sign In</h2>
                 <div class="input-container ic1">
                   <input id="userNameIn" class="input" type="text" formControlName="userName" placeholder=" "
@@ -32,7 +32,7 @@
             <div class="center-wrap">
               <div class="section text-center">
                 <h2 class="pb-1">Sign Up</h2>
-                <form [formGroup]="signUpForm" (ngSubmit)="signUp()">
+                <form id="signUpForm" [formGroup]="signUpForm" appResetInputForm (ngSubmit)="signUp()">
                   <div class="input-container ic1">
                     <input id="email" class="input" type="text" formControlName="email" placeholder=" "
                       appInputDirective />

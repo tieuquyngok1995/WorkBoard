@@ -28,6 +28,8 @@ export class CommonApiService {
   public urlSettingUsers = 'Setting/GetUser';
   public urlSettingUpdateUsers = 'Setting/UpdateUser';
   public urlSettingDeleteUsers = 'Setting/DeleteUser';
+  public urlSettingTemplateWBS = 'Setting/GetSettingTemplateWBS';
+  public urlSettingUpdateTemplateWBS = 'Setting/UpdateSettingTemplateWBS';
 
   public wsTask = 'wsTask';
   public wsConnect = 'wsConnect';

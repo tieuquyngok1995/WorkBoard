@@ -15,6 +15,7 @@ import { DataListOption, HeaderModel } from '../../core/model/model';
 import { HeaderService } from './header.service';
 import { UserComponent } from '../setting/user/user.component';
 import { EmailDialogComponent } from '../setting/email-dialog/email-dialog.component';
+import { SettingTemplateWbsComponent } from '../setting/setting-template-wbs/setting-template-wbs.component';
 
 @Component({
   selector: 'app-header',
@@ -193,6 +194,16 @@ export class HeaderComponent implements OnInit {
    */
   public dowloadFileWBS(): void {
     this.downloadService.downloadExcel();
+  }
+
+  /**
+   * Open dialog setting template WBS.
+   */
+  public settingTemplateWBS(): void {
+    this.dialog.open(SettingTemplateWbsComponent, {
+      disableClose: true,
+      minWidth: DialogConfig.DEFAULT_WIDTH,
+    });
   }
 
   /**

@@ -89,6 +89,19 @@ export interface TaskModel {
   dataTaskStatus: DataListOption[] | null;
 }
 
+export interface TemplateWbsModels {
+  moduleId: string;
+  taskName: string;
+  taskType: string;
+  assignee: string;
+  estimatedHour: string;
+  workHour: string;
+  dateWorkStart: string;
+  dateWorkEnd: string;
+  dateCreate: string;
+  dateDelivery: string;
+}
+
 export interface TaskDialog {
   mode?: ProgramMode;
   isDelete?: boolean;

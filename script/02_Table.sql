@@ -12,6 +12,7 @@ IF OBJECT_ID('dbo.TaskStatuses', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TaskStatu
 
 IF OBJECT_ID('dbo.TemplateSendMail', 'U') IS NOT NULL BEGIN DROP TABLE dbo.TemplateSendMail; END
 
+IF OBJECT_ID('dbo.SettingTemplateWBS', 'U') IS NOT NULL BEGIN DROP TABLE dbo.SettingTemplateWBS; END
 
 CREATE TABLE Roles (
     RoleID INT PRIMARY KEY IDENTITY(0,1),
@@ -76,6 +77,20 @@ CREATE TABLE TemplateSendMail (
 	Subject nvarchar(100) NOT NULL,
 	Content nvarchar(max) NOT NULL,
 	ToUser varchar(256) NOT NULL
+);
+
+CREATE TABLE SettingTemplateWBS (
+    ID smallint PRIMARY KEY IDENTITY(0,1),
+	moduleId nvarchar (4) not  null,
+	taskName nvarchar (4) not  null,
+	taskType nvarchar (4) not  null,
+	assignee nvarchar (4) not  null,
+	estimatedHour nvarchar (4) not  null,
+	workHour nvarchar (4) not  null,
+	dateWorkStart nvarchar (4) not  null,
+	dateWorkEnd nvarchar (4) not  null,
+	dateCreate nvarchar (4) not  null,
+	dateDelivery nvarchar (4) not  null,
 );
 
 INSERT INTO Roles (RoleName)

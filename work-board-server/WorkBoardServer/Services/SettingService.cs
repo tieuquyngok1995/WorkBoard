@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using MailKit.Security;
+using Microsoft.AspNetCore.Components.Routing;
 using MimeKit;
 using OfficeOpenXml;
+using System.Reflection;
 using WorkBoardServer.Common;
 using WorkBoardServer.Models;
 
@@ -146,32 +148,67 @@ namespace WorkBoardServer.Services
              GlobalConstants.SEND_MAIL_GET_EMAIL, new { listUserID }).AsList();
         }
 
-        public void CreateFileWBS(ExcelWorksheet worksheet, int row, TaskModel model)
+
+        public TemplateWBSModel GetSettingTemplateWBS()
+        {
+            return _databaseService.ExecuteQuery<TemplateWBSModel>(
+               GlobalConstants.SETTING_TEMPLATE_WBS).FirstOrDefault() ?? new TemplateWBSModel();
+        }
+
+        public bool UpdateSettingTemplateWBS(TemplateWBSModel model)
+        {
+            try
+            {
+                _databaseService.ExecuteQuery<bool>(GlobalConstants.SETTING_TEMPLATE_WBS_UPDATE, new
+                {
+                    model.moduleId,
+                    model.taskName,
+                    model.taskType,
+                    model.assignee,
+                    model.estimatedHour,
+                    model.workHour,
+                    model.dateWorkStart,
+                    model.dateWorkEnd,
+                    model.dateCreate,
+                    model.dateDelivery
+                });
+            }
+            catch { return false; }
+            return true;
+        }
+
+        public void CreateFileWBS(ExcelWorksheet worksheet, int row, TaskModel model, TemplateWBSModel modelIndex)
         {
             // Column B: ID module
-            worksheet.Cells[row, 2].Value = model.ModuleID;
+            worksheet.Cells[row, int.Parse(modelIndex.moduleId.Replace(":M", ""))].Value = model.ModuleID;
             // Column D: Task Name
-            worksheet.Cells[row, 4].Value = model.TaskName;
+            worksheet.Cells[row, int.Parse(modelIndex.taskName.Replace(":M", ""))].Value = model.TaskName;
             // Column E: Task Type
-            worksheet.Cells[row, 5].Value = model.TypeName;
+            worksheet.Cells[row, int.Parse(modelIndex.taskType.Replace(":M", ""))].Value = model.TypeName;
 
             // Column G: Assignee
-            worksheet.Cells[row, 6].Value = model.Assignee;
+            worksheet.Cells[row, int.Parse(modelIndex.assignee.Replace(":M", ""))].Value = model.AssigneeName;
 
             // Column M: Estimated Hour
-            worksheet.Cells[row, 13].Value = model.EstimatedHour.HasValue ? double.Parse(Math.Round(model.EstimatedHour.Value, 2).ToString("0.##")) : 0.0; ;
+            worksheet.Cells[row, int.Parse(modelIndex.estimatedHour.Replace(":M", ""))].Value =
+                model.EstimatedHour.HasValue ? double.Parse(Math.Round(model.EstimatedHour.Value, 2).ToString("0.##")) : 0.0; ;
             // Column N: Work Hour
-            worksheet.Cells[row, 15].Value = model.WorkHour.HasValue ? double.Parse(Math.Round(model.WorkHour.Value, 2).ToString("0.##")) : 0.0;
+            worksheet.Cells[row, int.Parse(modelIndex.workHour.Replace(":M", ""))].Value =
+                model.WorkHour.HasValue ? double.Parse(Math.Round(model.WorkHour.Value, 2).ToString("0.##")) : 0.0;
 
             // Column Q: Date Work Start
-            worksheet.Cells[row, 17].Value = model.DateWorkStart.HasValue ? model.DateWorkStart.Value.ToString("yyyy/MM/dd") : string.Empty;
+            worksheet.Cells[row, int.Parse(modelIndex.dateWorkStart.Replace(":M", ""))].Value =
+                model.DateWorkStart.HasValue ? model.DateWorkStart.Value.ToString("yyyy/MM/dd") : string.Empty;
             // Column R: Date Work End
-            worksheet.Cells[row, 18].Value = model.DateWorkEnd.HasValue ? model.DateWorkEnd.Value.ToString("yyyy/MM/dd") : string.Empty;
+            worksheet.Cells[row, int.Parse(modelIndex.dateWorkEnd.Replace(":M", ""))].Value =
+                model.DateWorkEnd.HasValue ? model.DateWorkEnd.Value.ToString("yyyy/MM/dd") : string.Empty;
 
             // Column S: Date Create
-            worksheet.Cells[row, 19].Value = model.DateCreate.HasValue ? model.DateCreate.Value.ToString("yyyy/MM/dd") : string.Empty;
+            worksheet.Cells[row, int.Parse(modelIndex.dateCreate.Replace(":M", ""))].Value =
+                model.DateCreate.HasValue ? model.DateCreate.Value.ToString("yyyy/MM/dd") : string.Empty;
             // Column T: Date Delivery
-            worksheet.Cells[row, 20].Value = model.DateDelivery.HasValue ? model.DateDelivery.Value.ToString("yyyy/MM/dd") : string.Empty;
+            worksheet.Cells[row, int.Parse(modelIndex.dateDelivery.Replace(":M", ""))].Value =
+                model.DateDelivery.HasValue ? model.DateDelivery.Value.ToString("yyyy/MM/dd") : string.Empty;
 
         }
     }

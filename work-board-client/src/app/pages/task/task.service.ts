@@ -17,6 +17,10 @@ export class TaskService {
 
   // Create form
   get taskForm(): FormGroup { return this.form = this.createFormGroup(); }
+  // Get value
+  get dateCreate() { return this.form.get('dateCreate') }
+  get estimatedHour() { return this.form.get('estimatedHour') }
+  get dateDelivery() { return this.form.get('dateDelivery') }
 
   /**
    * Update value to form.

@@ -42,12 +42,40 @@ export class TaskComponent implements OnInit {
     this.taskForm = taskService.taskForm;
   }
 
+  get dateCreateControl() {
+    return this.taskService.dateCreate;
+  }
+
+  get estimatedHourControl() {
+    return this.taskService.estimatedHour;
+  }
+
+  get dateDeliveryControl() {
+    return this.taskService.dateDelivery;
+  }
+
   /**
    * On init dialog.
    */
   public ngOnInit(): void {
     // Reset form 
     this.taskService.resetForm();
+
+    this.dateCreateControl?.valueChanges.subscribe(value => {
+      const estimatedHour = this.estimatedHourControl?.value
+      this.dateDeliveryControl?.setValue(null)
+      if (value && estimatedHour) {
+        this.dateDeliveryControl?.setValue(this.calculateWorkDate(value, estimatedHour))
+      }
+    });
+
+    this.estimatedHourControl?.valueChanges.subscribe(value => {
+      const dateCreate = this.dateCreateControl?.value
+      this.dateDeliveryControl?.setValue(null)
+      if (value && dateCreate) {
+        this.dateDeliveryControl?.setValue(this.calculateWorkDate(dateCreate, value))
+      }
+    });
 
     if (this.dialog.data) {
       this.dataListAssigne = this.dialog.data.dataAssignee ?? [];
@@ -103,5 +131,45 @@ export class TaskComponent implements OnInit {
     this.isClose = true;
 
     setTimeout(() => { this.dialogRef.close(); }, 300);
+  }
+
+  /**
+   * Calculate delivery date based on creation date and business hours.
+   * @param startDate 
+   * @param workHours 
+   * @returns 
+   */
+  private calculateWorkDate(startDate: Date, workHours: number): Date {
+    const workStartHour = 8;
+    const workEndHour = 16;
+
+    // Clone startDate 
+    let currentDate = new Date(startDate);
+    currentDate.setHours(workStartHour, 0, 0, 0);
+
+    while (workHours > 0) {
+      // check is weekend
+      const currentDay = currentDate.getDay();
+      if (currentDay === 0 || currentDay === 6) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        currentDate.setHours(workStartHour, 0, 0, 0);
+        continue;
+      }
+
+      // caculate time 
+      const remainingHoursInDay = workEndHour - currentDate.getHours();
+
+      if (workHours <= remainingHoursInDay) {
+        currentDate.setHours(currentDate.getHours() + workHours);
+        workHours = 0;
+      } else {
+        workHours -= remainingHoursInDay;
+
+        currentDate.setDate(currentDate.getDate() + 1);
+        currentDate.setHours(workStartHour, 0, 0, 0);
+      }
+    }
+
+    return currentDate;
   }
 }

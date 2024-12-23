@@ -1,6 +1,6 @@
 
 import { FormGroup } from '@angular/forms';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
 
 import { fadeAnimation } from '../../../shared/animations/animations';
@@ -15,7 +15,7 @@ import { UserDialogService } from './user-dialog.service';
   styleUrls: ['./user-dialog.component.css'],
   animations: [fadeAnimation]
 })
-export class UserDialogComponent {
+export class UserDialogComponent implements OnInit {
   // Check close dialog
   public isClose!: boolean;
   // User form

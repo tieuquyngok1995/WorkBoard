@@ -17,7 +17,7 @@ export class TaskProgressService {
 
   // Create form
   get taskProgressForm(): FormGroup { return this.form = this.createFormGroup() }
-  // Get valu
+  // Get value
   get progress() { return this.form.get('progress') }
 
   /**

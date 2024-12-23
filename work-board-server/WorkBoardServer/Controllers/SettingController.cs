@@ -197,6 +197,58 @@ namespace WorkBoardServer.Controllers
         }
 
         /// <summary>
+        /// Get setting template wbs
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public IActionResult GetSettingTemplateWBS()
+        {
+            try
+            {
+                TemplateWBSModel model = _service.GetSettingTemplateWBS();
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Get Setting Template WBS Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Update setting template wbs
+        /// </summary>
+        /// <param name="body"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult UpdateSettingTemplateWBS(TemplateWBSModel body)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                bool result = _service.UpdateSettingTemplateWBS(body);
+
+                if (!result)
+                {
+                    Log.Error(("[Update Setting Template WBS Error] --> " + Message.MESS_ERR_UPDATE_TEMPLATE_WBS), LogLevel.Error);
+                    return BadRequest(Message.MESS_ERR_UPDATE_TEMPLATE_WBS);
+                }
+
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Update Setting Template WBS Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        /// <summary>
         /// Create file wbs
         /// </summary>
         /// <returns></returns>
@@ -213,37 +265,58 @@ namespace WorkBoardServer.Controllers
                     return StatusCode(204);
                 }
 
+                // Get setting
+                TemplateWBSModel model = _service.GetSettingTemplateWBS();
+                TemplateWBSModel modelIndex = new TemplateWBSModel
+                {
+                    moduleId = model.moduleId,
+                    taskName = model.taskName,
+                    taskType = model.taskType,
+                    assignee = model.assignee,
+                    estimatedHour = model.estimatedHour,
+                    workHour = model.workHour,
+                    dateWorkStart = model.dateWorkStart,
+                    dateWorkEnd = model.dateWorkEnd,
+                    dateCreate = model.dateCreate,
+                    dateDelivery = model.dateDelivery,
+                };
+                ConvertColumnsToIndexes(modelIndex);
+
                 // Get dictionary type key and name jp
                 Dictionary<short, string> dicType = _service.GetDataTaskTypeJP(); ;
 
                 // Create work sheets excel 
                 ExcelPackage package = new();
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_Phase3");
+                string currentMonthYear = DateTime.Now.ToString("MMyyyy");
+                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add("WBS_" + currentMonthYear);
 
-                int startIndex = 0, i = 2;
-                string moduleId = string.Empty;
+                int startIndex = 2, index = 2;
+                string moduleId = listData[0].ModuleID;
+                string column = model.moduleId.Replace(":M", "");
                 foreach (TaskModel item in listData)
                 {
                     if (item.Type.HasValue) item.TypeName = dicType[item.Type.Value];
 
                     // Create row file excel
-                    _service.CreateFileWBS(worksheet, i, item);
+                    _service.CreateFileWBS(worksheet, index, item, modelIndex);
 
-                    if (item.ModuleID != moduleId)
+                    if (item.ModuleID != moduleId && modelIndex.moduleId.Contains(":M"))
                     {
-                        if (moduleId != null && startIndex != i - 1)
+                       
+                        if (moduleId != null && startIndex != index - 1)
                         {
-                            worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                            worksheet.Cells[$"{column}{startIndex}:{column}{index - 1}"].Merge = true;
                         }
-                        startIndex = i;
+                        startIndex = index;
                     }
+
                     moduleId = item.ModuleID ?? "";
-                    i++;
+                    index++;
                 }
 
-                if (startIndex != i - 1)
+                if (startIndex != index - 1)
                 {
-                    worksheet.Cells[$"B{startIndex}:B{i - 1}"].Merge = true;
+                    worksheet.Cells[$"{column}{startIndex}:{column}{index - 1}"].Merge = true;
                 }
 
                 // Save file to stream
@@ -261,6 +334,71 @@ namespace WorkBoardServer.Controllers
             }
         }
 
+        /// <summary>
+        /// Convert string teamplate to number
+        /// </summary>
+        /// <param name="model"></param>
+        private void ConvertColumnsToIndexes(TemplateWBSModel model)
+        {
+            Dictionary<string, string> columnCache = new Dictionary<string, string>();
+
+            foreach (var property in model.GetType().GetProperties())
+            {
+                if (property.PropertyType == typeof(string))
+                {
+                    string columnName = (string)property.GetValue(model);
+                    if (!string.IsNullOrEmpty(columnName))
+                    {
+                        // Check exit key model to cache
+                        if (!columnCache.ContainsKey(columnName))
+                        {
+                            columnCache[columnName] = ColumnLetterToIndex(columnName);
+                        }
+
+                        // Update value 
+                        property.SetValue(model, columnCache[columnName].ToString());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Get column letter to index
+        /// </summary>
+        /// <param name="column"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentException"></exception>
+        public string ColumnLetterToIndex(string column)
+        {
+            column = column?.ToUpper();
+            if (string.IsNullOrEmpty(column)) throw new ArgumentException("Column is empty or null");
+
+            string[] arrColumn = column.Split(':');
+
+
+            int columnIndex = 0;
+            string result = string.Empty;
+            foreach (char c in arrColumn[0])
+            {
+                columnIndex = columnIndex * 26 + (c - 'A' + 1);
+            }
+            result += columnIndex;
+
+            if (arrColumn.Length == 1) return result;
+
+            if (arrColumn.Length == 2)
+            {
+                return result + ":M";
+            }        
+
+            return result;
+        }
+
+        /// <summary>
+        /// Check is base 64
+        /// </summary>
+        /// <param name="base64"></param>
+        /// <returns></returns>
         private bool IsBase64String(string base64)
         {
             return (base64.Length % 4 == 0) && Regex.IsMatch(base64, @"^[a-zA-Z0-9\+/]*={0,3}$", RegexOptions.None);

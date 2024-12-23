@@ -17,6 +17,8 @@ export class LoginComponent implements OnInit {
   public signInForm: FormGroup;
   public signUpForm: FormGroup;
 
+  private isSignIn: boolean;
+
   /**
    * A constructor initializes a class's objects upon creation.
    */
@@ -29,6 +31,8 @@ export class LoginComponent implements OnInit {
 
     this.signInForm = this.loginService.signInForm;
     this.signUpForm = this.loginService.signUpForm;
+
+    this.isSignIn = true;
   }
 
   /**
@@ -82,5 +86,24 @@ export class LoginComponent implements OnInit {
     }, () => {
       this.confirmDialogService.openDialog(this.messageService.getMessage('E002'));
     });
+  }
+
+  /**
+   * Clear value in form
+   */
+  public clearForm() {
+    if (this.isSignIn) {
+      const formElement = document.querySelector('#signUpForm');
+      if (formElement) {
+        formElement.dispatchEvent(new Event('reset'));
+      }
+      this.isSignIn = false;
+    } else {
+      const formElement = document.querySelector('#signInForm');
+      if (formElement) {
+        formElement.dispatchEvent(new Event('reset'));
+      }
+      this.isSignIn = true;
+    }
   }
 }

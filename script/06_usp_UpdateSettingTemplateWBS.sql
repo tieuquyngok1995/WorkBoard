@@ -6,16 +6,16 @@ END
 GO
 
 CREATE PROCEDURE usp_UpdateSettingTemplateWBS
-	@moduleId nvarchar(2),
-	@taskName nvarchar(2),
-	@taskType nvarchar(2),
-	@assignee nvarchar(2),
-	@estimatedHour nvarchar(2),
-	@workHour nvarchar(2),
-	@dateWorkStart nvarchar(2),
-	@dateWorkEnd nvarchar(2),
-	@dateCreate nvarchar(2),
-	@dateDelivery nvarchar(2) 
+	@moduleId nvarchar(4),
+	@taskName nvarchar(4),
+	@taskType nvarchar(4),
+	@assignee nvarchar(4),
+	@estimatedHour nvarchar(4),
+	@workHour nvarchar(4),
+	@dateWorkStart nvarchar(4),
+	@dateWorkEnd nvarchar(4),
+	@dateCreate nvarchar(4),
+	@dateDelivery nvarchar(4) 
 AS
 BEGIN
 

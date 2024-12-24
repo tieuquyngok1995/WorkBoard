@@ -271,11 +271,11 @@ export class HomeComponent implements OnInit {
       this.homeService.delete(id, moduleID, assignee).subscribe(result => {
         if (result) {
           if (mode === JobStatus.WAITING) {
-            this.dataColWaiting = this.dataColWaiting.filter(obj => obj.moduleID !== moduleID);
+            this.dataColWaiting = this.dataColWaiting.filter(obj => obj.id !== id);
           } else if (mode === JobStatus.PROGRESS) {
-            this.dataColProgress = this.dataColProgress.filter(obj => obj.moduleID !== moduleID);
+            this.dataColProgress = this.dataColProgress.filter(obj => obj.id !== id);
           } else if (mode === JobStatus.PENDING) {
-            this.dataColPending = this.dataColPending.filter(obj => obj.moduleID !== moduleID);
+            this.dataColPending = this.dataColPending.filter(obj => obj.id !== id);
           }
         } else {
           this.confirmDialogService.openDialog(this.messageService.getMessage('E012'));

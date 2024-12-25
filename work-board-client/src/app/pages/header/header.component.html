@@ -47,14 +47,14 @@
           <i class="bi bi-file-earmark-post"></i>Document</a> -->
         <a class="dropdown-item" (click)="openTaskCalendar()">
           <i class="bi bi-calendar-week"></i>Task Calendar</a>
-        <a class="dropdown-item" (click)="openSendMail()" [hidden]="!isAdmin">
+        <a class="dropdown-item" (click)="openSendMail()" [hidden]="isMember">
           <i class="bi bi-send"></i>Send Email</a>
-        <a class="dropdown-item" (click)="openSettingUser()" [hidden]="!isAdmin">
+        <a class="dropdown-item" (click)="openSettingUser()">
           <i class="bi bi-person-gear"></i>Setting User</a>
-        <div class="dropdown-divider" [hidden]="!isAdmin"></div>
-        <a class="dropdown-item" (click)="settingTemplateWBS()" [hidden]="!isAdmin">
+        <div class="dropdown-divider" [hidden]="isMember"></div>
+        <a class="dropdown-item" (click)="settingTemplateWBS()" [hidden]="isMember">
           <i class="bi bi-file-excel"></i>Setting WBS</a>
-        <a class="dropdown-item" (click)="dowloadFileWBS()" [hidden]="!isAdmin">
+        <a class="dropdown-item" (click)="dowloadFileWBS()" [hidden]="isMember">
           <i class="bi bi-download"></i>DowloadWBS</a>
       </div>
     </li>

@@ -12,9 +12,6 @@ BEGIN
 
 SET NOCOUNT ON;
 
-DECLARE @roleID as smallint;
-SET @roleID = (select roleid from Users where UserID = @userID);
-
 SELECT [UserID]
       ,[Email]
       ,[UserName]
@@ -24,7 +21,6 @@ SELECT [UserID]
   FROM [dbo].[Users] U
 	LEFT JOIN [dbo].[Roles] R
 			ON U.RoleID = R.RoleID
-  WHERE (@roleID = 0) OR (U.RoleID != 0)
-  ORDER BY 
-	RoleID ASC, UserID ASC
+  WHERE U.UserID = @userID
+
 END

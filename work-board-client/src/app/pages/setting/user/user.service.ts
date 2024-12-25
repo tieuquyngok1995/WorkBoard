@@ -21,7 +21,7 @@ export class UserService {
    * Get data init.
    */
   public getInit(): Observable<UserListModel | null> {
-    return this.commonApiService.get<UserListModel>(this.commonApiService.urlSettingUsers).pipe(
+    return this.commonApiService.get<UserListModel>(this.commonApiService.urlSettingListUsers).pipe(
       catchError(() => of(null))
     );
   }

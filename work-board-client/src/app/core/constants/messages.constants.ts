@@ -31,8 +31,10 @@ export const MESSAGES = {
   E021: 'Task duplication failed. Please check the information.',
   E022: 'Failed to sending email, please check again.',
   E023: 'Failed to update the template for setting the WBS file. Please check again.',
+  E024: "Failed to retrieve user information. Please confirm again.",
 
   I001: 'Email template saved successfully.',
   I002: 'Email sent successfully.',
   I003: 'The WBS template file has been saved successfully.',
+  I004: 'User information updated successfully.',
 }

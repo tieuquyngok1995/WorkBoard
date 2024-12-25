@@ -38,6 +38,7 @@
         public const string GET_ASSIGNEE = "usp_GetAssignee";
         public const string GET_PRIORITY = "usp_GetPriority";
         public const string GET_DATA_USER = "usp_GetUser";
+        public const string GET_DATA_LIST_USER = "usp_GetListUser";
         public const string GET_DATA_WBS = "usp_GetDataWBS";
 
         // Calendar

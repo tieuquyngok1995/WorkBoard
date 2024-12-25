@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { HeaderModel } from "../../core/model/model";
-import { WebsocketService } from "src/app/core/services/web-socket.service";
-import { CommonApiService } from "src/app/core/services/common-api.service";
-import { Subject } from "rxjs";
+import { catchError, map, Observable, of, Subject } from "rxjs";
+
+import { HeaderModel, UserModel } from "../../core/model/model";
+import { WebsocketService } from "../../core/services/web-socket.service";
+import { CommonApiService } from "../../core/services/common-api.service";
 
 @Injectable({
   providedIn: 'root'
@@ -55,5 +56,27 @@ export class HeaderService {
    */
   public connectWebSocket(userID: number): void {
     this.websocketService.connect(this.commonApiService.urlConnectWebSocket + "?userId=" + userID, this.commonApiService.wsConnect);
+  }
+
+  /**
+   * Get noti send in socket
+   * @returns 
+   */
+  public getUSer(): Observable<UserModel | null> {
+    return this.commonApiService.get<UserModel>(this.commonApiService.urlSettingUsers).pipe(
+      catchError(() => of(null))
+    );
+  }
+
+  /**
+   * Update user
+   * @param body 
+   * @returns 
+   */
+  public updateUser(body?: UserModel): Observable<boolean> {
+    return this.commonApiService.post(this.commonApiService.urlSettingUpdateUsers, body).pipe(
+      map(() => true),
+      catchError(() => of(false))
+    );
   }
 }

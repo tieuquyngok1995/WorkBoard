@@ -30,7 +30,7 @@
 
   <div class="input-container ic2">
     <input id="role" class="input" type="text" formControlName="roleID" placeholder=" " appPreventInput appDataList
-      [optionList]="dataRole" appInputDirective />
+      [optionList]="dataRole" appInputDirective [appInputReadonly]="isRead" />
     <div class="cut cut-short5"></div>
     <label for="role" class="placeholder">Role</label>
   </div>

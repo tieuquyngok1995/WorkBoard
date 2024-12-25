@@ -24,6 +24,7 @@ export interface UserModel {
   email: string;
   userName: string;
   password: string;
+  passwordEmail: string;
   roleID: number;
   roleName: string;
   token: string;
@@ -115,5 +116,6 @@ export interface SendMailDialog {
 export interface UserDialog {
   data: UserModel;
   dataRole: DataListOption[] | null;
-  dataName: string[]
+  dataName: string[] | null;
+  isRead: boolean;
 }

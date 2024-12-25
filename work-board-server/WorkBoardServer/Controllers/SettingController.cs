@@ -114,9 +114,33 @@ namespace WorkBoardServer.Controllers
                     return NotFound();
                 }
 
+               UserModel model = _service.GetUsers(userId);
+
+                return Ok(model);
+            }
+            catch (Exception ex)
+            {
+                Log.Error(string.Format("[Get User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                return StatusCode(500, new { Error = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        public IActionResult GetListUser()
+        {
+            try
+            {
+                string? userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                if (userId is null)
+                {
+                    Log.Error(("[Get List User Error] --> Not found user"), LogLevel.Error);
+                    return NotFound();
+                }
+
                 UserListModel model = new()
                 {
-                    Users = _service.GetUsers(userId),
+                    Users = _service.GetListUsers(userId),
                     DataRole = _service.GetDataRole()
                 };
 
@@ -124,7 +148,7 @@ namespace WorkBoardServer.Controllers
             }
             catch (Exception ex)
             {
-                Log.Error(string.Format("[Get User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
+                Log.Error(string.Format("[Get List User Exception] --> Exception has occurred: {0}", ex.Message), LogLevel.Error);
                 return StatusCode(500, new { Error = ex.Message });
             }
         }

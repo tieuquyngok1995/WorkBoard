@@ -18,6 +18,9 @@ import { UserDialogService } from './user-dialog.service';
 export class UserDialogComponent implements OnInit {
   // Check close dialog
   public isClose!: boolean;
+  // Check readonly
+  public isRead!: boolean;
+
   // User form
   public userForm!: FormGroup;
   // Data list role
@@ -37,7 +40,7 @@ export class UserDialogComponent implements OnInit {
     this.userForm = userService.userForm;
   }
 
-  get password() {
+  get passwordControl() {
     return this.userService.password;
   }
 
@@ -47,11 +50,17 @@ export class UserDialogComponent implements OnInit {
   public ngOnInit(): void {
     // Reset form 
     this.userService.resetForm();
+    this.isRead = this.dialog.isRead;
 
+    // Check and set value
     if (this.dialog.data) {
-      this.dataRole = this.dialog.dataRole ?? [];
+      if (this.isRead) {
+        this.dataRole = [{ key: this.dialog.data.roleID, value: this.dialog.data.roleName }]
+      } else {
+        this.dataRole = this.dialog.dataRole ?? [];
+      }
       // Update form
-      this.userService.updateForm(this.dialog.data)
+      this.userService.updateForm(this.dialog.data);
     }
   }
 
@@ -59,7 +68,7 @@ export class UserDialogComponent implements OnInit {
    * Reset passord default
    */
   public resetPassword(): void {
-    this.password?.setValue("Abc12345");
+    this.passwordControl?.setValue("Abc12345");
   }
 
   /**
@@ -73,7 +82,7 @@ export class UserDialogComponent implements OnInit {
     }
 
     const dataForm: UserModel = this.userForm.value;
-    const checkUserName = this.dialog.dataName.includes(dataForm.userName);
+    const checkUserName = this.dialog.dataName?.includes(dataForm.userName);
     if (checkUserName || dataForm.userName.toUpperCase() === "ADMIN") {
       this.confirmDialogService.openDialog(this.messageService.getMessage('E016'));
       return;

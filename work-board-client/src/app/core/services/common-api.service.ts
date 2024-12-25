@@ -26,6 +26,7 @@ export class CommonApiService {
   public urlSettingUpdateTemplate = 'Setting/UpdateTemplateSendMail';
   public urlSettingSendMail = 'Setting/SendMail';
   public urlSettingUsers = 'Setting/GetUser';
+  public urlSettingListUsers = 'Setting/GetListUser';
   public urlSettingUpdateUsers = 'Setting/UpdateUser';
   public urlSettingDeleteUsers = 'Setting/DeleteUser';
   public urlSettingTemplateWBS = 'Setting/GetSettingTemplateWBS';

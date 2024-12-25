@@ -8,14 +8,17 @@ import { Search } from '../../core/enum/enums';
 import { AuthService } from '../../core/services/auth.service';
 import { DialogConfig } from '../../config/dialog-config.model';
 import { DataService } from '../../shared/service/data.service';
+import { MessageService } from '../../shared/service/message.service';
 import { DownloadService } from '../../core/services/download.service';
 import { NavigationService } from '../../core/services/navigation.service';
-import { DataListOption, HeaderModel } from '../../core/model/model';
+import { DataListOption, HeaderModel, UserDialog } from '../../core/model/model';
+import { DialogMessageService } from '../../shared/service/dialog-message.service';
 
 import { HeaderService } from './header.service';
 import { UserComponent } from '../setting/user/user.component';
 import { EmailDialogComponent } from '../setting/email-dialog/email-dialog.component';
 import { SettingTemplateWbsComponent } from '../setting/setting-template-wbs/setting-template-wbs.component';
+import { UserDialogComponent } from '../setting/user-dialog/user-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +36,7 @@ export class HeaderComponent implements OnInit {
   public userName: string;
 
   public isAdmin!: boolean;
+  public isMember!: boolean;
   public numNotification: number;
 
   public selectedOption: string;
@@ -47,8 +51,10 @@ export class HeaderComponent implements OnInit {
     private readonly authService: AuthService,
     private readonly dataService: DataService,
     private readonly headerService: HeaderService,
+    private readonly messageService: MessageService,
     private readonly downloadService: DownloadService,
-    private readonly navigationService: NavigationService) {
+    private readonly navigationService: NavigationService,
+    private readonly confirmDialogService: DialogMessageService) {
 
     this.searchControl = new FormControl('');
     this.datePickerForm = headerService.datePickerForm;
@@ -66,7 +72,8 @@ export class HeaderComponent implements OnInit {
    * On init header.
    */
   public ngOnInit(): void {
-    this.isAdmin = this.authService.roleID !== 2;
+    this.isMember = this.authService.roleID === 2;
+    this.isAdmin = this.authService.roleID === 0;
     this.headerService.connectWebSocket(this.authService.userID);
 
     // Event check change value input search
@@ -183,10 +190,39 @@ export class HeaderComponent implements OnInit {
    * Open dialog setting user
    */
   public openSettingUser() {
-    this.dialog.open(UserComponent, {
-      disableClose: true,
-      minWidth: DialogConfig.DEFAULT_MAX_WIDTH,
-    });
+    if (this.isAdmin) {
+      this.dialog.open(UserComponent, {
+        disableClose: true,
+        minWidth: DialogConfig.DEFAULT_MAX_WIDTH,
+      });
+    } else {
+      this.headerService.getUSer().subscribe(data => {
+        if (data) {
+          this.dialog.open(UserDialogComponent, {
+            disableClose: true,
+            minWidth: DialogConfig.DEFAULT_WIDTH,
+            data: {
+              data: data,
+              dataRole: null,
+              dataName: null,
+              isRead: true
+            } as UserDialog
+          }).closed.subscribe((dialogResult: any) => {
+            if (dialogResult) {
+              this.headerService.updateUser(dialogResult.data).subscribe(data => {
+                if (!data) {
+                  this.confirmDialogService.openDialog(this.messageService.getMessage('E017'));
+                } else {
+                  this.confirmDialogService.openDialog(this.messageService.getMessage('E017'));
+                }
+              });
+            }
+          });
+        } else {
+          this.confirmDialogService.openDialog(this.messageService.getMessage('E024'));
+        }
+      });
+    }
   }
 
   /**

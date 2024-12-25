@@ -42,10 +42,16 @@ namespace WorkBoardServer.Services
                GlobalConstants.SEND_MAIL_GET_DATA).AsList();
         }
 
-        public List<UserModel> GetUsers(string? userID)
+        public UserModel GetUsers(string? userID)
         {
             return _databaseService.ExecuteQuery<UserModel>(
-               GlobalConstants.GET_DATA_USER, new { userID }).AsList();
+               GlobalConstants.GET_DATA_USER, new { userID }).FirstOrDefault() ?? new UserModel();
+        }
+
+        public List<UserModel> GetListUsers(string? userID)
+        {
+            return _databaseService.ExecuteQuery<UserModel>(
+               GlobalConstants.GET_DATA_LIST_USER, new { userID }).AsList();
         }
 
         public List<TaskModel> GetDataWBS()

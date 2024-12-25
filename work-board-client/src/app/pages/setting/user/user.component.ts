@@ -71,7 +71,8 @@ export class UserComponent implements OnInit {
       data: {
         data: this.dataSource.data[rowIndex],
         dataRole: this.dataRole,
-        dataName: this.dataSource.data.filter((_, index) => index !== rowIndex).map(user => user.userName)
+        dataName: this.dataSource.data.filter((_, index) => index !== rowIndex).map(user => user.userName),
+        isRead: false
       } as UserDialog
     }).closed.subscribe((dialogResult: any) => {
       if (dialogResult) {

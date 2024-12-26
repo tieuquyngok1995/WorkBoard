@@ -36,7 +36,7 @@ namespace WorkBoardServer.Services
                 issuer: _configuration["Jwt:Issuer"],
                 audience: _configuration["Jwt:Audience"],
                 claims: claims,
-                expires: DateTime.Now.AddHours(8),
+                expires: DateTime.Now.AddHours(24),
                 signingCredentials: creds);
 
             // return token

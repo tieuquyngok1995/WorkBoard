@@ -76,7 +76,8 @@ export class HomeComponent implements OnInit {
         this.dataModel = UtilsService.getListTask(data.taskDialog.dataTaskStatus ?? [], data.listTasks);
         this.dataModel.progress = this.dataModel.progress.map(obj => {
           if (obj.dateWork) {
-            obj.workHour += this.calculateWorkingHours(obj.dateWork);
+            const workingHours = this.calculateWorkingHours(obj.dateWork);
+            obj.workHour = workingHours > obj.workHour ? workingHours : obj.workHour;
             obj.dateWork = new Date();
           }
           return obj;

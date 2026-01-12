@@ -99,7 +99,7 @@ export class TaskCalendarComponent implements OnInit {
         this.calendarOptions = {
           events: data.map(item => ({
             id: item.id.toString(),
-            title: item.moduleID,
+            title: item.taskName ?? item.moduleID,
             start: item.dateCreate ?? undefined,
             end: item.dateDelivery ?? undefined,
             type: item.type,
@@ -112,7 +112,7 @@ export class TaskCalendarComponent implements OnInit {
 
   /**
    * Create mapping task type.
-   * @returns 
+   * @returns
    */
   private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {
     return {

@@ -12,6 +12,7 @@ import { DialogMessageService } from '../../shared/service/dialog-message.servic
 import { TaskService } from './task.service';
 
 @Component({
+  standalone: false,
   templateUrl: './task.component.html',
   styleUrls: ['./task.component.css'],
   animations: [fadeAnimation]
@@ -58,7 +59,7 @@ export class TaskComponent implements OnInit {
    * On init dialog.
    */
   public ngOnInit(): void {
-    // Reset form 
+    // Reset form
     this.taskService.resetForm();
 
     this.dateCreateControl?.valueChanges.subscribe(value => {
@@ -135,15 +136,15 @@ export class TaskComponent implements OnInit {
 
   /**
    * Calculate delivery date based on creation date and business hours.
-   * @param startDate 
-   * @param workHours 
-   * @returns 
+   * @param startDate
+   * @param workHours
+   * @returns
    */
   private calculateWorkDate(startDate: Date, workHours: number): Date {
     const workStartHour = 8;
     const workEndHour = 16;
 
-    // Clone startDate 
+    // Clone startDate
     let currentDate = new Date(startDate);
     currentDate.setHours(workStartHour, 0, 0, 0);
 
@@ -156,7 +157,7 @@ export class TaskComponent implements OnInit {
         continue;
       }
 
-      // caculate time 
+      // caculate time
       const remainingHoursInDay = workEndHour - currentDate.getHours();
 
       if (workHours <= remainingHoursInDay) {

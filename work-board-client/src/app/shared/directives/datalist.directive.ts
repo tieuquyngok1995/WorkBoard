@@ -3,6 +3,7 @@ import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit, Simp
 import { DataListOption } from '../../core/model/model';
 
 @Directive({
+  standalone: false,
   selector: '[appDataList]'
 })
 export class DataListDirective implements OnInit, AfterViewInit {
@@ -17,8 +18,8 @@ export class DataListDirective implements OnInit, AfterViewInit {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param el 
-   * @param ngControl 
+   * @param el
+   * @param ngControl
    */
   constructor(private el: ElementRef, private ngControl: NgControl) { }
 
@@ -76,7 +77,7 @@ export class DataListDirective implements OnInit, AfterViewInit {
 
   /**
    * Get the key of the option based on the value.
-   * @param event 
+   * @param event
    */
   private getKeyOption(event: Event) {
     const inputElement = event.target as HTMLInputElement;

@@ -10,6 +10,7 @@ import { DialogMessageService } from '../../shared/service/dialog-message.servic
 import { TaskProgressService } from './task-progress.service';
 
 @Component({
+  standalone: false,
   templateUrl: './task-progress.component.html',
   styleUrls: ['./task-progress.component.css'],
   animations: [fadeAnimation]
@@ -42,7 +43,7 @@ export class TaskProgressComponent implements OnInit {
    * On init dialog.
    */
   public ngOnInit(): void {
-    // Reset form 
+    // Reset form
     this.taskProgressService.resetForm();
 
     // Event change progress

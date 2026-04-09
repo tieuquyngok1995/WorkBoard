@@ -16,6 +16,7 @@ import { TaskComponent } from '../task/task.component';
 import { TaskProgressComponent } from '../task-progress/task-progress.component';
 
 @Component({
+  standalone: false,
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
@@ -131,8 +132,8 @@ export class HomeComponent implements OnInit {
 
   /**
    * Get task name and icon in screen
-   * @param taskType 
-   * @returns 
+   * @param taskType
+   * @returns
    */
   public getTasktype(taskType: number): { icon: string, name: string } {
     return this.taskTypeMapping[taskType];
@@ -166,7 +167,7 @@ export class HomeComponent implements OnInit {
   /**
    * Edit the task with the value of the module ID.
    * @param mode
-   * @param id 
+   * @param id
    */
   public editTaskDialog(mode: JobStatus, id: number, isClone?: boolean): void {
 
@@ -208,7 +209,7 @@ export class HomeComponent implements OnInit {
         if (dialogResult.isDelete) {
           this.dataColWaiting = this.dataColWaiting.filter(obj => obj.id !== id);
         } else {
-          // Handle edit and update task 
+          // Handle edit and update task
           this.handleEditTask(mode, id, data, dialogResult.data, isClone)
         }
       }
@@ -217,11 +218,11 @@ export class HomeComponent implements OnInit {
 
   /**
    * Handle edit task.
-   * @param mode 
-   * @param id 
-   * @param task 
-   * @param taskEdit 
-   * @returns 
+   * @param mode
+   * @param id
+   * @param task
+   * @param taskEdit
+   * @returns
    */
   private handleEditTask(mode: JobStatus, id: number, task?: TaskModel, taskEdit?: TaskModel, isClone?: boolean) {
     if (UtilsService.objCompare(task, taskEdit)) {
@@ -260,9 +261,9 @@ export class HomeComponent implements OnInit {
 
   /**
    * Delete the task based on the module ID.
-   * @param mode 
+   * @param mode
    * @param id
-   * @param moduleID 
+   * @param moduleID
    */
   public deleteTask(mode: JobStatus, id: number, moduleID: string, assignee: number): void {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C001'), true).subscribe(result => {
@@ -286,8 +287,8 @@ export class HomeComponent implements OnInit {
 
   /**
    * Edit task progress with the value of the module ID.
-   * @param id 
-   * @param moduleID 
+   * @param id
+   * @param moduleID
    */
   public editTaskProgressDialog(id: number, moduleID: string): void {
     let data = this.dataColProgress.find(obj => obj.id === id);
@@ -315,8 +316,8 @@ export class HomeComponent implements OnInit {
 
   /**
    * Calculate and create progress based on the input value.
-   * @param progress 
-   * @returns 
+   * @param progress
+   * @returns
    */
   public getProgress(progress: number): string {
     progress = progress > 50 ? progress - 50 : progress;
@@ -325,7 +326,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Drag-and-drop event between columns.
-   * @param event 
+   * @param event
    */
   public onDrop(event: CdkDragDrop<any[]>, mode?: JobStatus) {
     const taskModel = event.item.data as TaskModel;
@@ -380,7 +381,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Event close toask noti.
-   * @param rowIndex 
+   * @param rowIndex
    */
   public closeToast(rowIndex: number) {
     if (rowIndex >= 0 && rowIndex < this.dataToast.length) {
@@ -395,8 +396,8 @@ export class HomeComponent implements OnInit {
 
   /**
    * Caculate working hours.
-   * @param startDate 
-   * @returns 
+   * @param startDate
+   * @returns
    */
   private calculateWorkingHours(startDate: Date | null): number {
     if (!startDate) return 0;
@@ -440,9 +441,9 @@ export class HomeComponent implements OnInit {
 
   /**
    * Calcualte progress work.
-   * @param workedHours 
-   * @param estimatedHour 
-   * @returns 
+   * @param workedHours
+   * @param estimatedHour
+   * @returns
    */
   private calculateProgress(workedHours: number, estimatedHour: number): number {
     if (workedHours >= estimatedHour) {
@@ -456,7 +457,7 @@ export class HomeComponent implements OnInit {
 
   /**
    * Create mapping task type.
-   * @returns 
+   * @returns
    */
   private createTaskTypeMapping(): { [key: number]: { icon: string; name: string } } {
     return {
@@ -474,8 +475,8 @@ export class HomeComponent implements OnInit {
 
   /**
    * Convert date to iso string utc
-   * @param date 
-   * @returns 
+   * @param date
+   * @returns
    */
   private toLocalISOString(date: Date): string {
     const year = date.getFullYear();

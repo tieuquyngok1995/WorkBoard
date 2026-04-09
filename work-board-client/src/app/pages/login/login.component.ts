@@ -10,6 +10,7 @@ import { DialogMessageService } from '../../shared/service/dialog-message.servic
 import { LoginService } from './login.service';
 
 @Component({
+  standalone: false,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
@@ -46,7 +47,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Event sing in.
-   * @returns 
+   * @returns
    */
   public signIn(): void {
     if (!this.signInForm.valid) {
@@ -55,7 +56,7 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.signInForm.value;
-    this.authService.signIn(model).subscribe(result => {
+    this.authService.signIn(model).subscribe((result: boolean) => {
       if (result) {
         this.navigationService.navigateTo('/');
       } else {
@@ -68,7 +69,7 @@ export class LoginComponent implements OnInit {
 
   /**
    * Event sing up.
-   * @returns 
+   * @returns
    */
   public signUp(): void {
     if (!this.signUpForm.valid) {
@@ -77,7 +78,7 @@ export class LoginComponent implements OnInit {
     }
 
     const model: UserModel = this.signUpForm.value;
-    this.authService.signUp(model).subscribe(result => {
+    this.authService.signUp(model).subscribe((result: boolean) => {
       if (result) {
         this.navigationService.navigateTo('/');
       } else {

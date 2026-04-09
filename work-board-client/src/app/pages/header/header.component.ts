@@ -21,6 +21,7 @@ import { SettingTemplateWbsComponent } from '../setting/setting-template-wbs/set
 import { UserDialogComponent } from '../setting/user-dialog/user-dialog.component';
 
 @Component({
+  standalone: false,
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.css']
@@ -114,7 +115,7 @@ export class HeaderComponent implements OnInit {
 
   /**
    * Get value select option.
-   * @param option 
+   * @param option
    */
   public selectOption(option?: DataListOption): void {
     if (option) {
@@ -251,7 +252,7 @@ export class HeaderComponent implements OnInit {
 
   /**
    * Create data list filter.
-   * @returns 
+   * @returns
    */
   private createDataListFilter(): DataListOption[] {
     return [

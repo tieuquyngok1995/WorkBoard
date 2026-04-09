@@ -12,6 +12,7 @@ import { DialogConfig } from '../../config/dialog-config.model';
 import { ProgramMode, TaskPriority } from '../../core/enum/enums';
 
 @Component({
+  standalone: false,
   selector: 'app-task-calendar',
   templateUrl: './task-calendar.component.html',
   styleUrls: ['./task-calendar.component.css']

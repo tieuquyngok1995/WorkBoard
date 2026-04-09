@@ -10,6 +10,7 @@ import { EmailDialogService } from './email-dialog.service';
 import { debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
+  standalone: false,
   templateUrl: './email-dialog.component.html',
   styleUrls: ['./email-dialog.component.css'],
   animations: [fadeAnimation]
@@ -88,7 +89,7 @@ export class EmailDialogComponent implements OnInit {
 
   /**
    * Event clear chip on screen
-   * @returns 
+   * @returns
    */
   public removeChipUser(index: number): void {
     this.dataToUser.update(list =>
@@ -98,7 +99,7 @@ export class EmailDialogComponent implements OnInit {
 
   /**
    * Event add chip on screen
-   * @returns 
+   * @returns
    */
   public addChipUser(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
@@ -114,7 +115,7 @@ export class EmailDialogComponent implements OnInit {
 
   /**
    * Event save or update template send email
-   * @returns 
+   * @returns
    */
   public save(): void {
     if (!this.sendMailForm.valid) {
@@ -176,7 +177,7 @@ export class EmailDialogComponent implements OnInit {
   }
 
   /**
-   * Event close dialog 
+   * Event close dialog
    */
   public cancel(): void {
     this.isClose = true;

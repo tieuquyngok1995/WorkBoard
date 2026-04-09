@@ -11,6 +11,7 @@ import { DataListOption, UserDialog, UserModel } from '../../../core/model/model
 import { UserDialogService } from './user-dialog.service';
 
 @Component({
+  standalone: false,
   templateUrl: './user-dialog.component.html',
   styleUrls: ['./user-dialog.component.css'],
   animations: [fadeAnimation]
@@ -48,7 +49,7 @@ export class UserDialogComponent implements OnInit {
    * On init dialog.
    */
   public ngOnInit(): void {
-    // Reset form 
+    // Reset form
     this.userService.resetForm();
     this.isRead = this.dialog.isRead;
 
@@ -72,8 +73,8 @@ export class UserDialogComponent implements OnInit {
   }
 
   /**
-   * Save user 
-   * @returns 
+   * Save user
+   * @returns
    */
   public save(): void {
     if (!this.userForm.valid) {

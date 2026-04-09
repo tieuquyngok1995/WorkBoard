@@ -13,12 +13,13 @@ import { UserService } from "./user.service";
 import { UserDialogComponent } from "../user-dialog/user-dialog.component";
 
 @Component({
+  standalone: false,
   templateUrl: './user.component.html',
   styleUrls: ['./user.component.css'],
   animations: [fadeAnimation],
 })
 export class UserComponent implements OnInit {
-  // Check close dialog 
+  // Check close dialog
   public isClose!: boolean;
   // Data table
   public dataSource: MatTableDataSource<UserModel>;
@@ -62,7 +63,7 @@ export class UserComponent implements OnInit {
 
   /**
    * Handle edit user
-   * @param rowIndex 
+   * @param rowIndex
    */
   public editUser(rowIndex: number): void {
     this.dialog.open(UserDialogComponent, {
@@ -90,8 +91,8 @@ export class UserComponent implements OnInit {
   }
 
   /**
-   * Delete user with id 
-   * @param rowIndex 
+   * Delete user with id
+   * @param rowIndex
    */
   public deleteUser(rowIndex: number): void {
     this.confirmDialogService.openDialog(this.messageService.getMessage('C002'), true).subscribe(result => {

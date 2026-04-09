@@ -9,6 +9,7 @@ import { SettingTemplateWbsDialogService } from './setting-template-wbs.service'
 import { TemplateWbsModels } from 'src/app/core/model/model';
 
 @Component({
+  standalone: false,
   selector: 'app-setting-template-wbs',
   templateUrl: './setting-template-wbs.component.html',
   styleUrls: ['./setting-template-wbs.component.css'],

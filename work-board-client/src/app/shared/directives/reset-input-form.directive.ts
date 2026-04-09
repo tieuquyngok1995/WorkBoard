@@ -2,6 +2,7 @@ import { Directive, ElementRef, Host, HostListener } from "@angular/core";
 import { AbstractControl, FormGroup, FormGroupDirective } from "@angular/forms";
 
 @Directive({
+  standalone: false,
   selector: '[appResetInputForm]'
 })
 export class ResetInputFormDirective {
@@ -18,7 +19,7 @@ export class ResetInputFormDirective {
 
   /**
    * Clear and set value to control in form
-   * @param control 
+   * @param control
    */
   private resetControlsAndClasses(control: AbstractControl) {
     if (control instanceof FormGroup) {

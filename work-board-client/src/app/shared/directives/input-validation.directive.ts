@@ -4,6 +4,7 @@ import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/
 import { MESSAGES } from '../../core/constants/messages.constants';
 
 @Directive({
+  standalone: false,
   selector: '[appInputDirective]'
 })
 export class InputDirective {
@@ -32,22 +33,23 @@ export class InputDirective {
   }
 
   @HostListener('dateChange', ['$event'])
-  onDateChange(event: MatDatepickerInputEvent<Date>): void {
-    const selectedDate = event.value;
+  onDateChange(event: Event): void {
+    const matEvent = event as unknown as MatDatepickerInputEvent<Date, unknown>;
+    const selectedDate = matEvent.value;
     this.checkValidityDatepicker(selectedDate);
   }
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param el 
-   * @param renderer 
-   * @param control 
+   * @param el
+   * @param renderer
+   * @param control
    */
   constructor(private el: ElementRef, private renderer: Renderer2, private control: NgControl) { }
 
   /**
    * Set readonly input
-   * @param isEdit 
+   * @param isEdit
    */
   private setReadonly(isRead: boolean): void {
     if (isRead) {
@@ -63,7 +65,7 @@ export class InputDirective {
 
   /**
    * Update color label
-   * @param className 
+   * @param className
    */
   private updateLabelColor(className: string): void {
     const label = this.el.nativeElement.parentNode.querySelector('label');
@@ -122,8 +124,8 @@ export class InputDirective {
 
   /**
    * Get error message
-   * @param errors 
-   * @returns 
+   * @param errors
+   * @returns
    */
   private getErrorMessage(errors: any): string | undefined {
     if (!errors) return;
@@ -149,7 +151,7 @@ export class InputDirective {
 
   /**
    * Show error message
-   * @param message 
+   * @param message
    */
   private showErrorMessage(message: string) {
     // Create div error

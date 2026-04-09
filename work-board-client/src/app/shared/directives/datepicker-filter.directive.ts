@@ -2,13 +2,14 @@ import { Directive } from '@angular/core';
 import { MatDatepickerInput } from '@angular/material/datepicker';
 
 @Directive({
+  standalone: false,
   selector: '[appDatepickerFilter]'
 })
 export class DatepickerFilterDirective {
 
   /**
    * A constructor initializes a class's objects upon creation.
-   * @param datepickerInput 
+   * @param datepickerInput
    */
   constructor(private datepickerInput: MatDatepickerInput<Date>) {
     this.datepickerInput.dateFilter = this.defaultDateFilter;
@@ -16,8 +17,8 @@ export class DatepickerFilterDirective {
 
   /**
    * Filter date not satuday and sunday
-   * @param d 
-   * @returns 
+   * @param d
+   * @returns
    */
   defaultDateFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();

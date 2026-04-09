@@ -1,12 +1,12 @@
 import { NgControl } from '@angular/forms';
-import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnInit, SimpleChanges } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, HostListener, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { DataListOption } from '../../core/model/model';
 
 @Directive({
   standalone: false,
   selector: '[appDataList]'
 })
-export class DataListDirective implements OnInit, AfterViewInit {
+export class DataListDirective implements OnInit, AfterViewInit, OnChanges {
   // Set data list option
   @Input('optionList') optionList: DataListOption[] | undefined;
 
@@ -55,6 +55,12 @@ export class DataListDirective implements OnInit, AfterViewInit {
   private createOption() {
     const inputElement = this.el.nativeElement;
     const dataListId = inputElement.id + 'Option';
+
+    // Remove existing datalist to avoid duplicate IDs on re-render
+    const existing = document.getElementById(dataListId);
+    if (existing) {
+      existing.parentNode?.removeChild(existing);
+    }
 
     // Create new element datalist
     const dataList = document.createElement('datalist');

@@ -19,7 +19,7 @@ export class ConfirmDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.title = this.data.isConfirm ? 'Confirmation' : 'Warning'
-    this.message = this.data.message.replace('.', '.<br>');
+    this.message = this.data.message.replace(/\./g, '.<br>');
   }
 
   onConfirm(): void {

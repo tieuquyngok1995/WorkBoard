@@ -6,8 +6,6 @@ import { MESSAGES } from '../../core/constants/messages.constants';
 })
 export class MessageService {
 
-  constructor() { }
-
   getMessage(key: keyof typeof MESSAGES): string {
     return MESSAGES[key];
   }

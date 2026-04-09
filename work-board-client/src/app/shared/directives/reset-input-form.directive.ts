@@ -33,8 +33,10 @@ export class ResetInputFormDirective {
           inputElement.classList.remove(this.detachClass);
         }
 
-        // Set value
+        // Set value and reset validation state
         childControl.setValue(null, { emitEvent: false });
+        childControl.markAsPristine();
+        childControl.markAsUntouched();
       });
     }
   }

@@ -8,7 +8,7 @@ export class PreventInputDirective {
 
   @HostListener('keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    if (event.key !== 'Delete' && event.key != 'Backspace') {
+    if (event.key !== 'Delete' && event.key !== 'Backspace') {
       event.preventDefault();
     }
   }

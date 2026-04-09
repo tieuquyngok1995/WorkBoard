@@ -1,4 +1,5 @@
 import { NgControl } from '@angular/forms';
+import { AbstractControl } from '@angular/forms';
 import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 import { Directive, ElementRef, HostListener, Input, Renderer2 } from '@angular/core';
 import { MESSAGES } from '../../core/constants/messages.constants';
@@ -80,45 +81,28 @@ export class InputDirective {
   /**
    * Check the validity.
    */
-  private checkValidity(control: any) {
-    // Clear error message
+  private checkValidity(control: AbstractControl | null): void {
     this.removeErrorMessage();
+    if (!control) return;
 
-    if (control) {
-      // remove class css
-      this.renderer.removeClass(this.el.nativeElement, 'input-validate');
-      // check validate FormControl
-      if (control.invalid && (control.dirty || control.touched)) {
-        const errorMessage = this.getErrorMessage(control.errors);
-        this.showErrorMessage(errorMessage ?? '');
-
-        // add class css
-        this.renderer.addClass(this.el.nativeElement, 'input-validate');
-      }
+    this.renderer.removeClass(this.el.nativeElement, 'input-validate');
+    if (control.invalid && (control.dirty || control.touched)) {
+      const errorMessage = this.getErrorMessage(control.errors);
+      this.showErrorMessage(errorMessage ?? '');
+      this.renderer.addClass(this.el.nativeElement, 'input-validate');
     }
   }
 
   /**
    * Check the validity of the date picker.
    */
-  private checkValidityDatepicker(value: any) {
-    // Clear error message
-    this.removeErrorMessage();
+  private checkValidityDatepicker(value: Date | null): void {
+    this.checkValidity(this.control.control);
 
-    if (this.control) {
-      // remove class css
-      this.renderer.removeClass(this.el.nativeElement, 'input-validate');
-      // check validate FormControl
-      if (this.control.invalid && (this.control.dirty || this.control.touched)) {
-        const errorMessage = this.getErrorMessage(this.control.errors);
-        this.showErrorMessage(errorMessage ?? '');
-
-        // add class css
-        this.renderer.addClass(this.el.nativeElement, 'input-validate');
-      }
-      // Add date with utc
+    if (value) {
+      // Normalize date to UTC midnight to avoid timezone offset issues
       const utcDate = new Date(Date.UTC(value.getFullYear(), value.getMonth(), value.getDate()));
-      this.control.control?.setValue(utcDate);
+      this.control.control?.setValue(utcDate, { emitEvent: false });
     }
   }
 
@@ -163,8 +147,8 @@ export class InputDirective {
     // Set text to label
     const text = this.renderer.createText(message);
     this.renderer.appendChild(this.errorLabelElement, text);
-    // Adjust width based on message content.
-    if (text.length <= 23) {
+    // Adjust width based on message content
+    if (message.length <= 23) {
       this.renderer.setStyle(this.errorDivElement, 'width', this.width);
     }
     // Add html to page
